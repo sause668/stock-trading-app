@@ -27,7 +27,7 @@ const StockPage = () => {
               placeholder="Enter Stock Symbol"
               value={stock}
               onChange={updateStock} />
-              <button type="submit" className='btn' >Search Stock</button>
+              <button type="submit" className='btn'>Search Stock</button>
         </form>
     </>
 
