@@ -13,6 +13,8 @@ class Portfolio(db.Model):
 
     # Relationship with User model
     user = db.relationship("User", back_populates="portfolio")
+    # Relationship with Stock model
+    stock = db.relationship("Stock", back_populates="portfolio")
 
     def to_dict(self):
         return {
