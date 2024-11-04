@@ -16,6 +16,20 @@ export const getStock = (stock) => async (dispatch) => {
 	}
 };
 
+export const buyStock = (stock, amt) => async () => {
+  const res = await fetch(`/api/stocks/${stock.symbol}`, 
+    {
+    method: 'POST',
+    body: JSON.stringify({amount: amt})
+    })
+    if (res.ok) {
+      const data = await res.json();
+      if (data.errors) {
+        return;
+      }
+    }
+}
+
 const initialState = { stock: null };
 
 function stockReducer(state = initialState, action) {
