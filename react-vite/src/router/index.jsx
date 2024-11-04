@@ -5,6 +5,8 @@ import StockPage from '../components/StockPage'
 import Stock from '../components/StockPage/Stock';
 import Layout from './Layout';
 
+
+
 export const router = createBrowserRouter([
   {
     element: <Layout />,
