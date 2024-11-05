@@ -11,6 +11,7 @@ portfolio_routes = Blueprint('portfolio', __name__)
 @portfolio_routes.route('', methods=['GET'])
 @login_required
 def get_portfolio():
+    #Check: Can't get the specific portfolio
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
     if portfolio:
         return jsonify(portfolio.to_dict())
