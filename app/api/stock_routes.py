@@ -46,16 +46,18 @@ def buy_stocks(symb):
         portfolio.money -= amt * Decimal(stock['close'])
         # currently works on postman but having an issue with Decimal when done through browser
         if request.method == 'POST':
-            stock = Stock(name=symb, portfolioId=portfolio.id, amount=amt)
-            db.session.add(stock)
+            p_stock = Stock(name=symb, portfolioId=portfolio.id, amount=amt, price=stock['close'])
+            db.session.add(p_stock)
             db.session.commit()
-            return jsonify(stock.to_dict())
+            return jsonify(p_stock.to_dict())
         # update existing stock if already owned
         elif request.method == 'PUT':
-            stock = Stock.query.filter_by(portfolioId=portfolio.id, name=symb)
-            stock.amount += amt
+            u_stock = Stock.query.filter_by(portfolioId=portfolio.id, name=symb)
+            u_stock.amount += amt
+            u_stock.price = stock['close']
+            portfolio.money -= amt
             db.session.commit()
-            return jsonify(stock.to_dict())
+            return jsonify(u_stock.to_dict())
     elif not portfolio:
         return jsonify({'message': 'Must create Portfolio first'}) 
     else:
