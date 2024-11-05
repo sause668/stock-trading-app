@@ -1,4 +1,3 @@
-
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
 class Portfolio(db.Model):
@@ -13,14 +12,14 @@ class Portfolio(db.Model):
 
     # Relationships
     user = db.relationship("User", back_populates="portfolio")
-    stock = db.relationship("Stock", back_populates="portfolio")
-    transaction = db.relationship("Transaction", uselist=False, back_populates="portfolio")
-    order = db.relationship("Order", uselist=False, back_populates="portfolio")
-    
+    stock = db.relationship("Stock", back_populates="portfolio", cascade="all, delete-orphan")
+    transactions = db.relationship("Transaction", back_populates="portfolio", cascade="all, delete-orphan")
+    order = db.relationship("Order", back_populates="portfolio", cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
             "id": self.id,
             "userId": self.user_id,
-            "balance": float(self.money)
+            "balance": float(self.money),
+            "transactions": [transaction.to_dict() for transaction in self.transactions]  # Optional, if you want to include transactions
         }
