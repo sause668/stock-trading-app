@@ -11,8 +11,11 @@ class Portfolio(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
     money = db.Column(db.Numeric(10, 2), nullable=False, default=0.00)
 
-    # Relationship with User model
+    # Relationships
     user = db.relationship("User", back_populates="portfolio")
+    transaction = db.relationship("Transaction", uselist=False, back_populates="portfolio")
+    order = db.relationship("Order", uselist=False, back_populates="portfolio")
+    
 
     def to_dict(self):
         return {
