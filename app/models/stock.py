@@ -5,10 +5,11 @@ class Stock(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(5), nullable=False, unique=True)
-    portfolioId = db.Column(db.Integer, db.ForeignKey("portfolios.id"))
+    id = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(5), nullable=False, primary_key=True)
+    portfolioId = db.Column(db.Integer, db.ForeignKey("portfolios.id"), nullable=False, primary_key=True)
     amount = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Float, nullable=False)
 
     # Relationship with Portfolio model
     portfolio = db.relationship("Portfolio", back_populates="stock")
@@ -18,5 +19,6 @@ class Stock(db.Model):
             "id": self.id,
             "name": self.name,
             "portfolioId": self.portfolioId,
-            "amount": self.amount
+            "amount": self.amount,
+            "price": self.price
         }

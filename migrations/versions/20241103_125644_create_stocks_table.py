@@ -23,6 +23,7 @@ def upgrade():
     sa.Column('name', sa.String(length=5), nullable=False),
     sa.Column('portfolioId', sa.Integer(), nullable=True),
     sa.Column('amount', sa.Float(), nullable=False),
+    sa.Column('price', sa.Float(), nullable=False),
     sa.ForeignKeyConstraint(['portfolioId'], ['portfolios.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
