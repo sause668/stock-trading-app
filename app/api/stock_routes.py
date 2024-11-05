@@ -1,11 +1,12 @@
 from flask import Blueprint, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 import requests
 from datetime import date, timedelta
 from ..models import db
 
 stock_routes = Blueprint('stocks', __name__)
 
+# Get stock
 @stock_routes.route('/<symb>')
 def get_stocks(symb):
     symb = symb.upper()
@@ -19,6 +20,7 @@ def get_stocks(symb):
     stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
     return stock.json()
 
+# Purchase Stock
 @stock_routes.route('/<symb>', methods=['POST', 'PUT'])
 @login_required
 def buy_stocks(symb):
@@ -49,7 +51,7 @@ def buy_stocks(symb):
             return purchased_stock
     else:
         return stock
-    
+# Sell stock 
 @stock_routes.route('/<symb>', methods=['DELETE'])
 # @login_required
 def sell_stocks(symb):
