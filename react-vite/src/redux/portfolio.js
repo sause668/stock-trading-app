@@ -109,8 +109,6 @@ export const newPortfolio = (portfolioData) => async (dispatch) => {
 export const editPortfolio = (portfolioData) => async (dispatch) => {
     console.log(portfolioData, 'from update')
     const { addAmount } = portfolioData
-    console.log(addAmount, 'from update')
-
     let res = await fetch(`/api/portfolio`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
