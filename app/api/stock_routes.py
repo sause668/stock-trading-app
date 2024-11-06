@@ -1,4 +1,3 @@
-
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 import requests
@@ -7,7 +6,7 @@ from ..models import db
 from ..models.stock import Stock
 from decimal import Decimal
 from ..models.portfolio import Portfolio
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 from app.models.transaction import Transaction
 
 stock_routes = Blueprint('stocks', __name__)
@@ -46,11 +45,10 @@ def buy_stocks(symb):
 
     # Check if portfolio exists and stock data is valid
     if portfolio and stock_data['status'] == 'OK':
-        data = request.get_json()
+        data = request.get_json(force=True)
         amt = Decimal(data.get('amount'))
-        price = Decimal(stock_data['close'])
-        portfolio.money -= amt * price
-
+        price = Decimal(stock_data['close']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        portfolio.money -= (amt * price).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         # Create transaction and add stock to portfolio
         if request.method == 'POST':
             p_stock = Stock(name=symb, portfolioId=portfolio.id, amount=amt, price=price)
