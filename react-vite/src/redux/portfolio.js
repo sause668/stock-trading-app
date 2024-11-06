@@ -51,7 +51,6 @@ export const deletePortfolio = (portfolioId) => async (dispatch) => {
     })
     dispatch(deleteUserPortfolio(portfolioId))
     return res
-
 }
 
 // get current user portfolio action thunk
