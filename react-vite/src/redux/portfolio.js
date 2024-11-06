@@ -37,10 +37,10 @@ const updatePortfolio = (portfolio) => ({
 });
 
 
-//remove portfolio from store
-export const clearPortfolioDetails = () => {
-    state.portfolio = null
-}
+// //remove portfolio from store
+// export const clearPortfolioDetails = () => {
+//     state.portfolio = null
+// }
 
 
 // delete user portfolio action thunk
