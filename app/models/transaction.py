@@ -12,6 +12,7 @@ class Transaction(db.Model):
     action = db.Column(db.String(4), nullable=False)  # e.g., "buy" or "sell"
     amount = db.Column(db.Numeric(10, 5), nullable=False)
     price = db.Column(db.Numeric(10, 5), nullable=False)
+    date_created = db.Column(db.Date)
 
     # Relationships
     portfolio = db.relationship("Portfolio", back_populates="transactions")

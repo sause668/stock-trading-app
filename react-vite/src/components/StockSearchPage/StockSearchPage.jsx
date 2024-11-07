@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { getStock } from "../../redux/stock";
+import { getStock, getUserStocks } from "../../redux/stock";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const StockPage = () => {
+const StockSearchPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -15,10 +15,14 @@ const StockPage = () => {
         dispatch(getStock(stock))
         navigate(`${stock}`)
     }
+    const doStuff = async (e) => {
+        e.preventDefault();
+        dispatch(getUserStocks())
+    }
   
  return (
     <>
-        <h1>Stock Page</h1>
+        <h1>Search for a Stock</h1>
         <form onSubmit={handleSubmit}>
            <label htmlFor="stock"></label>
            <input
@@ -27,11 +31,12 @@ const StockPage = () => {
               placeholder="Enter Stock Symbol"
               value={stock}
               onChange={updateStock} />
-              <button type="submit" className='btn'>Search Stock</button>
+              <button type="submit">Search Stock</button>
         </form>
+        <button type="submit" className='btn' onClick={doStuff}>user</button>
     </>
 
   )
 };
 
-export default StockPage;
+export default StockSearchPage;
