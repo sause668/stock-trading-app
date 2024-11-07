@@ -58,19 +58,18 @@ def buy_stocks(symb):
         price = Decimal(stock_data['close']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         portfolio.money -= (amt * price).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         
-        # Create transaction and add stock to portfolio
-        transaction = Transaction(
+        if request.method == 'POST':
+            p_stock = Stock(name=symb, portfolio_id=portfolio.id, amount=amt, price=price)
+            db.session.add(p_stock)
+            # Create transaction and add stock to portfolio
+            transaction = Transaction(
                 portfolio_id=portfolio.id,
                 stock=symb,
                 action='buy',
                 amount=amt,
                 price=price,
                 date_created=today
-        )
-        
-        if request.method == 'POST':
-            p_stock = Stock(name=symb, portfolio_id=portfolio.id, amount=amt, price=price)
-            db.session.add(p_stock)
+            )
             db.session.add(transaction)
             db.session.commit()
             return jsonify(p_stock.to_dict())
@@ -78,10 +77,25 @@ def buy_stocks(symb):
         # Update existing stock if owned
         elif request.method == 'PUT':
             u_stock = Stock.query.filter_by(portfolio_id=portfolio.id, name=symb).first()
-            u_stock.amount += amt
+            action = data.get('action')
             u_stock.price = price
-            portfolio.money -= amt * price
             
+            # Update portfolio stock and money depending on action and create transaction
+            if action == 'buy':
+                u_stock.amount += amt          
+                portfolio.money -= amt * price
+            if action == 'sell':
+                u_stock.amount -= amt          
+                portfolio.money += amt * price
+
+            transaction = Transaction(
+                portfolio_id=portfolio.id,
+                stock=symb,
+                action=action,
+                amount=amt,
+                price=price,
+                date_created=today
+            )
             # Update the transaction log
             db.session.add(transaction)
             db.session.commit()

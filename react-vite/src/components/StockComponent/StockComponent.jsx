@@ -43,8 +43,8 @@ const StockPage = () => {
                     value={amt}
                     onChange={updateAmt} /> 
                     shares <button type="submit">Buy</button>
-                </form>
-            }
+                 </form>
+            }          
         </>
     )}
     else return (<p>Stock Not Found</p>)

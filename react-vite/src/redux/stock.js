@@ -12,7 +12,7 @@ const setUserStocks = stocks => ({
   type: SET_USER_STOCKS,
   payload: stocks
 })
-
+//remove a stock from the user stocks
 const deleteUserStock = stock => ({
   type: DELETE_STOCK,
   payload: stock
@@ -40,7 +40,7 @@ export const getUserStocks = () => async (dispatch) => {
 		dispatch(setUserStocks(data));
 	}
 };
-
+//purchase a stock
 export const buyStock = (stock, amt) => async () => {
   const res = await fetch(`/api/stocks/${stock.symbol}`, 
     {
