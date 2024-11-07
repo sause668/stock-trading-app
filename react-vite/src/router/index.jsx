@@ -1,11 +1,11 @@
+
 import { createBrowserRouter } from 'react-router-dom';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import StockPage from '../components/StockComponent';
 import Layout from './Layout';
 import Watchlist from '../components/Watchlist';
-
-
+import Transactions from '../components/Transactions';
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: "/watchlist",
         element: <Watchlist />,
+      },
+      {
+        path: "/transactions",  
+        element: <Transactions />,
       }
     ],
   },

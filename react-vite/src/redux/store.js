@@ -9,13 +9,15 @@ import sessionReducer from "./session";
 import stockReducer from "./stock";
 import portfolioReducer from "./portfolio";
 import watchlistReducer from "./watchlist";
+import transactionReducer from "./transactionSlice";
 
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   stock: stockReducer,
   portfolio: portfolioReducer,
-  watchlist: watchlistReducer
+  watchlist: watchlistReducer,
+  transactions: transactionReducer,
 });
 
 let enhancer;
