@@ -11,6 +11,14 @@ from app.models.transaction import Transaction
 
 stock_routes = Blueprint('stocks', __name__)
 
+# Get all stocks for current user 
+@stock_routes.route('/current')
+@login_required
+def get_user_stocks():
+    portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
+    stocks = Stock.query.filter_by(portfolio_id=portfolio.id).all()
+    return jsonify([{"name": stock.name, "amount": stock.amount} for stock in stocks])
+
 # Get stock data
 @stock_routes.route('/<symb>')
 def get_stocks(symb):
@@ -49,16 +57,19 @@ def buy_stocks(symb):
         amt = Decimal(data.get('amount'))
         price = Decimal(stock_data['close']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         portfolio.money -= (amt * price).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        
         # Create transaction and add stock to portfolio
-        if request.method == 'POST':
-            p_stock = Stock(name=symb, portfolioId=portfolio.id, amount=amt, price=price)
-            transaction = Transaction(
+        transaction = Transaction(
                 portfolio_id=portfolio.id,
                 stock=symb,
                 action='buy',
                 amount=amt,
-                price=price
-            )
+                price=price,
+                date_created=today
+        )
+        
+        if request.method == 'POST':
+            p_stock = Stock(name=symb, portfolio_id=portfolio.id, amount=amt, price=price)
             db.session.add(p_stock)
             db.session.add(transaction)
             db.session.commit()
@@ -66,19 +77,12 @@ def buy_stocks(symb):
         
         # Update existing stock if owned
         elif request.method == 'PUT':
-            u_stock = Stock.query.filter_by(portfolioId=portfolio.id, name=symb).first()
+            u_stock = Stock.query.filter_by(portfolio_id=portfolio.id, name=symb).first()
             u_stock.amount += amt
             u_stock.price = price
             portfolio.money -= amt * price
             
             # Update the transaction log
-            transaction = Transaction(
-                portfolio_id=portfolio.id,
-                stock=symb,
-                action='buy',
-                amount=amt,
-                price=price
-            )
             db.session.add(transaction)
             db.session.commit()
             return jsonify(u_stock.to_dict())
@@ -93,7 +97,7 @@ def buy_stocks(symb):
 def sell_stocks(symb):
     symb = symb.upper()
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
-    stock = Stock.query.filter_by(portfolioId=portfolio.id, name=symb).first()
+    stock = Stock.query.filter_by(portfolio_id=portfolio.id, name=symb).first()
     
     if stock:
         # Calculate the amount to credit to the portfolio on stock sale
@@ -106,7 +110,8 @@ def sell_stocks(symb):
             stock=symb,
             action='sell',
             amount=stock.amount,
-            price=stock.price
+            price=stock.price,
+            date_created=date.today()
         )
         db.session.add(transaction)
         db.session.delete(stock)

@@ -25,6 +25,7 @@ def upgrade():
     sa.Column('action', sa.String(length=4), nullable=False),
     sa.Column('amount', sa.String(length=2), nullable=False),
     sa.Column('price', sa.String(length=6), nullable=False),
+    sa.Column('date_created', sa.Date()),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

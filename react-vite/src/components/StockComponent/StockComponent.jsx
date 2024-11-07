@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { buyStock } from "../../redux/stock";
 
-const Stock = () => {
+const StockPage = () => {
   const stock = useSelector(state => state.stock.stock)
   const user = useSelector(state => state.session.user)
   const navigate = useNavigate()
@@ -42,7 +42,7 @@ const Stock = () => {
                     step='0.1'
                     value={amt}
                     onChange={updateAmt} /> 
-                    shares <button type="submit" className='btn'>Buy</button>
+                    shares <button type="submit">Buy</button>
                 </form>
             }
         </>
@@ -50,4 +50,4 @@ const Stock = () => {
     else return (<p>Stock Not Found</p>)
 };
 
-export default Stock;
+export default StockPage;
