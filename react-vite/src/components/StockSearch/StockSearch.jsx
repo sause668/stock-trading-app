@@ -1,10 +1,7 @@
 import { useState } from "react";
-import { getStock } from "../../redux/stock";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const StockSearch = () => {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [stock, setStock] = useState('');
@@ -12,7 +9,6 @@ const StockSearch = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        dispatch(getStock(stock))
         setStock('')
         navigate(`stocks/${stock}`)
     }

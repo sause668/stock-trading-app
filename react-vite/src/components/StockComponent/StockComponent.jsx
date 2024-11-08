@@ -1,23 +1,33 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { buyStock } from "../../redux/stock";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getUserStocks, getStock } from "../../redux/stock";
+import StockChart from "./StockChart";
+import BuyStock from "../BuyStockComponent";
+import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import "./StockComponent.css"
 
 const StockPage = () => {
-  const stock = useSelector(state => state.stock.stock)
-  const user = useSelector(state => state.session.user)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const info = stock?.ticker.results
+    const {symb} = useParams()
+    const stock = useSelector(state => state.stock.stock)
+    const userStocks = useSelector(state => state.stock.stocks)
+    const user = useSelector(state => state.session.user)
+    const info = stock?.ticker.results
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(getStock(symb))
+        if(user) dispatch(getUserStocks())
+    }, [dispatch, user, symb])
 
-  const [amt, setAmt] = useState('');
-  const updateAmt = e => setAmt(e.target.value);
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        dispatch(buyStock(stock, amt))
-        navigate(`/`)
+    let sign
+    let op
+    if (stock?.close-stock?.open > 0) {
+         sign = 'plus'
+         op = '+' 
+    } else {
+         sign = 'minus'
+         op = '-'
     }
     
   if (stock && stock.status == 'OK' && stock.ticker.status == 'OK') {
@@ -29,28 +39,14 @@ const StockPage = () => {
             title='Company Icon'/>   
           </div>
             <h2>${stock.close} {stock.symbol}</h2>
-            <p>Pre-Market: {stock.preMarket}</p>
-            <p>Open: {stock.open}</p>
-            <p>High: {stock.high}</p>
-            <p>Low: {stock.low}</p>
-            <p>Close: {stock.close}</p>
-            <p>After-Hours: {stock.afterHours}</p>
-            <p>Volume: {stock.volume}</p>
+            <p className={sign}>{op}${(Math.abs(stock.close-stock.open)).toPrecision(2)} {'(' + (stock.open/stock.close).toPrecision(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>
+            
+            <StockChart stock={stock}/>
+            
             {user &&
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="purchase">Purchase </label>
-                    <input
-                    name='purchase'
-                    type="number"
-                    min='0.1'
-                    max='10.0'
-                    step='0.1'
-                    value={amt}
-                    onChange={updateAmt} /> 
-                    {' '}shares <button type="submit">Buy</button>
-                 </form>
+               <BuyStock stock={stock} userStocks={userStocks}/> 
             } 
-            <h1>About</h1>
+            <h2>About</h2>
             <img src={`${info.branding?.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
             title='Company Logo' />      
             <h3>{info.sic_description}</h3>
@@ -58,7 +54,12 @@ const StockPage = () => {
             <p>Location: {info.address?.city}, {info.address?.state}</p>
             <p>First Listed: {info.list_date? info.list_date:"unlisted"}</p>
             <p>Website: <Link to={info.homepage_url}>{info.homepage_url}</Link></p>
-            
+            <h2>Key Statistics</h2>
+            <p>Market Cap: {info.market_cap}</p>
+            <p>High today: ${stock.high}</p>
+            <p>Low today: ${stock.low}</p>
+            <p>Open price: ${stock.open}</p>
+            <p>Volume: {stock.volume}</p>  
         </>
     )}
     else return (<p>Stock not found. If entered correctly please try again in 1 minute.</p>)

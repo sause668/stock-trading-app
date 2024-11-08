@@ -1,6 +1,7 @@
 const SET_STOCK = 'stock/setStock';
 const SET_USER_STOCKS = 'stocks/setUserStocks'
 const DELETE_STOCK = 'stocks/deleteUserStock'
+const CLEAR_STOCKS = 'stocks/clearStocks'
 
 //set the current stock in the store
 const setStock = stock => ({
@@ -16,6 +17,11 @@ const setUserStocks = stocks => ({
 const deleteUserStock = stock => ({
   type: DELETE_STOCK,
   payload: stock
+})
+
+//clear stock and stocks from store
+export const clearStocks = () => ({
+  type: CLEAR_STOCKS
 })
 
 // thunk that fetches stock
@@ -93,6 +99,8 @@ function stockReducer(state = initialState, action) {
       return { ...state, stocks: action.payload };
     case DELETE_STOCK:
       return { ...state, stocks: state.stocks.filter(stock => stock.name !== action.payload)};
+    case CLEAR_STOCKS:
+      return {...state, stock: null, stocks: []}
     default:
       return state;
   }
