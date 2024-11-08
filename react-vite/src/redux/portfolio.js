@@ -39,7 +39,7 @@ const updatePortfolio = (portfolio) => ({
 
 //remove portfolio from store
 export const clearPortfolioDetails = () => {
-    state.portfolio = null
+    //state.portfolio = null
 }
 
 
