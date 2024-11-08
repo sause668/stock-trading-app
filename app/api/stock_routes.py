@@ -31,7 +31,10 @@ def get_stocks(symb):
     else:
         yesterday = today - timedelta(1)
     stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
-    return stock.json()
+    stock = stock.json()
+    ticker = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
+    stock['ticker'] = ticker.json()
+    return stock
 
 # Purchase stock (buy stocks route)
 @stock_routes.route('/<symb>', methods=['POST', 'PUT'])

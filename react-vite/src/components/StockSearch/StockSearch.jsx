@@ -8,9 +8,9 @@ const StockSearch = () => {
     const navigate = useNavigate();
 
     const [stock, setStock] = useState('');
-    const updateStock = (e) => setStock(e.target.value);
+    const updateStock = e => setStock(e.target.value);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = e => {
         e.preventDefault();
         dispatch(getStock(stock))
         setStock('')
