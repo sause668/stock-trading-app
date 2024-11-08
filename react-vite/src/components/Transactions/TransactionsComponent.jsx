@@ -1,7 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTransactions, deleteTransaction } from '../../store/transactionThunks';
+import { getTransactionsThunk, deleteTransactionThunk } from '../../redux/transactionThunks';
 import './TransactionsComponent.css';
 
 const Transactions = () => {
@@ -9,11 +8,11 @@ const Transactions = () => {
     const transactions = useSelector((state) => state.transactions.transactions);
 
     useEffect(() => {
-        dispatch(fetchTransactions());
+        dispatch(getTransactionsThunk());
     }, [dispatch]);
 
     const handleDelete = (id) => {
-        dispatch(deleteTransaction(id));
+        dispatch(deleteTransactionThunk(id));
     };
 
     return (
