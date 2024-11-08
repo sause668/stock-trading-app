@@ -14,8 +14,10 @@ from .api.order_routes import order_routes
 from .seeds import seed_commands
 from .config import Config
 from .models.portfolio import Portfolio  # Ensure Portfolio model is imported
+from .api.transaction_routes import transaction_routes
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
+
 
 # Setup login manager
 login = LoginManager(app)
@@ -26,6 +28,9 @@ def load_user(id):
     return User.query.get(int(id))
 #Configure portfolio blueprint
 
+
+#Transaction blueprint
+app.register_blueprint(transaction_routes, url_prefix='/api/transactions')
 # Register portfolio routes with URL prefix
 app.register_blueprint(portfolio_routes, url_prefix='/api/portfolio')
 

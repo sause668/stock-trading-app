@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('portfolio_id', sa.Integer(), nullable=False),
     sa.Column('stock', sa.String(length=5), nullable=False),
     sa.Column('action', sa.String(length=4), nullable=False),
-    sa.Column('amount', sa.Numeric(precision=10, scale=5), nullable=False),
+    sa.Column('amount', sa.Numeric(precision=6, scale=2), nullable=False),
     sa.Column('time', sa.DateTime(), nullable=False),
     sa.Column('repeat', sa.Float(), nullable=False),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
