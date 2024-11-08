@@ -11,7 +11,7 @@ watchlist_routes = Blueprint('watchlist', __name__)
 @watchlist_routes.route('', methods=['GET'])
 # @login_required
 def get_watchlist():
-    watchlist = WatchlistStock.query.all()
+    watchlist = WatchlistStock.query.filter_by(user_id=current_user.id).all()
     # watchlist = WatchlistStock.query.filter_by(user_id=current_user.id)
     print('bah')
     print(watchlist)

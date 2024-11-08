@@ -16,3 +16,4 @@ class Transaction(db.Model):
     #Relationships
     portfolio = db.relationship("Portfolio", uselist=False, back_populates="transaction")
     
+    

@@ -16,3 +16,14 @@ class Order(db.Model):
 
     #Relationships
     portfolio = db.relationship("Portfolio", uselist=False, back_populates="order")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "portfolio_id": self.portfolio_id,
+            "stock": self.stock,
+            "action": self.action,
+            "amount": self.amount,
+            "time": self.time,
+            "repeat": self.repeat
+        }
