@@ -10,3 +10,11 @@ img {
 #title img {
     padding-left: 10px;
 }
+
+.plus {
+    color: green;
+}
+
+.minus {
+    color: red;
+}
