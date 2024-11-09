@@ -4,20 +4,20 @@ import { sellStock, updateStock, getUserStocks } from "../../redux/stock";
 
 
 const SellStock = (props) => {
-    
+    //get stock and user owned stocks from props
     const {stock, ownedStock} = props
     const dispatch = useDispatch()
     
     const [amt, setAmt] = useState('');
     const updateAmt = e => setAmt(e.target.value);
-
+    //on form submit sell amount of shares of stock selected
     const handleSubmit = e => {
         e.preventDefault();
         dispatch(updateStock(stock, amt, 'sell'))
         dispatch(getUserStocks())
         setAmt('')
     }
-
+    //on click sell all shares of selected stock
     const handleClick = () => {
         dispatch(sellStock(stock.symbol))
         dispatch(getUserStocks())
