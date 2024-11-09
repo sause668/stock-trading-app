@@ -103,10 +103,11 @@ const StockPage = () => {
         <>
           <div id='title'>  
             <h1> {info.name} </h1>
-            <img src={`${info.branding?.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-            title='Company Icon'/>   
+            {info.branding?.icon_url && <img src={`${info.branding.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
+            title='Company Icon'/>}   
           </div>
             <h2>${stock.close} {stock.symbol}</h2>
+                                                                                              {/* formula to calculutae percent change */}
             <p className={sign}>{op}${(Math.abs(stock.close-stock.open)).toPrecision(2)} {'(' + (stock.open/stock.close).toPrecision(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>
             
             <StockChart stock={stock}/>
@@ -122,8 +123,9 @@ const StockPage = () => {
           </div>
           <section className="about">  
               <h2>About</h2>
-              <img src={`${info.branding?.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-              title='Company Logo' />      
+              {info.branding?.logo_url && 
+              <img src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
+              title='Company Logo' />}      
               <h3>{info.sic_description}</h3>
               <p>{info.description? info.description:unavalible}</p>
               <p>Headquarters: {info.address? [info.address.city +', '+ info.address.state]:unavalible}</p>
