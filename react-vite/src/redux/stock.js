@@ -75,7 +75,7 @@ export const updateStock = (stock, amount, action) => async (dispatch) => {
       if (data.errors) {
         return;
       }
-      dispatch(setStock(data));
+      dispatch(getUserStocks());
     }
 }
 // Sell stock

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { buyStock, updateStock, getUserStocks } from "../../redux/stock";
+import { sellStock, updateStock, getUserStocks } from "../../redux/stock";
 
 
-const BuyStock = (props) => {
+const SellStock = (props) => {
     
     const {stock, ownedStock} = props
     const dispatch = useDispatch()
@@ -13,11 +13,13 @@ const BuyStock = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        if (ownedStock) {
-            dispatch(updateStock(stock, amt, 'buy'))
-        } else {
-            dispatch(buyStock(stock, amt))
-        }
+        dispatch(updateStock(stock, amt, 'sell'))
+        dispatch(getUserStocks())
+        setAmt('')
+    }
+
+    const handleClick = () => {
+        dispatch(sellStock(stock.symbol))
         dispatch(getUserStocks())
         setAmt('')
     }
@@ -26,19 +28,20 @@ const BuyStock = (props) => {
     <div className="buy-stock">
         
         <form onSubmit={handleSubmit}>
-            <label htmlFor="purchase">Purchase </label>
+            <label htmlFor="purchase">Sell </label>
             <input
             name='purchase'
             type="number"
             min='0.1'
-            max='10.0'
+            max={ownedStock.amount}
             step='0.1'
             value={amt}
             onChange={updateAmt} /> 
-            {' '}shares <button type="submit">Buy</button>
+            {' '}shares <button type="submit">Sell</button>
         </form>
+        <button onClick={handleClick}>Sell All Shares</button>
     </div>
   )
 };
 
-export default BuyStock;
+export default SellStock;
