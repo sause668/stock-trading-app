@@ -35,8 +35,11 @@ const StockPage = () => {
         <>
           <div id='title'>  
             <h1> {info.name} </h1>
-            <img src={`${info.branding?.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-            title='Company Icon'/>   
+            <img 
+              src={`${info.branding?.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
+              title='Company Icon'
+              className='stock-company-icon'
+            />   
           </div>
             <h2>${stock.close} {stock.symbol}</h2>
             <p className={sign}>{op}${(Math.abs(stock.close-stock.open)).toPrecision(2)} {'(' + (stock.open/stock.close).toPrecision(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>
