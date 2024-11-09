@@ -4,13 +4,13 @@ import { buyStock, updateStock, getUserStocks } from "../../redux/stock";
 
 
 const BuyStock = (props) => {
-    
+    //get current stock and user owned stocks from props
     const {stock, ownedStock} = props
     const dispatch = useDispatch()
     
     const [amt, setAmt] = useState('');
     const updateAmt = e => setAmt(e.target.value);
-
+    //on submit if stock owned update amount, if not owned add to user stocks
     const handleSubmit = e => {
         e.preventDefault();
         if (ownedStock) {
