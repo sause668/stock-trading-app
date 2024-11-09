@@ -1,11 +1,11 @@
+import { Link } from "react-router-dom";
+
 /** 
  * ### Landing Page Component
  * Displays a page containing *site information* whilst in the **logged out** state.
  * 
  * A majority of this information is *hardcoded*, as it is language that has been pulled directly from the real homepage.
  */
-import { Link } from "react-router-dom";
-
 export default function LandingPage() {
     return (<main id="landing-main">
         <section id="landing-main__1">
