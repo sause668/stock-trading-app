@@ -6,12 +6,12 @@ import StockChart from "./StockChart";
 import BuyStock from "../BuyStockComponent";
 import SellStock from "../BuyStockComponent/SellStockComponent";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
-import "./StockComponent.css"
+import "./StockPage.css"
 
 
 const convert = num => {
   if (isNaN(num)){
-    return "Information not available"
+    return unavalible
   }
   num = parseInt(num).toString().split('')
 
@@ -71,6 +71,8 @@ const convert = num => {
   else return num.join('')
 }
 
+const unavalible = "Information not available"
+
 const StockPage = () => {
     const {symb} = useParams()
     const stock = useSelector(state => state.stock.stock)
@@ -108,7 +110,7 @@ const StockPage = () => {
             <p className={sign}>{op}${(Math.abs(stock.close-stock.open)).toPrecision(2)} {'(' + (stock.open/stock.close).toPrecision(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>
             
             <StockChart stock={stock}/>
-            <div className="buy_sell">
+          <div className="buy_sell">
             {user &&
               <>
                <BuyStock stock={stock} ownedStock={stockOwned}/>
@@ -117,16 +119,19 @@ const StockPage = () => {
                }
               </>
             }
-            </div> 
-            <h2>About</h2>
-            <img src={`${info.branding?.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-            title='Company Logo' />      
-            <h3>{info.sic_description}</h3>
-            <p>{info.description? info.description:'Company description not available'}</p>
-            <p>Headquarters: {info.address?.city}, {info.address?.state}</p>
-            <p>Employees: {convert(info.total_employees)}</p>
-            <p>First Listed: {info.list_date? info.list_date:"unlisted"}</p>
-            <p>Website: <Link to={info.homepage_url}>{info.homepage_url}</Link></p>
+          </div>
+          <section className="about">  
+              <h2>About</h2>
+              <img src={`${info.branding?.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
+              title='Company Logo' />      
+              <h3>{info.sic_description}</h3>
+              <p>{info.description? info.description:unavalible}</p>
+              <p>Headquarters: {info.address? [info.address.city +', '+ info.address.state]:unavalible}</p>
+              <p>Employees: {convert(info.total_employees)}</p>
+              <p>First Listed: {info.list_date? info.list_date:unavalible}</p>
+              <p>Website: {info.homepage_url? <Link to={info.homepage_url} target="_blank"> {info.homepage_url}</Link>:unavalible}</p>
+          </section>
+          <section className="key_stats">
             <h2>Key Statistics</h2>
             <p>Market Cap: {convert(info.market_cap)}</p>
             <p>High today: ${stock.high}</p>
@@ -134,15 +139,16 @@ const StockPage = () => {
             <p>Open price: ${stock.open}</p>
             <p>Volume: {convert(stock.volume)}</p>
             <h2>Related Companies</h2>
-            <section className="related">
-            {stock.related.results?.map(r => {
-              return (
-              <li key={r.ticker}>
+          </section>
+          <section className="related">
+              {stock.related.results?.map((r, i) => {
+                return (
+                <li key={i}>
                 <h3>{r.ticker}</h3>
                 <Link to={`/stocks/${r.ticker}`}>{r.ticker}</Link></li>)
-            })
-            }
-            </section> 
+              })
+              }
+          </section> 
         </>
     )}
     else return (<p>Stock not found. Please try your search again.</p>)
