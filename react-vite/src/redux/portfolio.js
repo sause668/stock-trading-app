@@ -37,10 +37,10 @@ const updatePortfolio = (portfolio) => ({
 });
 
 
-//remove portfolio from store
-export const clearPortfolioDetails = () => {
-    //state.portfolio = null
-}
+// //remove portfolio from store
+// export const clearPortfolioDetails = () => {
+//     state.portfolio = null
+// }
 
 
 // delete user portfolio action thunk
@@ -51,7 +51,6 @@ export const deletePortfolio = (portfolioId) => async (dispatch) => {
     })
     dispatch(deleteUserPortfolio(portfolioId))
     return res
-
 }
 
 // get current user portfolio action thunk
@@ -109,8 +108,6 @@ export const newPortfolio = (portfolioData) => async (dispatch) => {
 export const editPortfolio = (portfolioData) => async (dispatch) => {
     console.log(portfolioData, 'from update')
     const { addAmount } = portfolioData
-    console.log(addAmount, 'from update')
-
     let res = await fetch(`/api/portfolio`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },

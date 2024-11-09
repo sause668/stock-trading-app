@@ -1,3 +1,38 @@
 .profile-dropdown {
   position: absolute;
 }
+
+
+*::after::before {
+  margin: none;
+  padding: none;
+}
+
+.nav {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: .5fr 1fr .5fr;
+  justify-items: center;
+  align-items: center;
+  position: sticky;
+  top: 0px;
+  background-color: lawngreen;
+  height: 50px;
+  box-sizing: border-box;
+}
+
+#logo {
+  scale: 1.75;
+}
+
+li#logo * {
+  color: black;
+}
+
+li#logo:active *{
+  color: white;
+}
+
+ul {
+  padding-left: none;
+}
