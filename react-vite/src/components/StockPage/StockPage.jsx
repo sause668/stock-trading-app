@@ -96,7 +96,7 @@ const StockPage = () => {
     // formula to show stock perfomance
     let color
     let op
-    if (stock?.afterHours-stock?.preMarket > 0) {
+    if (stock?.chartData[29]-stock?.chartData[0] > 0) {
          color = 'green'
          op = '+' 
     } else {
@@ -105,11 +105,15 @@ const StockPage = () => {
     }
     // data to populate stock chart   
     const [chartData, setChartData] = useState({
-      labels: ['pre-market', 'open', 'high', 'low', 'close', 'after-hours'], 
+      labels: [ `${stock.chartDays[0]} pre-market`, `${stock.chartDays[0]} open`, `${stock.chartDays[0]} high`, `${stock.chartDays[0]} low`, `${stock.chartDays[0]} close`, `${stock.chartDays[0]} after-hours`,
+                `${stock.chartDays[1]} pre-market`, `${stock.chartDays[1]} open`, `${stock.chartDays[1]} high`, `${stock.chartDays[1]} low`, `${stock.chartDays[1]} close`, `${stock.chartDays[1]} after-hours`,
+                `${stock.chartDays[2]} pre-market`, `${stock.chartDays[2]} open`, `${stock.chartDays[2]} high`, `${stock.chartDays[2]} low`, `${stock.chartDays[2]} close`, `${stock.chartDays[2]} after-hours`,
+                `${stock.chartDays[3]} pre-market`, `${stock.chartDays[3]} open`, `${stock.chartDays[3]} high`, `${stock.chartDays[3]} low`, `${stock.chartDays[3]} close`, `${stock.chartDays[3]} after-hours`,
+                `${stock.chartDays[4]} pre-market`, `${stock.chartDays[4]} open`, `${stock.chartDays[4]} high`, `${stock.chartDays[4]} low`, `${stock.chartDays[4]} close`, `${stock.chartDays[4]} after-hours`,],  
       datasets: [
         {
-          label: "Daily Perfomance",
-          data: [stock?.preMarket, stock?.open, stock?.high, stock?.low, stock?.close, stock?.afterHours],
+          label: "Weekly Perfomance",
+          data: stock?.chartData,
           backgroundColor: "black",
           borderColor: color,
           borderWidth: 2,
@@ -119,11 +123,15 @@ const StockPage = () => {
     // function to update data on stock chart
     const updateChart = (() => {
       setChartData({
-        labels: ['pre-market', 'open', 'high', 'low', 'close', 'after-hours'], 
+        labels: [ `${stock.chartDays[0]} pre-market`, `${stock.chartDays[0]} open`, `${stock.chartDays[0]} high`, `${stock.chartDays[0]} low`, `${stock.chartDays[0]} close`, `${stock.chartDays[0]} after-hours`,
+                  `${stock.chartDays[1]} pre-market`, `${stock.chartDays[1]} open`, `${stock.chartDays[1]} high`, `${stock.chartDays[1]} low`, `${stock.chartDays[1]} close`, `${stock.chartDays[1]} after-hours`,
+                  `${stock.chartDays[2]} pre-market`, `${stock.chartDays[2]} open`, `${stock.chartDays[2]} high`, `${stock.chartDays[2]} low`, `${stock.chartDays[2]} close`, `${stock.chartDays[2]} after-hours`,
+                  `${stock.chartDays[3]} pre-market`, `${stock.chartDays[3]} open`, `${stock.chartDays[3]} high`, `${stock.chartDays[3]} low`, `${stock.chartDays[3]} close`, `${stock.chartDays[3]} after-hours`,
+                  `${stock.chartDays[4]} pre-market`, `${stock.chartDays[4]} open`, `${stock.chartDays[4]} high`, `${stock.chartDays[4]} low`, `${stock.chartDays[4]} close`, `${stock.chartDays[4]} after-hours`,], 
         datasets: [
           {
-            label: "Daily Perfomance",
-            data: [stock.preMarket, stock.open, stock.high, stock.low, stock.close, stock.afterHours],
+            label: "Weekly Performance",
+            data: stock.chartData,
             backgroundColor: "black",
             borderColor: color,
             borderWidth: 2,
@@ -131,7 +139,6 @@ const StockPage = () => {
         ]
         })
     })
-
       
   if (isLoaded && stock.status == 'OK' && stock.ticker.status == 'OK') {
     return (
@@ -142,8 +149,9 @@ const StockPage = () => {
             title='Company Icon'/>}   
           </div>
           <div id="stockChart">
-            <h2>${stock.close} {stock.symbol}</h2>                                          {/* formula to calculate percent change */}
-            <p className={color}>{op}${(Math.abs(stock.close-stock.open)).toPrecision(2)} {'(' + (stock.open/stock.close).toPrecision(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>
+            <h2>${stock.close} {stock.symbol}</h2>                                          
+            {stock.chartData && 
+            <p className={color}>{op}${(Math.abs(stock.chartData[29]-stock.chartData[0])).toPrecision(3)} {'(' + (stock.chartData[29]/stock.chartData[0]).toPrecision(3) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>}
             <StockChart chartData={chartData}/>
             
             {/* currently stock chart does not refresh when now stock loaded or page relaod, added button to temporarily force proper functionality */}
