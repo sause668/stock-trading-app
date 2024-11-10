@@ -11,7 +11,6 @@ import "./index.css";
 const store = configureStore();
 
 if (import.meta.env.MODE !== "production") {
-  console.log('bah')
   window.store = store;
   window.sessionActions = sessionActions;
   window.watchlistActions = watchlistActions
@@ -22,6 +21,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <ReduxProvider store={store}>
       <RouterProvider router={router} />
     </ReduxProvider>
-    KKK
   </React.StrictMode>
 );
