@@ -24,9 +24,7 @@ export default function ProfilePage({ user }) {
             <TransactionModule user={user} />
         </section>
 
-        {/* The right side of the profile page holds the user's portfolio at the top, and watchlists at the bottom.
-            Because these exist within the same compartment on the page (for now), and share a codebase, they pull
-            from the same file. */}
+        {/* The right side of the profile page holds the user's portfolio at the top, and watchlists at the bottom. */}
         <section id="profile-right">
             <PortfolioModule user={user} />
             <WatchlistModule user={user} />
