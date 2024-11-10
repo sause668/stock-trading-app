@@ -11,6 +11,15 @@ from app.models.transaction import Transaction
 
 stock_routes = Blueprint('stocks', __name__)
 
+def safeDay (day):
+    if day.strftime('%A') == 'Sunday':
+        yesterday = day - timedelta(2)
+    elif day.strftime('%A') == 'Monday':
+        yesterday = day - timedelta(3)
+    else:
+        yesterday = day - timedelta(1)
+    return yesterday
+
 # Get all stocks for current user 
 @stock_routes.route('/current')
 @login_required
@@ -24,16 +33,27 @@ def get_user_stocks():
 def get_stocks(symb):
     symb = symb.upper()
     today = date.today()
-    if today.strftime('%A') == 'Sunday':
-        yesterday = today - timedelta(2)
-    elif today.strftime('%A') == 'Monday':
-        yesterday = today - timedelta(3)
-    else:
-        yesterday = today - timedelta(1)
-    stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
-    stock = stock.json()
-    ticker = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
-    stock['ticker'] = ticker.json()
+    yesterday = safeDay(today)
+    stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+    stock['ticker'] = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+    stock['related'] = requests.get(f'https://api.polygon.io/v1/related-companies/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+
+    day2 = safeDay(yesterday)
+    day2_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day2}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+    day3 = safeDay(day2)
+    day3_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day3}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+    day4 = safeDay(day3)
+    day4_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day4}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+    day5 = safeDay(day4)
+    day5_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day5}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+
+    stock['chartData'] = [day5_data['preMarket'], day5_data['open'], day5_data['high'], day5_data['low'], day5_data['close'], day5_data['afterHours'],
+                          day4_data['preMarket'], day4_data['open'], day4_data['high'], day4_data['low'], day4_data['close'], day4_data['afterHours'], 
+                          day3_data['preMarket'], day3_data['open'], day3_data['high'], day3_data['low'], day3_data['close'], day3_data['afterHours'],
+                          day2_data['preMarket'], day2_data['open'], day2_data['high'], day2_data['low'], day2_data['close'], day2_data['afterHours'],
+                          stock['preMarket'], stock['open'], stock['high'], stock['low'], stock['close'], stock['afterHours']]
+    stock['chartDays'] = [str(day5), str(day4), str(day3), str(day2), str(yesterday)]
+
     return stock
 
 # Purchase stock (buy stocks route)
@@ -50,8 +70,7 @@ def buy_stocks(symb):
         yesterday = today - timedelta(1)
 
     # Fetch stock data from polygon API
-    stock_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
-    stock_data = stock_data.json()
+    stock_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
 
     # Check if portfolio exists and stock data is valid
