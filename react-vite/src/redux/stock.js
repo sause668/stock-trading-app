@@ -47,7 +47,7 @@ export const getUserStocks = () => async (dispatch) => {
 	}
 };
 //purchase a stock
-export const buyStock = (stock, amt) => async () => {
+export const buyStock = (stock, amt) => async (dispatch) => {
   const res = await fetch(`/api/stocks/${stock.symbol}`, 
     {
     method: 'POST',
@@ -58,6 +58,7 @@ export const buyStock = (stock, amt) => async () => {
       if (data.errors) {
         return;
       }
+      dispatch(getUserStocks());
       return data
     }
 }

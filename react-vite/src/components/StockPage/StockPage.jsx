@@ -1,13 +1,17 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getUserStocks, getStock } from "../../redux/stock";
 import StockChart from "./StockChart";
 import BuyStock from "../BuyStockComponent";
 import SellStock from "../BuyStockComponent/SellStockComponent";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
 import "./StockPage.css"
 
+
+Chart.register(CategoryScale);
 
 const convert = num => {
   if (isNaN(num)){
@@ -81,35 +85,58 @@ const StockPage = () => {
     const info = stock?.ticker.results
     const dispatch = useDispatch();
     const stockOwned = userStocks.find(s => s.name == stock?.symbol)
-    
+    const [isLoaded, setIsLoaded] = useState(false);
+
     //load stock and user stocks
     useEffect(() => {
-        dispatch(getStock(symb))
+        dispatch(getStock(symb)).then(() => setIsLoaded(true))
         if(user) dispatch(getUserStocks())
     }, [dispatch, symb, user])
 
-    let sign
+    const [preMarket, setPreMarket] = useState(stock?.preMarket)
+    const [open, setOpen] = useState(stock?.open)
+    const [high, setHigh] = useState(stock?.high)
+    const [low, setPLow] = useState(stock?.low)
+    const [close, setClose] = useState(stock?.close)
+    const [afterHours, setAfterHours] = useState(stock?.afterHours)
+
+    // formula to show stock perfomance
+    let color
     let op
     if (stock?.close-stock?.open > 0) {
-         sign = 'plus'
+         color = 'green'
          op = '+' 
     } else {
-         sign = 'minus'
+         color = 'red'
          op = '-'
     }
+        
+    const [chartData, setChartData] = useState({
+      labels: ['pre', 'open', 'high', 'low', 'close', 'after'], 
+      datasets: [
+        {
+          label: "Daily Perfomance",
+          data: [preMarket, open, high, low, close, afterHours],
+          backgroundColor: ["black"],
+          borderColor: color,
+          borderWidth: 2,
+        }
+      ]
+    });
       
-  if (stock && stock.status == 'OK' && stock.ticker.status == 'OK') {
+  if (isLoaded && stock.status == 'OK' && stock.ticker.status == 'OK') {
     return (
         <>
           <div id='title'>  
             <h1> {info.name} </h1>
-            <img src={`${info.branding?.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-            title='Company Icon'/>   
+            {info.branding?.icon_url && <img className="stock-company-icon" src={`${info.branding.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
+            title='Company Icon'/>}   
           </div>
-            <h2>${stock.close} {stock.symbol}</h2>
-            <p className={sign}>{op}${(Math.abs(stock.close-stock.open)).toPrecision(2)} {'(' + (stock.open/stock.close).toPrecision(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>
-            
-            <StockChart stock={stock}/>
+          <div id="stockChart">
+            <h2>${stock.close} {stock.symbol}</h2>                                          {/* formula to calculate percent change */}
+            <p className={color}>{op}${(Math.abs(stock.close-stock.open)).toPrecision(2)} {'(' + (stock.open/stock.close).toPrecision(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>
+            <StockChart chartData={chartData}/>
+            </div>
           <div className="buy_sell">
             {user &&
               <>
@@ -122,8 +149,9 @@ const StockPage = () => {
           </div>
           <section className="about">  
               <h2>About</h2>
-              <img src={`${info.branding?.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-              title='Company Logo' />      
+              {info.branding?.logo_url && 
+              <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
+              title='Company Logo' />}      
               <h3>{info.sic_description}</h3>
               <p>{info.description? info.description:unavalible}</p>
               <p>Headquarters: {info.address? [info.address.city +', '+ info.address.state]:unavalible}</p>
