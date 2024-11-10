@@ -1,3 +1,5 @@
+import { PortfolioModule, WatchlistModule } from "./StockListModules";
+
 /** 
  * ### Profile Page Component
  * Displays a page containing *user information* whilst in the **logged in** state.
@@ -51,14 +53,9 @@ export default function ProfilePage({ user }) {
             <div id="profile-left__transactions"></div>
         </section>
         <section id="profile-right">
-            <h2>Right Side Placeholder</h2>
             {/* The right side of the profile page holds the user's portfolio at the top, and watchlists at the bottom. */}
-            <div id="profile-right__portfolio">
-
-            </div>
-            <div id="profile-right__watchlist">
-
-            </div>
+            <PortfolioModule />
+            <WatchlistModule />
         </section>
     </main>)
 }

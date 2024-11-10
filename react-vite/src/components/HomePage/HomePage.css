@@ -15,15 +15,13 @@
 }
 #profile-left {
     grid-area: b;
-    margin-right: 2%;
-    min-width: 98%;
+    max-width: 98%;
 }
 #profile-right {
     border: 1px solid black;
     border-radius: 5px;
     grid-area: c;
     min-width: 100%;
-    padding: 0 20px;
 }
 
 /* --------------------[Landing Page (Logged Out) Definitions]-------------------- */
