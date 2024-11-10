@@ -93,36 +93,45 @@ const StockPage = () => {
         if(user) dispatch(getUserStocks())
     }, [dispatch, symb, user])
 
-    const [preMarket, setPreMarket] = useState(stock?.preMarket)
-    const [open, setOpen] = useState(stock?.open)
-    const [high, setHigh] = useState(stock?.high)
-    const [low, setPLow] = useState(stock?.low)
-    const [close, setClose] = useState(stock?.close)
-    const [afterHours, setAfterHours] = useState(stock?.afterHours)
-
     // formula to show stock perfomance
     let color
     let op
-    if (stock?.close-stock?.open > 0) {
+    if (stock?.afterHours-stock?.preMarket > 0) {
          color = 'green'
          op = '+' 
     } else {
          color = 'red'
          op = '-'
     }
-        
+    // data to populate stock chart   
     const [chartData, setChartData] = useState({
-      labels: ['pre', 'open', 'high', 'low', 'close', 'after'], 
+      labels: ['pre-market', 'open', 'high', 'low', 'close', 'after-hours'], 
       datasets: [
         {
           label: "Daily Perfomance",
-          data: [preMarket, open, high, low, close, afterHours],
-          backgroundColor: ["black"],
+          data: [stock?.preMarket, stock?.open, stock?.high, stock?.low, stock?.close, stock?.afterHours],
+          backgroundColor: "black",
           borderColor: color,
           borderWidth: 2,
         }
       ]
     });
+    // function to update data on stock chart
+    const updateChart = (() => {
+      setChartData({
+        labels: ['pre-market', 'open', 'high', 'low', 'close', 'after-hours'], 
+        datasets: [
+          {
+            label: "Daily Perfomance",
+            data: [stock.preMarket, stock.open, stock.high, stock.low, stock.close, stock.afterHours],
+            backgroundColor: "black",
+            borderColor: color,
+            borderWidth: 2,
+          }
+        ]
+        })
+    })
+
       
   if (isLoaded && stock.status == 'OK' && stock.ticker.status == 'OK') {
     return (
@@ -136,6 +145,9 @@ const StockPage = () => {
             <h2>${stock.close} {stock.symbol}</h2>                                          {/* formula to calculate percent change */}
             <p className={color}>{op}${(Math.abs(stock.close-stock.open)).toPrecision(2)} {'(' + (stock.open/stock.close).toPrecision(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>
             <StockChart chartData={chartData}/>
+            
+            {/* currently stock chart does not refresh when now stock loaded or page relaod, added button to temporarily force proper functionality */}
+            <button onClick={updateChart}>refresh chart data</button>
             </div>
           <div className="buy_sell">
             {user &&

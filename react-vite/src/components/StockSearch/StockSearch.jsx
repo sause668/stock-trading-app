@@ -9,8 +9,8 @@ const StockSearch = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        setStock('')
         navigate(`stocks/${stock}`)
+        setStock('')
     }
   
  return (
