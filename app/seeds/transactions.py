@@ -3,9 +3,9 @@ from sqlalchemy.sql import text
 
 def seed_transactions():
     # 
-    transaction1 = Transaction(stock="GME", action='buy', amount=5, price=4.75)
-    transaction2 = Transaction(stock="APPLE", action='buy', amount=2.5, price=20.5)
-    transaction3 = Transaction(stock="GOOGL", action='buy', amount=3.75, price=35.6)
+    transaction1 = Transaction(portfolio_id=1, stock="GME", action='buy', amount=5, price=4.75)
+    transaction2 = Transaction(portfolio_id=1, stock="APPLE", action='buy', amount=2.5, price=20.5)
+    transaction3 = Transaction(portfolio_id=1, stock="GOOGL", action='buy', amount=3.75, price=35.6)
 
     # 
     db.session.add(transaction1)

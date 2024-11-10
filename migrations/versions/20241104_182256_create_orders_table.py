@@ -23,8 +23,8 @@ def upgrade():
     sa.Column('stock', sa.String(length=5), nullable=False),
     sa.Column('action', sa.String(length=4), nullable=False),
     sa.Column('amount', sa.Numeric(precision=6, scale=2), nullable=False),
-    sa.Column('time', sa.DateTime(), nullable=False),
-    sa.Column('repeat', sa.Float(), nullable=False),
+    sa.Column('datetime', sa.String(length=50), nullable=False),
+    sa.Column('repeat', sa.Float(), nullable=True),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

@@ -1,9 +1,9 @@
 
 
 const RECEIVE_ORDERS = 'order/receiveOrders';
-const RECEIVE_ORDER = 'orders/receiveOrder';
-const REMOVE_ORDER = 'orders/removeOrder';
-const REMOVE_ORDERS = 'orders/removeOrders';
+const RECEIVE_ORDER = 'order/receiveOrder';
+const REMOVE_ORDER = 'order/removeOrder';
+const REMOVE_ORDERS = 'order/removeOrders';
 
 const receiveOrders = (orders) => ({
     type: RECEIVE_ORDERS,
@@ -61,11 +61,12 @@ export const editOrder =  (params) => async (dispatch) => {
 }
 
 export const deleteOrder =  (orderId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/spots/${orderId}`, {
+    const response = await csrfFetch(`/api/orders/${orderId}`, {
         method: 'DELETE',
     });
+    const data = await response.json();
     dispatch(removeOrder());
-    return response;
+    return data;
 }
 
 export const removeOrdersState =  () => async (dispatch) => {

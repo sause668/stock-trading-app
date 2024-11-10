@@ -2,6 +2,7 @@ from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .portfolios import seed_portfolios, undo_portfolios  # Import portfolio seed functions
 from .stocks import seed_stocks, undo_stocks
+from .watchlists import seed_watchlists, undo_watchlists
 from .watchlist_stocks import seed_watchlist_stocks, undo_watchlist_stocks
 from .transactions import seed_transactions, undo_transactions
 from .orders import seed_orders, undo_orders
@@ -21,13 +22,15 @@ def seed():
         undo_users()
         undo_portfolios()  # Undo portfolios before seeding
         undo_stocks()
-        undo_watchlist_stocks()
+        undo_watchlists()
+        undo_watchlist_stocks
         undo_transactions()
         undo_orders()
     # Seed data for users and portfolios
     seed_users()
     seed_portfolios()  # Add portfolios seed function here
     seed_stocks()
+    seed_watchlists()
     seed_watchlist_stocks()
     seed_transactions() 
     seed_orders()
@@ -38,6 +41,7 @@ def undo():
     undo_users()
     undo_portfolios()  # Add portfolios undo function here
     undo_stocks()
+    undo_watchlists()
     undo_watchlist_stocks()
     undo_transactions()
     undo_orders()

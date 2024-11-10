@@ -4,7 +4,14 @@ from datetime import datetime
 
 def seed_orders():
     # 
-    order1 = Order(portfolio_id=1, stock='GME', action='buy', amount=3, time=datetime.datetime(2024, 12, 3, 10, 35))
+    print(datetime(2024, 12, 3, 10, 35))
+    order1 = Order(
+        portfolio_id=1, 
+        stock='GME', 
+        action='buy', 
+        amount=3, 
+        datetime=datetime(2024, 12, 3, 10, 35)
+        )
 
     # 
     db.session.add(order1)

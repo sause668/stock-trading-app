@@ -12,14 +12,14 @@ order_routes = Blueprint('order', __name__)
 
 # Get all Orders by User
 @order_routes.route('', methods=['GET'])
-# @login_required
+@login_required
 def get_orders():
     orders = Order.query.filter_by(user_id=current_user.id).all()
     return jsonify(orders), 200
 
 # Get Order by ID
 @order_routes.route('/<int:order_id>', methods=['GET'])
-# @login_required
+@login_required
 def get_order_by_id(order_id):
     order = Order.query.filter_by(id=order_id).first()
 
@@ -30,17 +30,17 @@ def get_order_by_id(order_id):
 
 # Create Order
 @order_routes.route('', methods=['POST'])
-# @login_required
+@login_required
 def create_order():
-    portfolio_id, stock, action, amount, date, repeat = itemgetter('portfolioId', 'stock', 'action', 'amount', 'date', 'repeat')(json.loads(request.data))
+    req_body = json.loads(request.data)
 
     order_new = Order(
-        portfolio_id=portfolio_id, 
-        stock=stock, 
-        action=action, 
-        amount=amount, 
-        time=datetime.strptime(date, "%H:%M"),
-        repeat=repeat
+        portfolio_id=req_body['portfolioId'], 
+        stock=req_body['stock'], 
+        action=req_body['action'], 
+        amount=req_body['amount'], 
+        datetime=datetime.strptime(req_body['datetime'], "%H:%M"),
+        repeat=req_body['repeat'] 
     )
 
     if not order_new:
@@ -52,7 +52,7 @@ def create_order():
 
 # Edit Order
 @order_routes.route('/<int:order_id>', methods=['PUT'])
-# @login_required
+@login_required
 def edit_order(order_id):
     # stock, action, amount, date, repeat = itemgetter('stock', 'action', 'amount', 'date', 'repeat')(json.loads(request.data))
     request_body = json.loads(request.data)
@@ -62,9 +62,13 @@ def edit_order(order_id):
     if not order_edit:
         return jsonify({"message": "Order not found"}), 404
 
-    for key, val in request_body:
-        if val:
-            order_edit[key] = val
+    order_edit.portfolio_id = request_body['portfolioId']
+    order_edit.stock = request_body['stock']
+    order_edit.action = request_body['action']
+    order_edit.amount = request_body['amount']
+    order_edit.datetime = request_body['datetime']
+    order_edit.repeat = datetime.strptime(request_body['datetime'], "%y-%m-%d %H:%M"),
+    
     
     db.session.commit()
 

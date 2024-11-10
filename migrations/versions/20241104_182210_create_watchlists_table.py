@@ -17,14 +17,14 @@ depends_on = None
 
 
 def upgrade():
-    op.create_table('watchlist_stocks',
+    op.create_table('watchlists',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('stock', sa.String(length=5), nullable=False),
+    sa.Column('name', sa.String(length=5), nullable=False),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
 
 
 def downgrade():
-    op.drop_table('watchlist_stocks')
+    op.drop_table('watchlists')
