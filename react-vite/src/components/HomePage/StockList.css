@@ -1,0 +1,31 @@
+/* --------------------[Stock List Definitions]-------------------- */
+
+div.psl-divider {
+    border-bottom: 1px solid black;
+}
+
+.profile-stock-list {
+    min-width: 300px;
+}
+
+.psl-btn {
+    background: none;
+    border: none;
+}
+#psl-btn-add { font-size: 1.5em; }
+#psl-btn-dropdown { font-size: 1em; }
+
+.psl-section-head {
+    padding: 0 20px;
+}
+
+.psl-stock {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+.psl-stock__trend {
+    text-align: end;
+}
+.psl-stock__val { margin: 10px auto 2px auto; }
+.psl-stock__prc { margin: 0 auto 0 auto; }
