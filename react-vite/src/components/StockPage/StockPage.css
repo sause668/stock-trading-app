@@ -1,7 +1,8 @@
-img {
+img.stock-company-icon {
     display: flex;
     height: 50px;
 }
+
 #title {
     display: flex;
     align-items: center;

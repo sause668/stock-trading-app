@@ -1,7 +1,48 @@
+/* --------------------[Profile Page (Logged In) Definitions]-------------------- */
+@media screen and (min-width: 1280px) { #profile-main { max-width: 1280px; } }
+@media screen and (min-width: 1620px) { #profile-main { max-width: 80%; } }
+#profile-main {
+    display: grid;
+    grid-template-areas: 
+        "a a a a"
+        "b b b c";
+    margin: auto;
+}
+
+#profile-left, #profile-right {
+    display: flex;
+    flex-direction: column;
+}
+#profile-left {
+    grid-area: b;
+    max-width: 98%;
+}
+#profile-right {
+    border: 1px solid black;
+    border-radius: 5px;
+    grid-area: c;
+    min-width: 100%;
+}
+
 /* --------------------[Landing Page (Logged Out) Definitions]-------------------- */
 
-.landing-btn {
-    border-radius: 10px;
+.landing-btn-blk, .landing-btn-grn, .landing-btn-out {
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    padding: 12px 30px;
+}
+.landing-btn-grn { background-color: #CCFF00; }
+.landing-btn-blk { background-color: black; color: white; }
+.landing-btn-out { background: none; border: 1px solid white; color: white; }
+.landing-btn-disclosure {
+    background: none;
+    border: none;
+    font-size: 16px;
+}
+.landing-btn-blk:hover, .landing-btn-grn:hover, .landing-btn-out:hover, .landing-btn-disclosure:hover {
+    cursor: pointer;
+    opacity: 0.85;
 }
 
 #landing-main {
@@ -37,8 +78,8 @@
     margin-right: 50px;
 }
 #landing-main__2 > div { 
-    max-width: 16%;
-    margin-right: 50px;
+    font-size: 16px;
+    max-width: 30%;
 }
 
 #landing-main__3 {
@@ -74,7 +115,7 @@
     background-image: url("https://images.ctfassets.net/ilblxxee70tt/2zqFBs1Dk1ZFLa68vgaCUM/ae93f6273da3b74ae09899a4cdcee75e/wide_crypto_hero_4k_test_2.jpg");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
     display: flex;
     flex-direction: column;
     height: 795px;
@@ -82,19 +123,20 @@
     position: relative;
     z-index: 0;
 }
-#landing-crypto { 
-    margin-left: 60%;
-    margin-right: auto;
-}
 #landing-main__4 > div {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    height: 780px;
+    justify-content: center;
     margin-left: 60%;
     margin-right: auto;
     position: relative;
     z-index: 2;
+}
+#landing-main__4 > p {
+    margin-left: 60%;
+    margin-right: auto;
 }
 
 #landing-main__5 {
@@ -146,10 +188,14 @@
     z-index: 0;
 }
 #landing-main__7 > video {
-    position: relative;
-    bottom: 50%;
-    width: 100%;
-    z-index: 1;
+    height: 100%;
+    left: 50%;
+    min-width: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
 }
 #landing-main__7 > div {
     align-items: center;
