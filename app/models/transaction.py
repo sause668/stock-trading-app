@@ -1,4 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from datetime import datetime
 
 class Transaction(db.Model):
     __tablename__ = 'transactions'
@@ -12,7 +13,7 @@ class Transaction(db.Model):
     action = db.Column(db.String(4), nullable=False)  # e.g., "buy" or "sell"
     amount = db.Column(db.Numeric(10, 5), nullable=False)
     price = db.Column(db.Numeric(10, 5), nullable=False)
-    date_created = db.Column(db.Date)
+    date_created = db.Column(db.DateTime, default=datetime.now())
 
     # Relationships
     portfolio = db.relationship("Portfolio", back_populates="transactions")
@@ -24,5 +25,6 @@ class Transaction(db.Model):
             "stock": self.stock,
             "action": self.action,
             "amount": float(self.amount),
-            "price": float(self.price)
+            "price": float(self.price),
+            "date_created": self.date_created
         }
