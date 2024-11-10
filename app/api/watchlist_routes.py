@@ -4,6 +4,8 @@ from app.models import db
 from app.models.watchlist import Watchlist
 from app.models.watchlist_stocks import WatchlistStock
 import json
+import requests
+from datetime import date, timedelta
 # from decimal import Decimal
 
 # Define blueprint for watchlist stocks routes
@@ -13,11 +15,11 @@ watchlist_routes = Blueprint('watchlists', __name__)
 @watchlist_routes.route('', methods=['GET'])
 @login_required
 def get_watchlist():
-    watchlists = WatchlistStock.query.filter_by(user_id=current_user.id).all()
+    watchlists = Watchlist.query.filter_by(user_id=current_user.id).all()
 
     if not watchlists: 
         return jsonify({"message": "No watchlist found"}), 404
-    
+    # print(watchlists.watchlist_stock)
     return jsonify({"Watchlists": [item.to_dict() for item in watchlists]})
     
 
@@ -98,10 +100,28 @@ def create_watchlist_stock(watchlist_id):
     req_body = json.loads(request.data)
 
     try:
+        symb = req_body['name'].upper()
+        today = date.today()
+
+        if today.strftime('%A') == 'Sunday':
+            yesterday = today - timedelta(2)
+        elif today.strftime('%A') == 'Monday':
+            yesterday = today - timedelta(3)
+        else:
+            yesterday = today - timedelta(1)
+
+        month_ago = yesterday - timedelta(28)
+
+        stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
+        stock_prev = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{month_ago}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
+        stock_val = stock.json()['close']
+        stock_val_prev = stock_prev.json()['close']
+        value = (stock_val - stock_val_prev) / stock_val_prev * 100
+        
         watchlist_stock_new = WatchlistStock(
             watchlist_id=watchlist_id, 
             name=req_body['name'],
-            value= 0 #Add API
+            value= value
         )
 
         db.session.add(watchlist_stock_new)
@@ -163,9 +183,9 @@ def create_watchlist_stock(watchlist_id):
 def delete_watchlist_stock(watchlist_id):
 
     req_body = json.loads(request.data)
-
-    watchlist_stock_delete = WatchlistStock.query.filter_by(id=watchlist_id, name=req_body['name'] ).first()
-
+    
+    watchlist_stock_delete = WatchlistStock.query.filter_by(watchlist_id=watchlist_id, name=req_body['name']).first()
+    
     if not watchlist_stock_delete:
         return jsonify({"message": "Watchlist stock not found"}), 404
 

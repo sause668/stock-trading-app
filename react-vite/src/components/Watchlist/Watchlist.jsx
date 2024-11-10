@@ -7,38 +7,38 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import { getWatchlist, addItem, deleteFromWatchlist } from "../../redux/watchlist";
+import { fetchWatchlists, addWatchlistStock, removeWatchlistStock } from "../../redux/watchlist";
 
 
 const Watchlist = () => {
-    const dispacth = useDispatch()
-    const [stock, setStock] = useState('')
+    // const dispacth = useDispatch()
+    // const [stock, setStock] = useState('')
 
-    useEffect(()=>{
-        dispacth(getWatchlist())
-    }, [dispacth]
-    )
+    // useEffect(()=>{
+    //     dispacth(fe())
+    // }, [dispacth]
+    // )
 
-    const handleAddClick = async (e) => {
-        e.preventDefault()
-        const watchlistData = {
-            stock
-        }
-        dispacth(addItem(watchlistData))
-    }
+    // const handleAddClick = async (e) => {
+    //     e.preventDefault()
+    //     const watchlistData = {
+    //         stock
+    //     }
+    //     dispacth(addItem(watchlistData))
+    // }
 
-    const handleRemoveClick = async (e) => {
-        e.preventDefault()
-        const watchlistData = {
-            stock
-        }
-        dispacth(deleteFromWatchlist(watchlistData))
-    }
+    // const handleRemoveClick = async (e) => {
+    //     e.preventDefault()
+    //     const watchlistData = {
+    //         stock
+    //     }
+    //     dispacth(deleteFromWatchlist(watchlistData))
+    // }
 
     return (
         <>
         <h1> Watchlist</h1>
-        <form onSubmit={handleRemoveClick}>
+        {/* <form onSubmit={handleRemoveClick}>
             <input
             type="text"
             value={stock}
@@ -46,7 +46,7 @@ const Watchlist = () => {
             />
             <button type="submit">add to watchlist</button>
             <button type="submit">remove from watchlist</button>
-        </form>
+        </form> */}
         </>
     )
 }

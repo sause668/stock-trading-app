@@ -14,12 +14,12 @@ const REMOVE_WATCHLIST_STOCK = 'watchlist/removeWatchlistStock'
 
 const receiveWatchlists = (watchlists) => ({
     type: RECEIVE_WATCHLISTS,
-    payload: watchlists
+    watchlists
 })
 
 const receiveWatchlist = (watchlist) => ({
     type: RECEIVE_WATCHLIST,
-    payload: watchlist
+    watchlist
 })
 
 // const receiveWatchlistStock = (watchlistStock) => ({
@@ -78,7 +78,7 @@ export const fetchWatchlist = (watchlistId) => async (dispatch) => {
 
 // Create watchlist
 export const createWatchlist =  (params) => async (dispatch) => {
-    const response = await csrfFetch(`/api/watchlists`, {
+    const response = await fetch(`/api/watchlists`, {
         method: 'POST',
         body: JSON.stringify(params)
     });
@@ -90,7 +90,7 @@ export const createWatchlist =  (params) => async (dispatch) => {
 // Edit watchlist
 export const editWatchlist =  (params) => async (dispatch) => {
     const { watchlistId, name} = params;
-    const response = await csrfFetch(`/api/watchlists/${watchlistId}`, {
+    const response = await fetch(`/api/watchlists/${watchlistId}`, {
         method: 'PUT',
         body: JSON.stringify({name})
     });
@@ -101,18 +101,18 @@ export const editWatchlist =  (params) => async (dispatch) => {
 
 // Delete watchlist
 export const deleteWatchlist =  (watchlistId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/watchlists/${watchlistId}`, {
+    const response = await fetch(`/api/watchlists/${watchlistId}`, {
         method: 'DELETE',
     });
     const data = await response.json();
-    dispatch(receiveWatchlist());
+    dispatch(removeWatchlist());
     return data;
 }
 
 // Add stock to watchlist
 export const addWatchlistStock =  (params) => async (dispatch) => {
     const { watchlistId, name} = params;
-    const response = await csrfFetch(`/api/watchlists/${watchlistId}/stocks`, {
+    const response = await fetch(`/api/watchlists/${watchlistId}/stocks`, {
         method: 'POST',
         body: JSON.stringify({name})
     });
@@ -124,7 +124,7 @@ export const addWatchlistStock =  (params) => async (dispatch) => {
 // Remove stock from watchlist
 export const removeWatchlistStock =  (params) => async (dispatch) => {
     const { watchlistId, name} = params;
-    const response = await csrfFetch(`/api/watchlists/${watchlistId}/stocks`, {
+    const response = await fetch(`/api/watchlists/${watchlistId}/stocks`, {
         method: 'DELETE',
         body: JSON.stringify({name})
     });
@@ -240,5 +240,7 @@ const watchlistReducer = (state = initialState, action) => {
 //             return state
 //     }
 // };
+
+// store.dispatch(sessionActions.signup(params))
 
 export default watchlistReducer;

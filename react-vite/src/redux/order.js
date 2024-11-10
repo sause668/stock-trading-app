@@ -40,7 +40,7 @@ export const fetchOrder =  (orderId) => async (dispatch) => {
 }
 
 export const createOrder =  (params) => async (dispatch) => {
-    const response = await csrfFetch(`/api/orders`, {
+    const response = await fetch(`/api/orders`, {
         method: 'POST',
         body: JSON.stringify(params)
     });
@@ -51,7 +51,7 @@ export const createOrder =  (params) => async (dispatch) => {
 
 export const editOrder =  (params) => async (dispatch) => {
     const { orderId, stock, action, amount, date, repeat} = params;
-    const response = await csrfFetch(`/api/orders/${orderId}`, {
+    const response = await fetch(`/api/orders/${orderId}`, {
         method: 'PUT',
         body: JSON.stringify({stock, action, amount, date, repeat})
     });
@@ -61,7 +61,7 @@ export const editOrder =  (params) => async (dispatch) => {
 }
 
 export const deleteOrder =  (orderId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/orders/${orderId}`, {
+    const response = await fetch(`/api/orders/${orderId}`, {
         method: 'DELETE',
     });
     const data = await response.json();
