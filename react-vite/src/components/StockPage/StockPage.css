@@ -19,3 +19,17 @@ img.stock-company-icon {
 .minus {
     color: red;
 }
+
+.buy_sell {
+    position: fixed;
+    top: 200px;
+    left: 800px;
+}
+
+.related {
+    display: flex;
+}
+.related li {
+    padding-left: 15px;
+    padding-right: 15px;
+}

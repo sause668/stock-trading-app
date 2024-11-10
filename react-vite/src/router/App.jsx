@@ -3,7 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import HomePage from '../components/HomePage';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
-import StockPage from '../components/StockComponent';
+import StockPage from '../components/StockPage';
 import Layout from './Layout';
 import Watchlist from '../components/Watchlist';
 import Transactions from '../components/Transactions';
