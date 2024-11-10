@@ -13,7 +13,7 @@ function StockChart({ chartData }) {
               text: "Stock Chart"
             },
             legend: {
-              display: false
+              display: true
             }
           }
         }}
