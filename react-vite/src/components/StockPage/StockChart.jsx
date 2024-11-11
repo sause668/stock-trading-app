@@ -13,8 +13,24 @@ function StockChart({ chartData }) {
               text: "Stock Chart"
             },
             legend: {
-              display: true
+              display: true,
+              labels: {
+                usePointStyle: true
+              }
             }
+          },
+          scales: {
+            x: {
+              display: false
+            },
+            y: {
+              display: false
+            }
+          },
+          interaction: {
+            mode: "nearest",
+            axis: "xy",
+            intersect: false
           }
         }}
         reload='true'
