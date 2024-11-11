@@ -6,6 +6,7 @@ from app.models.watchlist_stocks import WatchlistStock
 import json
 import requests
 from datetime import date, timedelta
+from decimal import Decimal
 # from decimal import Decimal
 
 # Define blueprint for watchlist stocks routes
@@ -92,6 +93,15 @@ def delete_watchlist(watchlist_id):
 
     return jsonify({'message': "Delete Successful"}), 200
 
+def safeDay (day):
+    if day.strftime('%A') == 'Sunday':
+        yesterday = day - timedelta(2)
+    elif day.strftime('%A') == 'Monday':
+        yesterday = day - timedelta(3)
+    else:
+        yesterday = day - timedelta(1)
+    return yesterday
+
 # Add watchlist stock
 @watchlist_routes.route('/<int:watchlist_id>/stocks', methods=['POST'])
 @login_required
@@ -110,18 +120,36 @@ def create_watchlist_stock(watchlist_id):
         else:
             yesterday = today - timedelta(1)
 
-        month_ago = yesterday - timedelta(28)
+        day2 = safeDay(yesterday)
+        day3 = safeDay(day2)
+        day4 = safeDay(day3)
+        day5 = safeDay(day4)
 
         stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
-        stock_prev = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{month_ago}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
-        stock_val = stock.json()['close']
-        stock_val_prev = stock_prev.json()['close']
-        value = (stock_val - stock_val_prev) / stock_val_prev * 100
+        stock_prev = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day5}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
         
+        stock = stock.json()['preMarket']
+        stock_prev = stock_prev.json()['afterHours']
+        print(stock)
+        print(stock_prev)
+        
+        change = round(abs(stock_prev-stock), 2)
+        change_perc = round(stock_prev/stock, 2)
+
+        if stock_prev-stock > 0:
+            op = '+'
+            color = 'green'
+        else:
+            op = '-'
+            color = 'red'
+
+        value = f'{op}${change} ({change_perc}%)'
+    
         watchlist_stock_new = WatchlistStock(
             watchlist_id=watchlist_id, 
             name=req_body['name'],
-            value= value
+            value= value,
+            color=color
         )
 
         db.session.add(watchlist_stock_new)
