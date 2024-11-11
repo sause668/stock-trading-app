@@ -29,20 +29,20 @@ export const getStock = (stock) => async (dispatch) => {
 	const response = await fetch(`/api/stocks/${stock}`);
 	if (response.ok) {
 		const stockData = await response.json();
-    
-		if (stockData.errors) {
-			return;
+    if (stockData.status == "NOT_FOUND") {
+      dispatch(setStock(stockData))
+			return (stockData);
 		}
-
+    // build chart data from data fetched from Polygon.io API
     stockData.chart ={
-      labels: [ `${stockData.chartDays[0]} pre-market`, `${stockData.chartDays[0]} open`, `${stockData.chartDays[0]} high`, `${stockData.chartDays[0]} low`, `${stockData.chartDays[0]} close`, `${stockData.chartDays[0]} after-hours`,
-                `${stockData.chartDays[1]} pre-market`, `${stockData.chartDays[1]} open`, `${stockData.chartDays[1]} high`, `${stockData.chartDays[1]} low`, `${stockData.chartDays[1]} close`, `${stockData.chartDays[1]} after-hours`,
-                `${stockData.chartDays[2]} pre-market`, `${stockData.chartDays[2]} open`, `${stockData.chartDays[2]} high`, `${stockData.chartDays[2]} low`, `${stockData.chartDays[2]} close`, `${stockData.chartDays[2]} after-hours`,
-                `${stockData.chartDays[3]} pre-market`, `${stockData.chartDays[3]} open`, `${stockData.chartDays[3]} high`, `${stockData.chartDays[3]} low`, `${stockData.chartDays[3]} close`, `${stockData.chartDays[3]} after-hours`,
-                `${stockData.chartDays[4]} pre-market`, `${stockData.chartDays[4]} open`, `${stockData.chartDays[4]} high`, `${stockData.chartDays[4]} low`, `${stockData.chartDays[4]} close`, `${stockData.chartDays[4]} after-hours`,], 
+      labels: [ `${stockData.chartDays[0]} pre-market`, `${stockData.chartDays[0]} open`, `${stockData.chartDays[0]} ${stockData.chartData[1] > stockData.chartData[4]? 'high':'low'}`, `${stockData.chartDays[0]} ${stockData.chartData[1] < stockData.chartData[4]? 'high':'low'}`, `${stockData.chartDays[0]} close`, `${stockData.chartDays[0]} after-hours`,
+                `${stockData.chartDays[1]} pre-market`, `${stockData.chartDays[1]} open`, `${stockData.chartDays[1]} ${stockData.chartData[7] > stockData.chartData[10]? 'high':'low'}`, `${stockData.chartDays[1]} ${stockData.chartData[7] < stockData.chartData[10]? 'high':'low'}`, `${stockData.chartDays[1]} close`, `${stockData.chartDays[1]} after-hours`,
+                `${stockData.chartDays[2]} pre-market`, `${stockData.chartDays[2]} open`, `${stockData.chartDays[2]} ${stockData.chartData[13] > stockData.chartData[16]? 'high':'low'}`, `${stockData.chartDays[2]} ${stockData.chartData[13] < stockData.chartData[16]? 'high':'low'}`, `${stockData.chartDays[2]} close`, `${stockData.chartDays[2]} after-hours`,
+                `${stockData.chartDays[3]} pre-market`, `${stockData.chartDays[3]} open`, `${stockData.chartDays[3]} ${stockData.chartData[19] > stockData.chartData[22]? 'high':'low'}`, `${stockData.chartDays[3]} ${stockData.chartData[19] < stockData.chartData[22]? 'high':'low'}`, `${stockData.chartDays[3]} close`, `${stockData.chartDays[3]} after-hours`,
+                `${stockData.chartDays[4]} pre-market`, `${stockData.chartDays[4]} open`, `${stockData.chartDays[4]} ${stockData.chartData[25] > stockData.chartData[28]? 'high':'low'}`, `${stockData.chartDays[4]} ${stockData.chartData[25] < stockData.chartData[28]? 'high':'low'}`, `${stockData.chartDays[4]} close`, `${stockData.chartDays[4]} after-hours`,], 
       datasets: [
         {
-          label: "Last Week",
+          label: "Past Week",
           data: stockData.chartData,
           borderColor: (stockData.chartData[29]-stockData.chartData[0] > 0) ? 'green':'red',
           borderWidth: 2,
@@ -50,7 +50,6 @@ export const getStock = (stock) => async (dispatch) => {
         }
       ]
     }
-    
 		dispatch(setStock(stockData));
 	}
 };
@@ -98,7 +97,7 @@ export const updateStock = (stock, amount, action) => async (dispatch) => {
       dispatch(getUserStocks());
     }
 }
-// Sell stock
+// Sell all owned shares of a specific stock
 export const sellStock = (symb) => async (dispatch) => {
   const res = await fetch(`/api/stocks/${symb}`, 
     {

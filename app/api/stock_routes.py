@@ -11,6 +11,7 @@ from app.models.transaction import Transaction
 
 stock_routes = Blueprint('stocks', __name__)
 
+# Function to make sure the day being called is a valid day
 def safeDay (day):
     if day.strftime('%A') == 'Sunday':
         yesterday = day - timedelta(2)
@@ -20,6 +21,18 @@ def safeDay (day):
         yesterday = day - timedelta(1)
     return yesterday
 
+# Functions to determine the order to display the daily high and low
+def higher (open, close):
+    if open > close:
+        return 'high'
+    else:
+        return 'low'
+def lower (open, close):
+    if open < close:
+        return 'high'
+    else:
+        return 'low'
+
 # Get all stocks for current user 
 @stock_routes.route('/current')
 @login_required
@@ -28,7 +41,7 @@ def get_user_stocks():
     stocks = Stock.query.filter_by(portfolio_id=portfolio.id).all()
     return jsonify([{"name": stock.name, "amount": stock.amount} for stock in stocks])
 
-# Get stock data
+# Get stock data from Polygonio.io API, includes 7 calls to API for additional data and historical data
 @stock_routes.route('/<symb>')
 def get_stocks(symb):
     symb = symb.upper()
@@ -46,13 +59,14 @@ def get_stocks(symb):
     day4_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day4}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
     day5 = safeDay(day4)
     day5_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day5}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-
-    stock['chartData'] = [day5_data['preMarket'], day5_data['open'], day5_data['high'], day5_data['low'], day5_data['close'], day5_data['afterHours'],
-                          day4_data['preMarket'], day4_data['open'], day4_data['high'], day4_data['low'], day4_data['close'], day4_data['afterHours'], 
-                          day3_data['preMarket'], day3_data['open'], day3_data['high'], day3_data['low'], day3_data['close'], day3_data['afterHours'],
-                          day2_data['preMarket'], day2_data['open'], day2_data['high'], day2_data['low'], day2_data['close'], day2_data['afterHours'],
-                          stock['preMarket'], stock['open'], stock['high'], stock['low'], stock['close'], stock['afterHours']]
-    stock['chartDays'] = [str(day5), str(day4), str(day3), str(day2), str(yesterday)]
+    # populate chart data with previous week's info
+    if stock['status'] == 'OK':   
+        stock['chartData'] = [day5_data['preMarket'], day5_data['open'], day5_data[higher(day5_data['open'],day5_data['close'])], day5_data[lower(day5_data['open'],day5_data['close'])], day5_data['close'], day5_data['afterHours'],
+                          day4_data['preMarket'], day4_data['open'], day4_data[higher(day4_data['open'],day4_data['close'])], day4_data[lower(day4_data['open'],day4_data['close'])], day4_data['close'], day4_data['afterHours'], 
+                          day3_data['preMarket'], day3_data['open'], day3_data[higher(day3_data['open'],day3_data['close'])], day3_data[lower(day3_data['open'],day3_data['close'])], day3_data['close'], day3_data['afterHours'],
+                          day2_data['preMarket'], day2_data['open'], day2_data[higher(day2_data['open'],day2_data['close'])], day2_data[lower(day2_data['open'],day2_data['close'])], day2_data['close'], day2_data['afterHours'],
+                          stock['preMarket'], stock['open'], stock[higher(stock['open'],stock['close'])], stock[lower(stock['open'],stock['close'])], stock['close'], stock['afterHours']]
+        stock['chartDays'] = [str(day5), str(day4), str(day3), str(day2), str(yesterday)]
 
     return stock
 
@@ -62,12 +76,7 @@ def get_stocks(symb):
 def buy_stocks(symb):
     symb = symb.upper()
     today = date.today()
-    if today.strftime('%A') == 'Sunday':
-        yesterday = today - timedelta(2)
-    elif today.strftime('%A') == 'Monday':
-        yesterday = today - timedelta(3)
-    else:
-        yesterday = today - timedelta(1)
+    yesterday = safeDay(today)
 
     # Fetch stock data from polygon API
     stock_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()

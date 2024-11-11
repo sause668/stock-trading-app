@@ -21,20 +21,25 @@ img.stock-company-icon {
     color: red;
 }
 
-.buy_sell {
+.buy-sell {
     position: fixed;
     top: 300px;
     left: 850px;
 }
 
-.related {
+#related {
     display: flex;
 }
-.related li {
+#related li {
     padding-left: 15px;
     padding-right: 15px;
 }
 
 .chart-container {
     height: 400px;
+}
+
+.key-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
 }
