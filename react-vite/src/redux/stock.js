@@ -42,11 +42,11 @@ export const getStock = (stock) => async (dispatch) => {
                 `${stockData.chartDays[4]} pre-market`, `${stockData.chartDays[4]} open`, `${stockData.chartDays[4]} high`, `${stockData.chartDays[4]} low`, `${stockData.chartDays[4]} close`, `${stockData.chartDays[4]} after-hours`,], 
       datasets: [
         {
-          label: "Weekly Performance",
+          label: "Last Week",
           data: stockData.chartData,
-          backgroundColor: "black",
-          borderColor: (stockData?.chartData[29]-stockData?.chartData[0] > 0) ? 'green':'red',
+          borderColor: (stockData.chartData[29]-stockData.chartData[0] > 0) ? 'green':'red',
           borderWidth: 2,
+          pointStyle: false
         }
       ]
     }
