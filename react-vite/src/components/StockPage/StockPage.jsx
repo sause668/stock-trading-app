@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getUserStocks, getStock } from "../../redux/stock";
-import StockChart from "./StockChart";
+import StockChart from "../StockChart";
 import BuyStock from "../BuyStockComponent";
 import SellStock from "../BuyStockComponent/SellStockComponent";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
@@ -13,9 +13,10 @@ import "./StockPage.css"
 
 Chart.register(CategoryScale);
 
+// function to convert large number format
 const convert = num => {
   if (isNaN(num)){
-    return unavalible
+    return unavailable
   }
   num = parseInt(num).toString().split('')
 
@@ -75,7 +76,7 @@ const convert = num => {
   else return num.join('')
 }
 
-const unavalible = "Information not available"
+const unavailable = "Information not available"
 
 const StockPage = () => {
     const {symb} = useParams()
@@ -95,18 +96,18 @@ const StockPage = () => {
         } 
     }, [dispatch, symb, user])
 
+    if (isLoaded && stock.status == 'OK' && stock.ticker.status == 'OK') {
     // formula to show stock perfomance
     let color
     let op
-    if (stock?.chartData[29]-stock?.chartData[0] > 0) {
+    if (stock.chartData[29]-stock.chartData[0] > 0) {
          color = 'green'
          op = '+' 
     } else {
          color = 'red'
          op = '-'
     }
-      
-  if (isLoaded && stock.status == 'OK' && stock.ticker.status == 'OK') {
+
     return (
         <>
           <div id='title'>  
@@ -115,43 +116,51 @@ const StockPage = () => {
             title='Company Icon'/>}   
           </div>
           <div id="stockChart">
-            <h2>${stock.close} {stock.symbol}</h2>                                          
+            <h2>${stock.afterHours} {stock.symbol}</h2>                                          
             {stock.chartData && 
             <p className={color}>{op}${(Math.abs(stock.chartData[29]-stock.chartData[0])).toPrecision(3)} {'(' + ((stock.chartData[29] - stock.chartData[0]) / stock.chartData[29] * 100).toPrecision(3) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>}
+            {/* display stock chart using data pulled from back in and stored in redux store */}
             <StockChart chartData={stock.chart}/>
             </div>
-          <div className="buy_sell">
+          <div className="buy-sell">
+            {/* if user logged in option to buy stock available */}
             {user &&
               <>
                <BuyStock stock={stock} ownedStock={stockOwned}/>
+               {/* if stock owned by user option to sell stock available */}
                {stockOwned &&
                <SellStock stock={stock} ownedStock={stockOwned}/> 
                }
               </>
             }
           </div>
-          <section className="about">  
+          <section id="about">  
               <h2>About</h2>
               {info.branding?.logo_url && 
               <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
               title='Company Logo' />}      
               <h3>{info.sic_description}</h3>
-              <p>{info.description? info.description:unavalible}</p>
-              <p>Headquarters: {info.address? [info.address.city +', '+ info.address.state]:unavalible}</p>
-              <p>Employees: {convert(info.total_employees)}</p>
-              <p>First Listed: {info.list_date? info.list_date:unavalible}</p>
-              <p>Website: {info.homepage_url? <Link to={info.homepage_url} target="_blank"> {info.homepage_url}</Link>:unavalible}</p>
+              <p>{info.description? info.description:unavailable}</p>
+              <div className="key-stats"> 
+                <p>Headquarters: {info.address? [info.address.city +', '+ info.address.state]:unavailable}</p>
+                <p>Employees: {convert(info.total_employees)}</p>
+                <p>First Listed: {info.list_date? info.list_date:unavailable}</p>
+                <p>Website: {info.homepage_url? <Link to={info.homepage_url} target="_blank"> {info.homepage_url}</Link>:unavailable}</p>
+              </div>
           </section>
-          <section className="key_stats">
-            <h2>Key Statistics</h2>
-            <p>Market Cap: {convert(info.market_cap)}</p>
-            <p>High today: ${stock.high}</p>
-            <p>Low today: ${stock.low}</p>
-            <p>Open price: ${stock.open}</p>
+          <h2>Key Statistics</h2>
+          <section className="key-stats">  
+            <p>Previous High: ${stock.high}</p>
+            <p>Previous Low: ${stock.low}</p>
+            <p>Previous Open: ${stock.open}</p>
+            <p>Previous Close: ${stock.close}</p>
+            <p>Last Week High: ${Math.max(...stock.chartData)}</p>
+            <p>Last Week Low: ${Math.min(...stock.chartData)}</p>
             <p>Volume: {convert(stock.volume)}</p>
-            <h2>Related Companies</h2>
+            <p>Market Cap: {convert(info.market_cap)}</p>
           </section>
-          <section className="related">
+          <h2>Related Companies</h2>
+          <section id="related">
               {stock.related.results?.map((r, i) => {
                 return (
                 <li key={i}>

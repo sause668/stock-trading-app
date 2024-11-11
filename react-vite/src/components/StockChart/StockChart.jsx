@@ -1,7 +1,11 @@
 import { Line } from "react-chartjs-2";
+import { FaConnectdevelop } from "react-icons/fa6";
+
+// const handleHover = (event, item, legend) => {
+//   console.log(legend)
+// }
 
 function StockChart({ chartData }) {
-    console.log(chartData)
   return (
     <div className="chart-container">
       <Line
@@ -11,6 +15,17 @@ function StockChart({ chartData }) {
             title: {
               display: false,
               text: "Stock Chart"
+            },
+            tooltip: {
+              displayColors: false,
+              titleAlign: 'center',
+              bodyAlign: 'center',
+              caretSize: 10,
+              caretPadding: 5,
+              callbacks: { 
+                label: (l) => '$' + l.raw
+              }
+    
             },
             legend: {
               display: true,
@@ -30,8 +45,9 @@ function StockChart({ chartData }) {
           interaction: {
             mode: "nearest",
             axis: "xy",
-            intersect: false
-          }
+            intersect: false,
+          },
+          // onHover: handleHover
         }}
         reload='true'
       />
