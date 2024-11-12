@@ -1,5 +1,8 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { OrderModule, PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
 import Transactions from "../Transactions"; 
+import { getUserStocks } from "../../redux/stock";
 import "./StockList.css";
 
 /** 
@@ -12,6 +15,15 @@ import "./StockList.css";
  * @param user Carries session user data. Ultimately passed to all submodules for later use.
  */
 export default function ProfilePage({ user }) {
+    const dispatch = useDispatch();
+
+    // If a user exists, get the user's stock state data.
+    // The page assumes a user is logged in, but this check will remain in place as an error handler.
+    useEffect(() => {
+        if(user) dispatch(getUserStocks());
+        else console.error("Something went wrong: The Profile page was somehow loaded when a user was not logged in!");
+    });
+
     return (
         <main id="profile-main">
             {/* Page Title */}
