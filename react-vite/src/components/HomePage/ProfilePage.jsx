@@ -1,5 +1,10 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { OrderModule, PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
-import "./StockList.css"; // for the stock listing on the right side of the page
+import Transactions from "../Transactions"; 
+import { getUserStocks } from "../../redux/stock";
+import { fetchWatchlists } from "../../redux/watchlist";
+import "./StockList.css";
 
 /** 
  * ### Profile Page Component
@@ -11,24 +16,35 @@ import "./StockList.css"; // for the stock listing on the right side of the page
  * @param user Carries session user data. Ultimately passed to all submodules for later use.
  */
 export default function ProfilePage({ user }) {
-    return (<main id="profile-main">
+    const dispatch = useDispatch();
 
-        {/* Page Title */}
-        <h1>Investing</h1>
+    // If a user exists, get the user's stock state data.
+    // The page assumes a user is logged in, but this check will remain in place as an error handler.
+    useEffect(() => {
+        if(user) {
+            dispatch(getUserStocks());
+            dispatch(fetchWatchlists());
+        } else console.error("Something went wrong: The Profile page was somehow loaded when a user was not logged in!");
+    });
 
-        {/* The left side of the profile page holds the user's orders and previous transactions. */}
-        <section id="profile-left">
-            {/* This h2 can be removed once visible content exists inside the below modules. */}
-            <h2>Left Side Placeholder</h2>
-            <OrderModule user={user} />
-            <TransactionModule user={user} />
-        </section>
+    return (
+        <main id="profile-main">
+            {/* Page Title */}
+            <h1>Investing</h1>
 
-        {/* The right side of the profile page holds the user's portfolio at the top, and watchlists at the bottom. */}
-        <section id="profile-right">
-            <PortfolioModule user={user} />
-            <WatchlistModule user={user} />
-        </section>
+            {/* The left side of the profile page holds the user's orders and previous transactions. */}
+            <section id="profile-left">
+                <OrderModule user={user} />
+                <TransactionModule user={user} />
+                {/* Added Transactions component */}
+                <Transactions />
+            </section>
 
-    </main>)
+            {/* The right side of the profile page holds the user's portfolio at the top, and watchlists at the bottom. */}
+            <section id="profile-right">
+                <PortfolioModule />
+                <WatchlistModule user={user} />
+            </section>
+        </main>
+    );
 }

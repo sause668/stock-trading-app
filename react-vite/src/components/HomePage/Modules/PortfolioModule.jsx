@@ -1,23 +1,21 @@
+import { useSelector } from "react-redux";
 import { Divider, SingleStock } from "./StockListHelpers";
 
 /**
  * ### Portfolio Module
  * Intended only for use within the `ProfilePage` component.
  * 
- * Displays a `StockList` of every stock & cryptocurrency owned by the current user.
- * @param user The user data passed in from the parent.
+ * Displays a `StockList` of every stock owned by the current user.
  */
-export default function PortfolioModule({ user }) {
+export default function PortfolioModule() {
+    // Get the current user's list of owned stocks.
+    const stocks = useSelector((state) => state.stock.stocks);
+    
     return (<div className="profile-stock-list" id="profile-right__portfolio">
-        <h3 className="psl-section-head">Cryptocurrencies</h3>
+        <h3 className="psl-section-head">Portfolio</h3>
         <Divider />
-        {/* Insert: List of currently held cryptocurrencies */}
-        <p></p>
-        <Divider />
-        <h3 className="psl-section-head">Stocks</h3>
-        <Divider />
-        {/* Insert: List of currently held stocks */}
-        <p></p>
+        {/* Map through the owned stocks array and create a SingleStock tile for each owned stock. */}
+        {stocks?.map((stock) => <SingleStock key={stocks.indexOf(stock)} stock={stock} />)}
         <Divider />
     </div>)
 }

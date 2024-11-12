@@ -62,10 +62,10 @@ def get_stocks(symb):
     # populate chart data with previous week's info
     if stock['status'] == 'OK':   
         stock['chartData'] = [day5_data['preMarket'], day5_data['open'], day5_data[higher(day5_data['open'],day5_data['close'])], day5_data[lower(day5_data['open'],day5_data['close'])], day5_data['close'], day5_data['afterHours'],
-                          day4_data['preMarket'], day4_data['open'], day4_data[higher(day4_data['open'],day4_data['close'])], day4_data[lower(day4_data['open'],day4_data['close'])], day4_data['close'], day4_data['afterHours'], 
-                          day3_data['preMarket'], day3_data['open'], day3_data[higher(day3_data['open'],day3_data['close'])], day3_data[lower(day3_data['open'],day3_data['close'])], day3_data['close'], day3_data['afterHours'],
-                          day2_data['preMarket'], day2_data['open'], day2_data[higher(day2_data['open'],day2_data['close'])], day2_data[lower(day2_data['open'],day2_data['close'])], day2_data['close'], day2_data['afterHours'],
-                          stock['preMarket'], stock['open'], stock[higher(stock['open'],stock['close'])], stock[lower(stock['open'],stock['close'])], stock['close'], stock['afterHours']]
+                            day4_data['preMarket'], day4_data['open'], day4_data[higher(day4_data['open'],day4_data['close'])], day4_data[lower(day4_data['open'],day4_data['close'])], day4_data['close'], day4_data['afterHours'], 
+                            day3_data['preMarket'], day3_data['open'], day3_data[higher(day3_data['open'],day3_data['close'])], day3_data[lower(day3_data['open'],day3_data['close'])], day3_data['close'], day3_data['afterHours'],
+                            day2_data['preMarket'], day2_data['open'], day2_data[higher(day2_data['open'],day2_data['close'])], day2_data[lower(day2_data['open'],day2_data['close'])], day2_data['close'], day2_data['afterHours'],
+                            stock['preMarket'], stock['open'], stock[higher(stock['open'],stock['close'])], stock[lower(stock['open'],stock['close'])], stock['close'], stock['afterHours']]
         stock['chartDays'] = [str(day5), str(day4), str(day3), str(day2), str(yesterday)]
 
     return stock
@@ -86,7 +86,7 @@ def buy_stocks(symb):
     if portfolio and stock_data['status'] == 'OK':
         data = request.get_json(force=True)
         amt = Decimal(data.get('amount'))
-        price = Decimal(stock_data['close']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        price = Decimal(stock_data['afterHours']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         portfolio.money -= (amt * price).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         
         if request.method == 'POST':
@@ -112,13 +112,6 @@ def buy_stocks(symb):
             u_stock.price = price
             
             # Update portfolio stock and money depending on action and create transaction
-            if action == 'buy':
-                u_stock.amount += amt          
-                portfolio.money -= amt * price
-            if action == 'sell':
-                u_stock.amount -= amt          
-                portfolio.money += amt * price
-
             transaction = Transaction(
                 portfolio_id=portfolio.id,
                 stock=symb,
@@ -127,10 +120,27 @@ def buy_stocks(symb):
                 price=price,
                 date_created=today
             )
-            # Update the transaction log
-            db.session.add(transaction)
-            db.session.commit()
-            return jsonify(u_stock.to_dict())
+            if action == 'buy':
+                u_stock.amount += amt          
+                portfolio.money -= amt * price
+                # Update the transaction log
+                db.session.add(transaction)
+                db.session.commit()
+                return jsonify(u_stock.to_dict())
+            if action == 'sell':
+                u_stock.amount -= amt          
+                portfolio.money += amt * price
+                # Update the transaction log
+                if u_stock.amount == 0:
+                    db.session.delete(u_stock)
+                db.session.add(transaction)
+                db.session.commit()
+                if price > u_stock.price:
+                    return jsonify({"message": f"You made ${Decimal((price * u_stock.amount)-(price * u_stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+                elif u_stock.price > price:
+                    return jsonify({"message": f"You lost ${Decimal((price * u_stock.amount)-(price * u_stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+                elif price == u_stock.price:
+                    return ({"message": "Stock sold at even value"})
     elif not portfolio:
         return jsonify({'message': 'Must create Portfolio first'}) 
     else:
@@ -141,13 +151,18 @@ def buy_stocks(symb):
 @login_required
 def sell_stocks(symb):
     symb = symb.upper()
+    today = date.today()
+    yesterday = safeDay(today)
+
+    # Fetch current stock data from polygon API
+    stock_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
     stock = Stock.query.filter_by(portfolio_id=portfolio.id, name=symb).first()
     
     if stock:
         # Calculate the amount to credit to the portfolio on stock sale
-        sale_price = stock.price * stock.amount
-        portfolio.money += Decimal(sale_price)
+        sale_price = Decimal(stock_data['afterHours']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        portfolio.money += (stock.amount * sale_price).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
         # Log transaction for selling the stock
         transaction = Transaction(
@@ -155,12 +170,18 @@ def sell_stocks(symb):
             stock=symb,
             action='sell',
             amount=stock.amount,
-            price=stock.price,
+            price=stock_data['afterHours'],
             date_created=date.today()
         )
         db.session.add(transaction)
         db.session.delete(stock)
         db.session.commit()
-        return jsonify({"message": "Stock Sold"})
+        
+        if sale_price > stock.price:
+            return jsonify({"message": f"You made ${Decimal((sale_price * stock.amount)-(stock.price * stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+        elif stock.price > sale_price:
+            return jsonify({"message": f"You lost ${Decimal((sale_price * stock.amount)-(stock.price * stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+        elif sale_price == stock.price:
+            return ({"message": "Stock sold at even value"})
     
     return jsonify({"message": "Stock not found"}), 404

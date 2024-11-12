@@ -2,10 +2,12 @@
 @media screen and (min-width: 1280px) { #profile-main { max-width: 1280px; } }
 @media screen and (min-width: 1620px) { #profile-main { max-width: 80%; } }
 #profile-main {
+    column-gap: 2%;
     display: grid;
     grid-template-areas: 
-        "a a a a"
-        "b b b c";
+        "a a"
+        "b c";
+    grid-template-columns: 4fr 1fr;
     margin: auto;
 }
 
@@ -15,13 +17,12 @@
 }
 #profile-left {
     grid-area: b;
-    max-width: 98%;
 }
 #profile-right {
     border: 1px solid black;
     border-radius: 5px;
     grid-area: c;
-    min-width: 100%;
+    max-height: max-content;
 }
 
 /* --------------------[Landing Page (Logged Out) Definitions]-------------------- */
