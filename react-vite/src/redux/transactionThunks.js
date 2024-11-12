@@ -7,8 +7,6 @@ import {
     setLoading,
     setError,
   } from "./transactionSlice";
-
-  import { csrfFetch } from './csrf';
   
   export const getTransactionsThunk = () => async (dispatch) => {
     dispatch(setLoading(true));
