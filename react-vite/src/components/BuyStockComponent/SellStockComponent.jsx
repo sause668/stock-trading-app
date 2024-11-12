@@ -11,24 +11,30 @@ const SellStock = (props) => {
     const [amt, setAmt] = useState('');
     const updateAmt = e => setAmt(e.target.value);
     //on form submit sell amount of shares of stock selected
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        dispatch(updateStock(stock, amt, 'sell'))
-        dispatch(getUserStocks())
-        setAmt('')
+        if (window.confirm(`Are you sure you want to sell ${amt} shares of this stock`)){
+            const sold = await dispatch(updateStock(stock, amt, 'sell'))
+            alert(sold.message)
+            dispatch(getUserStocks())
+            setAmt('')
+        }
     }
     //on click sell all shares of selected stock
-    const handleClick = () => {
-        dispatch(sellStock(stock.symbol))
-        dispatch(getUserStocks())
-        setAmt('')
+    const handleClick = async () => {
+        if (window.confirm('Are you sure you would like to sell all owned shares of this stock?')){
+            const sold = await dispatch(sellStock(stock.symbol))
+            alert(sold.message)
+            dispatch(getUserStocks())
+            setAmt('')
+        }
     }
 
   return (
     <div className="buy-stock">
-        
+        Sell {stock.symbol}
         <form onSubmit={handleSubmit}>
-            <label htmlFor="purchase">Sell </label>
+            <label htmlFor="purchase">Amount </label>
             <input
             name='purchase'
             type="number"
