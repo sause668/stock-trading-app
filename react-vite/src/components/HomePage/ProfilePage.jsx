@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { OrderModule, PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
 import Transactions from "../Transactions"; 
 import { getUserStocks } from "../../redux/stock";
+import { fetchWatchlists } from "../../redux/watchlist";
 import "./StockList.css";
 
 /** 
@@ -20,8 +21,10 @@ export default function ProfilePage({ user }) {
     // If a user exists, get the user's stock state data.
     // The page assumes a user is logged in, but this check will remain in place as an error handler.
     useEffect(() => {
-        if(user) dispatch(getUserStocks());
-        else console.error("Something went wrong: The Profile page was somehow loaded when a user was not logged in!");
+        if(user) {
+            dispatch(getUserStocks());
+            dispatch(fetchWatchlists());
+        } else console.error("Something went wrong: The Profile page was somehow loaded when a user was not logged in!");
     });
 
     return (
@@ -39,7 +42,7 @@ export default function ProfilePage({ user }) {
 
             {/* The right side of the profile page holds the user's portfolio at the top, and watchlists at the bottom. */}
             <section id="profile-right">
-                <PortfolioModule user={user} />
+                <PortfolioModule />
                 <WatchlistModule user={user} />
             </section>
         </main>
