@@ -1,3 +1,5 @@
+import { csrfFetch } from './csrf';
+
 const SET_STOCK = 'stock/setStock';
 const SET_USER_STOCKS = 'stocks/setUserStocks'
 const DELETE_STOCK = 'stocks/deleteUserStock'
@@ -55,7 +57,7 @@ export const getStock = (stock) => async (dispatch) => {
 };
 //thunk that fetches all stocks for current user
 export const getUserStocks = () => async (dispatch) => {
-  const res = await fetch(`/api/stocks/current`)
+  const res = await csrfFetch(`/api/stocks/current`)
   if (res.ok) {
 		const data = await res.json();
 		if (data.errors) {
@@ -66,7 +68,7 @@ export const getUserStocks = () => async (dispatch) => {
 };
 //purchase a stock
 export const buyStock = (stock, amt) => async (dispatch) => {
-  const res = await fetch(`/api/stocks/${stock.symbol}`, 
+  const res = await csrfFetch(`/api/stocks/${stock.symbol}`, 
     {
     method: 'POST',
     body: JSON.stringify({amount: amt})
@@ -82,7 +84,7 @@ export const buyStock = (stock, amt) => async (dispatch) => {
 }
 //update stock will work for buy or sell using action
 export const updateStock = (stock, amount, action) => async (dispatch) => {
-  const res = await fetch(`/api/stocks/${stock.symbol}`, 
+  const res = await csrfFetch(`/api/stocks/${stock.symbol}`, 
     {
     method: 'PUT',
     body: JSON.stringify({
@@ -99,7 +101,7 @@ export const updateStock = (stock, amount, action) => async (dispatch) => {
 }
 // Sell all owned shares of a specific stock
 export const sellStock = (symb) => async (dispatch) => {
-  const res = await fetch(`/api/stocks/${symb}`, 
+  const res = await csrfFetch(`/api/stocks/${symb}`, 
     {
     method: 'DELETE',
     })
