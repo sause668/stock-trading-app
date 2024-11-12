@@ -42,7 +42,7 @@ export const getStock = (stock) => async (dispatch) => {
                 `${stockData.chartDays[4]} pre-market`, `${stockData.chartDays[4]} open`, `${stockData.chartDays[4]} ${stockData.chartData[25] > stockData.chartData[28]? 'high':'low'}`, `${stockData.chartDays[4]} ${stockData.chartData[25] < stockData.chartData[28]? 'high':'low'}`, `${stockData.chartDays[4]} close`, `${stockData.chartDays[4]} after-hours`,], 
       datasets: [
         {
-          label: "Past Week",
+          label: "Past Week Performance",
           data: stockData.chartData,
           borderColor: (stockData.chartData[29]-stockData.chartData[0] > 0) ? 'green':'red',
           borderWidth: 2,
@@ -95,6 +95,7 @@ export const updateStock = (stock, amount, action) => async (dispatch) => {
         return;
       }
       dispatch(getUserStocks());
+      return data
     }
 }
 // Sell all owned shares of a specific stock

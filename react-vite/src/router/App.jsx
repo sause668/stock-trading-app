@@ -1,5 +1,5 @@
 
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import HomePage from '../components/HomePage';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
@@ -25,8 +25,14 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
-        path: "stocks/:symb",
-        element: <StockPage />,
+        path: "stocks",
+        element: <Outlet />,
+        children: [
+          {
+            path: ":symb",
+            element: <StockPage />,
+          }
+        ]
       },
       {
         path: "/watchlist",

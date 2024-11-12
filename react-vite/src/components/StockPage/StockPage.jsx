@@ -118,7 +118,7 @@ const StockPage = () => {
           <div id="stockChart">
             <h2>${stock.afterHours} {stock.symbol}</h2>                                          
             {stock.chartData && 
-            <p className={color}>{op}${(Math.abs(stock.chartData[29]-stock.chartData[0])).toPrecision(3)} {'(' + ((stock.chartData[29] - stock.chartData[0]) / stock.chartData[29] * 100).toPrecision(3) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>}
+            <p className={color}>{op}${(Math.abs(stock.chartData[29]-stock.chartData[0])).toFixed(2)} {'(' + ((stock.chartData[29] - stock.chartData[0]) / stock.chartData[29] * 100).toFixed(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>}
             {/* display stock chart using data pulled from back in and stored in redux store */}
             <StockChart chartData={stock.chart}/>
             </div>
