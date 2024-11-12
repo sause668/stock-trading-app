@@ -14,11 +14,12 @@ export const Divider = () => <div className="psl-divider" />
  * @param stock The stock data to pass in.
  */
 export function SingleStock({ stock }) {
+    console.warn(stock);
     return (<div className="psl-stock">
-        <h5>{stock.symb}</h5>
+        <h5>{stock.name}</h5>
         <div className="psl-stock__trend">
-            <p className="psl-stock__val">${stock.val}</p>
-            <p className="psl-stock__prc">{stock.prc.toString()}%</p>
+            <p className="psl-stock__val">${stock.name}</p>
+            <p className="psl-stock__prc">{stock.name}%</p>
         </div>
     </div>)
 }
