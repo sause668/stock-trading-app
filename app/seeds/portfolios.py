@@ -1,4 +1,4 @@
-# app/seeds/portfolios.py
+
 
 from app.models import db, Portfolio, environment, SCHEMA
 from sqlalchemy.sql import text

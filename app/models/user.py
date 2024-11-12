@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
 
     #Relationships
     portfolio = db.relationship("Portfolio", uselist=False, back_populates="user")
-    watchlist_stock = db.relationship("WatchlistStock", uselist=False, back_populates="user")
+    watchlist = db.relationship("Watchlist", uselist=False, back_populates="user")
     
     
     @property

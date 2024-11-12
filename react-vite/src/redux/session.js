@@ -1,3 +1,5 @@
+import { csrfFetch } from './csrf';
+
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
 
@@ -10,20 +12,32 @@ const removeUser = () => ({
   type: REMOVE_USER
 });
 
-export const thunkAuthenticate = () => async (dispatch) => {
-	const response = await fetch("/api/auth/");
-	if (response.ok) {
-		const data = await response.json();
-		if (data.errors) {
-			return;
-		}
+import { userPortfolio, newPortfolio } from './portfolio'; // Import portfolio thunks
 
-		dispatch(setUser(data));
-	}
+export const thunkAuthenticate = () => async (dispatch) => {
+  const response = await csrfFetch("/api/auth/");
+  if (response.ok) {
+    const data = await response.json();
+    if (data.errors) {
+      return;
+    }
+
+    dispatch(setUser(data));
+
+    // should ensure user has a portfolio
+    const portfolioResponse = await fetch(`/api/portfolio`);
+    if (!portfolioResponse.ok) {
+      // If no portfolio exists, create one
+      await dispatch(newPortfolio({ initialBalance: 1000 })); // Default initial balance
+    } else {
+      const portfolioData = await portfolioResponse.json();
+      dispatch(userPortfolio(portfolioData));
+    }
+  }
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
-  const response = await fetch("/api/auth/login", {
+  const response = await csrfFetch("/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials)
@@ -34,14 +48,14 @@ export const thunkLogin = (credentials) => async dispatch => {
     dispatch(setUser(data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
-    return errorMessages
+    return errorMessages;
   } else {
-    return { server: "Something went wrong. Please try again" }
+    return { server: "Something went wrong. Please try again" };
   }
 };
 
 export const thunkSignup = (user) => async (dispatch) => {
-  const response = await fetch("/api/auth/signup", {
+  const response = await csrfFetch("/api/auth/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user)
@@ -50,16 +64,19 @@ export const thunkSignup = (user) => async (dispatch) => {
   if(response.ok) {
     const data = await response.json();
     dispatch(setUser(data));
+
+    // Automatically create a portfolio for the new user
+    await dispatch(newPortfolio({ initialBalance: 1000 })); // Default initial balance
   } else if (response.status < 500) {
     const errorMessages = await response.json();
-    return errorMessages
+    return errorMessages;
   } else {
-    return { server: "Something went wrong. Please try again" }
+    return { server: "Something went wrong. Please try again" };
   }
 };
 
 export const thunkLogout = () => async (dispatch) => {
-  await fetch("/api/auth/logout");
+  await csrfFetch("/api/auth/logout");
   dispatch(removeUser());
 };
 

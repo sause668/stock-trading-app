@@ -24,7 +24,7 @@ class Stock(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     name = db.Column(db.String(5), nullable=False, primary_key=True)
-    portfolioId = db.Column(db.Integer, db.ForeignKey("portfolios.id"), nullable=False, primary_key=True)
+    portfolio_id = db.Column(db.Integer, db.ForeignKey("portfolios.id"), nullable=False, primary_key=True)
     amount = db.Column(DecimalAsString, nullable=False)
     price = db.Column(DecimalAsString, nullable=False)
 
@@ -34,7 +34,7 @@ class Stock(db.Model):
     def to_dict(self):
         return {
             "name": self.name,
-            "portfolioId": self.portfolioId,
+            "portfolio_id": self.portfolio_id,
             "amount": self.amount,
             "price": self.price
         }

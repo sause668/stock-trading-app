@@ -13,12 +13,10 @@ export default function Layout() {
   }, [dispatch]);
 
   return (
-    <>
-      <ModalProvider>
-        <Navigation />
-        {isLoaded && <Outlet />}
-        <Modal />
-      </ModalProvider>
-    </>
+    <ModalProvider>
+      <Navigation />
+      {isLoaded && <Outlet />}
+      <Modal />
+    </ModalProvider>
   );
 }

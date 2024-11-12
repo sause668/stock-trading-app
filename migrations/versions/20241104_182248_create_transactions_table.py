@@ -7,12 +7,13 @@ Create Date: 2024-11-04 18:22:48.379740
 """
 from alembic import op
 import sqlalchemy as sa
+from datetime import datetime
 
 
 
 # revision identifiers, used by Alembic.
 revision = '0a3f97289705'
-down_revision = '88621951fa1e'
+down_revision = 'd408c06c8bb6'
 branch_labels = None
 depends_on = None
 
@@ -25,6 +26,7 @@ def upgrade():
     sa.Column('action', sa.String(length=4), nullable=False),
     sa.Column('amount', sa.String(length=2), nullable=False),
     sa.Column('price', sa.String(length=6), nullable=False),
+    sa.Column('date_created', sa.DateTime(), default=datetime.now()),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

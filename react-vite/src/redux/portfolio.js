@@ -1,3 +1,4 @@
+import { csrfFetch } from './csrf';
 
 const CREATE_NEW_PORTFOLIO = 'portfolio/createPortfolio'
 const GET_USER_PORTFOLIO = 'portfolio/getuserPorfolios'
@@ -45,19 +46,18 @@ const updatePortfolio = (portfolio) => ({
 
 // delete user portfolio action thunk
 export const deletePortfolio = (portfolioId) => async (dispatch) => {
-    const res = await fetch('/api/portfolio', {
+    const res = await csrfFetch('/api/portfolio', {
         method: 'DELETE',
         headers: { "Content-Type": "application/json" }
     })
     dispatch(deleteUserPortfolio(portfolioId))
     return res
-
 }
 
 // get current user portfolio action thunk
 export const userPortfolio = () => async (dispatch) => {
 
-    const res = await fetch(`/api/portfolio`)
+    const res = await csrfFetch(`/api/portfolio`)
     if (!res.ok) {
         const errorData = await res.json()
         if (errorData.message === "Portfolio not found") {
@@ -75,7 +75,7 @@ export const userPortfolio = () => async (dispatch) => {
 // get current user portfolio bid id action thunk
 export const getPortfolioById = (portfolioId) => async (dispatch) => {
 
-    const res = await fetch(`/api/portfolio/${portfolioId}`)
+    const res = await csrfFetch(`/api/portfolio/${portfolioId}`)
     if (!res.ok) {
         const errorData = await res.json()
         if (errorData.message === "Portfolio not found") {
@@ -93,7 +93,7 @@ export const getPortfolioById = (portfolioId) => async (dispatch) => {
 // create a new portfolio action thunk
 export const newPortfolio = (portfolioData) => async (dispatch) => {
     const { initialBalance } = portfolioData
-    let res = await fetch(`/api/portfolio`, {
+    let res = await csrfFetch(`/api/portfolio`, {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -109,7 +109,7 @@ export const newPortfolio = (portfolioData) => async (dispatch) => {
 export const editPortfolio = (portfolioData) => async (dispatch) => {
     console.log(portfolioData, 'from update')
     const { addAmount } = portfolioData
-    let res = await fetch(`/api/portfolio`, {
+    let res = await csrfFetch(`/api/portfolio`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
