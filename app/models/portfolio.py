@@ -26,7 +26,8 @@ class Portfolio(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    money = db.Column(DecimalAsString, nullable=False, default=0.00)
+    # money = db.Column(DecimalAsString, nullable=False, default=0.00)
+    money = db.Column(db.String(100), nullable=False, default=0.00)
 
     # Relationships
     user = db.relationship("User", back_populates="portfolio")

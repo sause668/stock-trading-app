@@ -20,8 +20,8 @@ def upgrade():
     op.create_table('stocks',
     sa.Column('name', sa.String(length=5), nullable=False),
     sa.Column('portfolio_id', sa.Integer(), nullable=False),
-    sa.Column('amount', sa.String(length=2), nullable=False),
-    sa.Column('price', sa.String(length=6), nullable=False),
+    sa.Column('amount', sa.String(length=20), nullable=False),
+    sa.Column('price', sa.String(length=20), nullable=False),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
     sa.PrimaryKeyConstraint('name', 'portfolio_id')
     )
