@@ -8,7 +8,7 @@ class Watchlist(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    name = db.Column(db.String(5), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
 
     # Relationships
     user = db.relationship("User", back_populates="watchlist")
