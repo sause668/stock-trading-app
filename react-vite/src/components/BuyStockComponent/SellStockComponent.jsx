@@ -7,9 +7,10 @@ const SellStock = (props) => {
     //get stock and user owned stocks from props
     const {stock, ownedStock} = props
     const dispatch = useDispatch()
-    
+    const color = ownedStock.price > stock.afterHours? 'red': 'green'
     const [amt, setAmt] = useState('');
     const updateAmt = e => setAmt(e.target.value);
+    
     //on form submit sell amount of shares of stock selected
     const handleSubmit = async e => {
         e.preventDefault();
@@ -31,7 +32,7 @@ const SellStock = (props) => {
     }
 
   return (
-    <div className="buy-stock">
+    <div className={`buy-stock ${color}`}>
         Sell {stock.symbol}
         <form onSubmit={handleSubmit}>
             <label htmlFor="purchase">Amount </label>
@@ -43,7 +44,7 @@ const SellStock = (props) => {
             step='0.1'
             value={amt}
             onChange={updateAmt} /> 
-            {' '}shares <button type="submit">Sell</button>
+            {' '}shares <button type="submit" className="color">Sell</button>
         </form>
         <button onClick={handleClick}>Sell All Shares</button>
     </div>

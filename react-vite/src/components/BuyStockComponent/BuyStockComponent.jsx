@@ -8,28 +8,27 @@ const BuyStock = (props) => {
     const {stock, ownedStock} = props
     const dispatch = useDispatch()
     
-    const [amt, setAmt] = useState('');
+    const [amt, setAmt] = useState(0);
     const [pAmount, setPamount] = useState(amt)
     const [value, setValue] = useState(0)
     
     const updateAmt = e => {
-        setAmt(e.target.value)
-        if(amt == 0.1 && pAmount == 0){
-            setValue(0)
-        }
-        else if(amt == 0){
-            setValue(0.1 * stock.afterHours)
-        }
-        else {
-            setValue((Number(pAmount) + 0.1) * stock.afterHours)
-        }
         setPamount(amt)
-        console.log(amt, pAmount, value)
+        setAmt(e.target.value)
+        //displays $ value of potential sale, currently does not display correctly on first down press, not sure how to fix without using store
+        if(amt == 0 && (pAmount == 0 || pAmount == 0.1)){
+            setValue((0.1 * stock.afterHours).toFixed(2))
+        }
+        else if(amt > pAmount){
+            setValue(((Number(amt) + .1) * stock.afterHours).toFixed(2))
+        } else if (pAmount > amt){
+            setValue(((Number(amt) - .1) * stock.afterHours).toFixed(2))
+        }
     }
     //on submit if stock owned update amount, if not owned add to user stocks
     const handleSubmit = e => {
         e.preventDefault();
-        if(window.confirm(`Are you sure you would like to purchase ${amt} shares of stock for $${value}`)){
+        if(window.confirm(`Are you sure you would like to purchase ${amt} shares of ${stock.symbol} for $${value}`)){
             if (ownedStock) {
                 dispatch(updateStock(stock, amt, 'buy'))
             } else {
@@ -37,6 +36,7 @@ const BuyStock = (props) => {
             }
             dispatch(getUserStocks())
             setAmt('')
+            setValue(0)
         }
     }
 
