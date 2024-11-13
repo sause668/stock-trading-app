@@ -37,9 +37,11 @@ def lower (open, close):
 @stock_routes.route('/current')
 @login_required
 def get_user_stocks():
+    today = date.today()
+    yesterday = safeDay(today)
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
     stocks = Stock.query.filter_by(portfolio_id=portfolio.id).all()
-    return jsonify([{"name": stock.name, "amount": stock.amount} for stock in stocks])
+    return jsonify([{"name": stock.name, "amount": stock.amount, "price": stock.price, "previous": requests.get(f'https://api.polygon.io/v1/open-close/{stock.name}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()} for stock in stocks])
 
 # Get stock data from Polygonio.io API, includes 7 calls to API for additional data and historical data
 @stock_routes.route('/<symb>')
@@ -47,18 +49,21 @@ def get_stocks(symb):
     symb = symb.upper()
     today = date.today()
     yesterday = safeDay(today)
-    stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-    stock['ticker'] = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-    stock['related'] = requests.get(f'https://api.polygon.io/v1/related-companies/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+    try:
+        stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        stock['ticker'] = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        stock['related'] = requests.get(f'https://api.polygon.io/v1/related-companies/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
 
-    day2 = safeDay(yesterday)
-    day2_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day2}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-    day3 = safeDay(day2)
-    day3_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day3}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-    day4 = safeDay(day3)
-    day4_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day4}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-    day5 = safeDay(day4)
-    day5_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day5}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        day2 = safeDay(yesterday)
+        day2_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day2}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        day3 = safeDay(day2)
+        day3_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day3}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        day4 = safeDay(day3)
+        day4_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day4}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        day5 = safeDay(day4)
+        day5_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day5}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+    except: 
+        return jsonify({'message': 'Unable to Connect to Polygon API'}) 
     # populate chart data with previous week's info
     if stock['status'] == 'OK':   
         stock['chartData'] = [day5_data['preMarket'], day5_data['open'], day5_data[higher(day5_data['open'],day5_data['close'])], day5_data[lower(day5_data['open'],day5_data['close'])], day5_data['close'], day5_data['afterHours'],

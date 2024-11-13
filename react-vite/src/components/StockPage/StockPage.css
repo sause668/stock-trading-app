@@ -25,10 +25,20 @@ img.stock-company-icon {
     position: fixed;
     top: 300px;
     left: 850px;
+    display: flex;
+    flex-direction: row;
+}
+
+.invisible{
+    display: none;
+}
+.visible{
+    display: block;
 }
 
 #related {
     display: flex;
+    justify-content: space-evenly;
 }
 #related li {
     padding-left: 15px;
