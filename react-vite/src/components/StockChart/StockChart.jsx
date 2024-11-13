@@ -1,9 +1,4 @@
 import { Line } from "react-chartjs-2";
-import { FaConnectdevelop } from "react-icons/fa6";
-
-// const handleHover = (event, item, legend) => {
-//   console.log(legend)
-// }
 
 function StockChart({ chartData }) {
   return (
@@ -47,13 +42,10 @@ function StockChart({ chartData }) {
             axis: "xy",
             intersect: false,
           },
-          // onHover: handleHover
         }}
         reload='true'
       />
     </div>
   );
-
-
 }
 export default StockChart;

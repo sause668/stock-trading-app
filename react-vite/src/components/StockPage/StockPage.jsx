@@ -8,75 +8,11 @@ import SellStock from "../BuyStockComponent/SellStockComponent";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
+import { convert, unavailable } from "./stockPageUtils";
 import "./StockPage.css"
 
 
 Chart.register(CategoryScale);
-
-// function to convert large number format
-const convert = num => {
-  if (isNaN(num)){
-    return unavailable
-  }
-  num = parseInt(num).toString().split('')
-
-  if (num.length < 4){
-    return num.join('')
-  }
-  else if(num.length >= 4 && num.length < 7){
-    if (num.length == 4){
-      num.splice(1, 0, ',')
-    }
-    else if (num.length == 5){
-      num.splice(2, 0, ',')
-    }
-    else if (num.length == 6){
-      num.splice(3, 0, ',')
-    }
-    return num.join('')
-  }
-  else if(num.length >= 7 && num.length < 10){
-    if (num.length == 7){
-      num.splice(1, 0, '.')
-      num.splice(4)
-    }
-    else if (num.length == 8){
-      num.splice(2, 0, '.')
-      num.splice(5)
-    }
-    else if (num.length == 9){
-      num.splice(3, 0, '.')
-      num.splice(6)
-    }
-    return num.join('') + 'M'
-  } else if(num.length >= 10 && num.length < 13){
-    if (num.length == 10){
-      num.splice(1, 0, '.')
-      num.splice(4)
-    }
-    else if (num.length == 11){
-      num.splice(2, 0, '.')
-      num.splice(5)
-    }
-    else if (num.length == 12){
-      num.splice(3, 0, '.')
-      num.splice(6)
-    }
-    return num.join('') + 'B'
-  } else if(num.length >= 13){
-    num.splice(num.length - 10)
-    if (num.length > 2){
-      num.splice(1, 0, '.')
-    }
-    else if (num.length > 3){
-      num.splice(2, 0, '.')
-    }
-    return num.join('') + 'T'
-  }
-  else return num.join('')
-}
-
-const unavailable = "Information not available"
 
 const StockPage = () => {
     const {symb} = useParams()
@@ -96,7 +32,7 @@ const StockPage = () => {
         } 
     }, [dispatch, symb, user])
 
-    if (isLoaded && stock.status == 'OK' && stock.ticker.status == 'OK') {
+    if (isLoaded && stock.status == 'OK') {
     // formula to show stock perfomance
     let color
     let op
