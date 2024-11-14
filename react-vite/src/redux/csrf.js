@@ -23,7 +23,7 @@ export async function csrfFetch(url, options = {}) {
   // error being the response
   if (res.status >= 400) {
     // Bypass any 401 Forbidden errors from the `/api/auth/` endpoint. 
-    if (res.url.endsWith("/api/auth/") && res.status == 402) {
+    if (res.url.endsWith("/api/auth/") && res.status == 401) {
       // In development, send a warning noting that this bypass has occurred.
       if (import.meta.env.MODE !== "production") 
         console.warn("csrf.js: Bypassed 401 Forbidden response from csrfFetch");
