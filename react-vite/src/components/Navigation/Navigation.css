@@ -2,12 +2,6 @@
   position: absolute;
 }
 
-
-*::after::before {
-  margin: none;
-  padding: none;
-}
-
 .nav {
   display: grid;
   grid-auto-flow: column;
@@ -19,6 +13,7 @@
   background-color:  #CCFF00;
   height: 50px;
   box-sizing: border-box;
+  margin: 0px;
 }
 
 #logo {
