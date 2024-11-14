@@ -27,6 +27,9 @@ div.psl-divider {
     justify-content: space-between;
     padding: 0 20px;
 }
+.psl-stock__info-ctrl {
+    display: flex;
+}
 .psl-stock__trend {
     text-align: end;
 }
