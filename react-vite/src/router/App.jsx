@@ -8,6 +8,7 @@ import Layout from './Layout';
 import Watchlist from '../components/Watchlist';
 import Transactions from '../components/Transactions';
 
+// Create the route tree.
 export const router = createBrowserRouter([
   {
     element: <Layout />,

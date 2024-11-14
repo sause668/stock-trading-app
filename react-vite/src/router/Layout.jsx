@@ -8,7 +8,7 @@ import Navigation from "../components/Navigation/Navigation";
 
 /** 
  * ### Layout Component
- * Authenticates the current session user, and then gives Navigation the green light to load the Profile buttons.
+ * Authenticates the current session user before loading the rest of the app.
  */
 export default function Layout() {
   const dispatch = useDispatch();
