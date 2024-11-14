@@ -19,14 +19,16 @@ const Transactions = () => {
         <div className="transactions-container">
             <h1>Transaction History</h1>
             <ul className="transactions-list">
-                {transactions.map((transaction) => (
-                    <li key={transaction.id} className="transaction-item">
-                        <span>{transaction.stock}: {transaction.amount} shares @ ${transaction.price}</span>
-                        <button onClick={() => handleDelete(transaction.id)} className="delete-button">
-                            Delete
-                        </button>
-                    </li>
-                ))}
+                {transactions ?
+                    transactions.map((transaction) => (
+                        <li key={transaction.id} className="transaction-item">
+                            <span>{transaction.stock}: {transaction.amount} shares @ ${transaction.price}</span>
+                            <button onClick={() => handleDelete(transaction.id)} className="delete-button">
+                                Delete
+                            </button>
+                        </li>
+                    )) : <p>No Transaction History available. Purchase a stock and it'll show up here!</p>
+                }
             </ul>
         </div>
     );
