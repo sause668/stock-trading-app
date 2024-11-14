@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { OrderModule, PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
 import Transactions from "../Transactions"; 
+
 import { getUserStocks } from "../../redux/stock";
 import { fetchWatchlists } from "../../redux/watchlist";
 import "./StockList.css";

@@ -25,14 +25,14 @@ export const thunkAuthenticate = () => async (dispatch) => {
     dispatch(setUser(data));
 
     // should ensure user has a portfolio
-    const portfolioResponse = await fetch(`/api/portfolio`);
-    if (!portfolioResponse.ok) {
-      // If no portfolio exists, create one
-      await dispatch(newPortfolio({ initialBalance: 1000 })); // Default initial balance
-    } else {
-      const portfolioData = await portfolioResponse.json();
-      dispatch(userPortfolio(portfolioData));
-    }
+    // const portfolioResponse = await fetch(`/api/portfolio`);
+    // if (!portfolioResponse.ok) {
+    //   // If no portfolio exists, create one
+    //   await dispatch(newPortfolio({ initialBalance: 1000 })); // Default initial balance
+    // } else {
+    //   const portfolioData = await portfolioResponse.json();
+    //   dispatch(userPortfolio(portfolioData));
+    // }
   }
 };
 
