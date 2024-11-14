@@ -18,7 +18,7 @@ export default function WatchlistModule() {
     // Once loaded, grab the necessary slice.
     // TODO loading is a failsafe, usually only lasts a millisecond; maybe find way to force state load before render
     const watchlistState = useSelector((state) => state.watchlist);
-    if(!watchlistState.watchlists?.Watchlists) return <h3>Loading...</h3>
+    if(!watchlistState.watchlists?.Watchlists) return <h3 style={{marginLeft: "20px"}}>Loading...</h3>
     const watchlists = watchlistState.watchlists.Watchlists;
 
     return (<div className="profile-stock-list" id="profile-right__watchlist">
@@ -40,7 +40,7 @@ export default function WatchlistModule() {
  * The primary reason why a single watchlist has been abstracted into its own component is to allow for
  * each list to control itself whilst maintaining code readability.
  * 
- *! Known Issue: There is no way to prevent the appearance of a <Divider> after the last watchlist.
+ *! **Known Issue**: There is no way to prevent the appearance of a <Divider> after the last watchlist.
  * 
  * @param list List data passed in from the watchlist state.
  */
