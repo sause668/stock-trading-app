@@ -8,8 +8,10 @@ import SellStock from "../BuyStockComponent/SellStockComponent";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { convert, unavailable } from "./stockPageUtils";
+import { convert, unavailable, addToWatchlist } from "./stockPageUtils";
 import "./StockPage.css"
+import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
+import LoginFormModal from "../LoginFormModal";
 
 
 Chart.register(CategoryScale);
@@ -47,7 +49,7 @@ const StockPage = () => {
     }
 
     return (
-        <body id='stock-page'>
+        <main id='stock-page'>
           <div id='title'>  
             <h1> {info.name} </h1>
             {info.branding?.icon_url && <img className="stock-company-icon" src={`${info.branding.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
@@ -69,7 +71,7 @@ const StockPage = () => {
                {stockOwned &&
                <SellStock stock={stock} ownedStock={stockOwned} className={bVisibility}/> 
                }
-               <button className='btn'>Add to a watchlist</button>
+               <p className='btn' onClick={addToWatchlist(stock)}>Add to a watchlist</p>
               </>
             }
             
@@ -80,7 +82,7 @@ const StockPage = () => {
               <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
               title='Company Logo' />}      
               Industry: {info.sic_description? info.sic_description:unavailable}</h3>
-              <p>{info.description? info.description:unavailable}</p>
+              <p>{info.description? info.description:'Company description not available'}</p>
             
               <div className="key-stats"> 
                 <p><span>Headquarters</span> {info.address? [info.address.city +', '+ info.address.state]:unavailable}</p>
@@ -102,15 +104,16 @@ const StockPage = () => {
           </section>
           <h2>Related Companies</h2>
           <section id="related">
-              {stock.related.results?.map((r, i) => {
+              { stock.related.results? 
+                stock.related.results.map((r, i) => {
                 return (
                 <li key={i}>
                 <h3>{r.ticker}</h3>
                 <Link to={`/stocks/${r.ticker}`}>{r.ticker}</Link></li>)
-              })
+              }) : <li>{unavailable}</li>
               }
           </section> 
-        </body>
+        </main>
     )}
     else return (<p>Stock not found. Please try your search again.</p>)
 };

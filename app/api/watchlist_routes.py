@@ -12,16 +12,33 @@ from decimal import Decimal
 # Define blueprint for watchlist stocks routes
 watchlist_routes = Blueprint('watchlists', __name__)
 
+
+def safeDay (day):
+    if day.strftime('%A') == 'Sunday':
+        yesterday = day - timedelta(2)
+    elif day.strftime('%A') == 'Monday':
+        yesterday = day - timedelta(3)
+    else:
+        yesterday = day - timedelta(1)
+    return yesterday
+
 # Get all user watchlists
 @watchlist_routes.route('', methods=['GET'])
 @login_required
-def get_watchlist():
+def get_watchlists():
+    today = date.today()
+    yesterday = safeDay(today)
     watchlists = Watchlist.query.filter_by(user_id=current_user.id).all()
 
     if not watchlists: 
-        return jsonify({"message": "No watchlist found"}), 404
-    # print(watchlists.watchlist_stock)
-    return jsonify({"Watchlists": [item.to_dict() for item in watchlists]})
+        return jsonify({"message": "No watchlists found"}), 404
+    
+    watchlists = [watchlist.to_dict() for watchlist in watchlists]
+    watchlist_stocks = [watchlist['watchlist_stocks'] for watchlist in watchlists]
+    watchlist_stocks = [[{"id": stock['id'], "watchlist_id": stock['watchlist_id'],"name": stock['name'], "value": stock['value'], "newValue": requests.get(f'https://api.polygon.io/v1/open-close/{stock["name"]}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()['afterHours']} for stock in watchlist] for watchlist in watchlist_stocks]
+    for watchlist in watchlists:
+        watchlist['watchlist_stocks'] = watchlist_stocks[watchlist['id']-1]
+    return jsonify(watchlists)
     
 
 # Get watchlist by ID
@@ -81,7 +98,7 @@ def edit_watchlist(watchlist_id):
 
 # Delete watchlist
 @watchlist_routes.route('/<int:watchlist_id>', methods=['DELETE'])
-# @login_required
+@login_required
 def delete_watchlist(watchlist_id):
     watchlist_delete = Watchlist.query.filter_by(id=watchlist_id, user_id=current_user.id).first()
 
@@ -93,15 +110,6 @@ def delete_watchlist(watchlist_id):
 
     return jsonify({'message': "Delete Successful"}), 200
 
-def safeDay (day):
-    if day.strftime('%A') == 'Sunday':
-        yesterday = day - timedelta(2)
-    elif day.strftime('%A') == 'Monday':
-        yesterday = day - timedelta(3)
-    else:
-        yesterday = day - timedelta(1)
-    return yesterday
-
 # Add watchlist stock
 @watchlist_routes.route('/<int:watchlist_id>/stocks', methods=['POST'])
 @login_required
@@ -112,45 +120,15 @@ def create_watchlist_stock(watchlist_id):
     try:
         symb = req_body['name'].upper()
         today = date.today()
+        yesterday = safeDay(today) 
 
-        if today.strftime('%A') == 'Sunday':
-            yesterday = today - timedelta(2)
-        elif today.strftime('%A') == 'Monday':
-            yesterday = today - timedelta(3)
-        else:
-            yesterday = today - timedelta(1)
-
-        day2 = safeDay(yesterday)
-        day3 = safeDay(day2)
-        day4 = safeDay(day3)
-        day5 = safeDay(day4)
-
-        stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
-        stock_prev = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day5}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl')
-        
-        stock = stock.json()['preMarket']
-        stock_prev = stock_prev.json()['afterHours']
-        print(stock)
-        print(stock_prev)
-        
-        change = round(abs(stock_prev-stock), 2)
-        change_perc = round(stock_prev/stock, 2)
-
-        if stock_prev-stock > 0:
-            op = '+'
-            color = 'green'
-        else:
-            op = '-'
-            color = 'red'
-
-        value = f'{op}${change} ({change_perc}%)'
+        stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
     
         watchlist_stock_new = WatchlistStock(
             watchlist_id=watchlist_id, 
             name=req_body['name'],
-            value= value,
-            color=color
-        )
+            value=stock['afterHours']
+            )
 
         db.session.add(watchlist_stock_new)
         db.session.commit()

@@ -28,7 +28,7 @@ export const clearStocks = () => ({
 
 // thunk that fetches stock
 export const getStock = (stock) => async (dispatch) => {
-	const response = await fetch(`/api/stocks/${stock}`);
+	const response = await csrfFetch(`/api/stocks/${stock}`);
 	if (response.ok) {
 		const stockData = await response.json();
     if (stockData.status == "NOT_FOUND") {
