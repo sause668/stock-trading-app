@@ -1,3 +1,5 @@
+import { csrfFetch } from './csrf';
+
 import {
     fetchTransactions,
     addTransaction,
@@ -9,7 +11,7 @@ import {
   export const getTransactionsThunk = () => async (dispatch) => {
     dispatch(setLoading(true));
     try {
-      const response = await fetch("/api/transactions");
+      const response = await csrfFetch("/api/transactions");
       if (!response.ok) throw new Error("Failed to fetch transactions");
       const data = await response.json();
       dispatch(fetchTransactions(data.transactions));
@@ -22,7 +24,7 @@ import {
   
   export const createTransactionThunk = (transaction) => async (dispatch) => {
     try {
-      const response = await fetch("/api/transactions", {
+      const response = await csrfFetch("/api/transactions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(transaction),
@@ -37,7 +39,7 @@ import {
   
   export const deleteTransactionThunk = (transactionId) => async (dispatch) => {
     try {
-      const response = await fetch(`/api/transactions/${transactionId}`, {
+      const response = await csrfFetch(`/api/transactions/${transactionId}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete transaction");

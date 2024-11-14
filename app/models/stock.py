@@ -1,4 +1,4 @@
-from .db import db, environment, SCHEMA
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from sqlalchemy import TypeDecorator, Numeric, types
 from decimal import Decimal
 
@@ -24,7 +24,7 @@ class Stock(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     name = db.Column(db.String(5), nullable=False, primary_key=True)
-    portfolio_id = db.Column(db.Integer, db.ForeignKey("portfolios.id"), nullable=False, primary_key=True)
+    portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("portfolios.id")), nullable=False, primary_key=True)
     amount = db.Column(DecimalAsString, nullable=False)
     price = db.Column(DecimalAsString, nullable=False)
 

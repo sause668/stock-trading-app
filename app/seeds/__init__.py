@@ -19,13 +19,14 @@ def seed():
     if environment == 'production':
         # Before seeding in production, run the seed undo command,
         # which will truncate all tables prefixed with the schema name
-        undo_users()
-        undo_portfolios()  # Undo portfolios before seeding
-        undo_stocks()
-        undo_watchlists()
-        undo_watchlist_stocks
-        undo_transactions()
+        
         undo_orders()
+        undo_transactions()
+        undo_watchlist_stocks()
+        undo_watchlists()
+        undo_stocks()
+        undo_portfolios()  
+        undo_users()
     # Seed data for users and portfolios
     seed_users()
     seed_portfolios()  # Add portfolios seed function here

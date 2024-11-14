@@ -1,3 +1,5 @@
+import { csrfFetch } from './csrf';
+
 import { json } from "react-router-dom"
 
 
@@ -62,7 +64,7 @@ const removeWatchlist = () => ({
 
 // Get watchlists
 export const fetchWatchlists = () => async (dispatch) => {
-    const response = await fetch("/api/watchlists");
+    const response = await csrfFetch("/api/watchlists");
     const data = await response.json();
     dispatch(receiveWatchlists(data));
     return data;
@@ -70,7 +72,7 @@ export const fetchWatchlists = () => async (dispatch) => {
 
 // Get watchlist by ID
 export const fetchWatchlist = (watchlistId) => async (dispatch) => {
-    const response = await fetch(`/api/watchlists/${watchlistId}`);
+    const response = await csrfFetch(`/api/watchlists/${watchlistId}`);
     const data = await response.json();
     dispatch(receiveWatchlist(data));
     return data;
@@ -78,7 +80,7 @@ export const fetchWatchlist = (watchlistId) => async (dispatch) => {
 
 // Create watchlist
 export const createWatchlist =  (params) => async (dispatch) => {
-    const response = await fetch(`/api/watchlists`, {
+    const response = await csrfFetch(`/api/watchlists`, {
         method: 'POST',
         body: JSON.stringify(params)
     });
@@ -90,7 +92,7 @@ export const createWatchlist =  (params) => async (dispatch) => {
 // Edit watchlist
 export const editWatchlist =  (params) => async (dispatch) => {
     const { watchlistId, name} = params;
-    const response = await fetch(`/api/watchlists/${watchlistId}`, {
+    const response = await csrfFetch(`/api/watchlists/${watchlistId}`, {
         method: 'PUT',
         body: JSON.stringify({name})
     });
@@ -101,7 +103,7 @@ export const editWatchlist =  (params) => async (dispatch) => {
 
 // Delete watchlist
 export const deleteWatchlist =  (watchlistId) => async (dispatch) => {
-    const response = await fetch(`/api/watchlists/${watchlistId}`, {
+    const response = await csrfFetch(`/api/watchlists/${watchlistId}`, {
         method: 'DELETE',
     });
     const data = await response.json();
@@ -112,7 +114,7 @@ export const deleteWatchlist =  (watchlistId) => async (dispatch) => {
 // Add stock to watchlist
 export const addWatchlistStock =  (params) => async (dispatch) => {
     const { watchlistId, name} = params;
-    const response = await fetch(`/api/watchlists/${watchlistId}/stocks`, {
+    const response = await csrfFetch(`/api/watchlists/${watchlistId}/stocks`, {
         method: 'POST',
         body: JSON.stringify({name})
     });
@@ -124,7 +126,7 @@ export const addWatchlistStock =  (params) => async (dispatch) => {
 // Remove stock from watchlist
 export const removeWatchlistStock =  (params) => async (dispatch) => {
     const { watchlistId, name} = params;
-    const response = await fetch(`/api/watchlists/${watchlistId}/stocks`, {
+    const response = await csrfFetch(`/api/watchlists/${watchlistId}/stocks`, {
         method: 'DELETE',
         body: JSON.stringify({name})
     });
