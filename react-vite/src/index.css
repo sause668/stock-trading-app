@@ -1,7 +1,12 @@
-#root{
+body {
+    margin: 0;
+}
+
+#root {
+    align-self: center;
     display: flex;
     flex-direction: column;
-    align-self: center;
+    
 }
 
 li {
