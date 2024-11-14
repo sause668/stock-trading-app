@@ -42,7 +42,11 @@ def get_user_stocks():
     yesterday = safeDay(today)
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
     stocks = Stock.query.filter_by(portfolio_id=portfolio.id).all()
-    return jsonify([{"name": stock.name, "amount": stock.amount, "value": stock.value, "newValue": requests.get(f'https://api.polygon.io/v1/open-close/{stock.name}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()['afterHours']} for stock in stocks])
+    return jsonify([{"name": stock.name, 
+                     "amount": stock.amount, 
+                     "value": stock.value, 
+                     "newValue": requests.get(f'https://api.polygon.io/v1/open-close/{stock.name}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()['afterHours']}
+                     for stock in stocks])
 
 # Get stock data from Polygonio.io API, includes 7 calls to API for additional data and historical data
 @stock_routes.route('/<symb>')
@@ -104,7 +108,7 @@ def buy_stocks(symb):
                 stock=symb,
                 action='buy',
                 amount=amt,
-                value=value,
+                price=value,
                 date_created=today
             )
             db.session.add(transaction)
@@ -123,7 +127,7 @@ def buy_stocks(symb):
                 stock=symb,
                 action=action,
                 amount=amt,
-                value=value,
+                price=value,
                 date_created=today
             )
             if action == 'buy':
@@ -176,7 +180,7 @@ def sell_stocks(symb):
             stock=symb,
             action='sell',
             amount=stock.amount,
-            value=stock_data['afterHours'],
+            price=stock_data['afterHours'],
             date_created=date.today()
         )
         db.session.add(transaction)
