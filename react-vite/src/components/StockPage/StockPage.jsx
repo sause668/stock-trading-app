@@ -69,9 +69,10 @@ const StockPage = () => {
                {stockOwned &&
                <SellStock stock={stock} ownedStock={stockOwned} className={bVisibility}/> 
                }
+               <button className='btn'>Add to a watchlist</button>
               </>
             }
-            <button className='btn'>Add to a watchlist</button>
+            
           </div>
             <section id="about">  
               <h2>About</h2>
