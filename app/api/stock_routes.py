@@ -42,42 +42,11 @@ def get_user_stocks():
     yesterday = safeDay(today)
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
     stocks = Stock.query.filter_by(portfolio_id=portfolio.id).all()
-    return jsonify([{"name": stock.name, "amount": stock.amount, "value": stock.value, "newValue": requests.get(f'https://api.polygon.io/v1/open-close/{stock.name}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()['afterHours']} for stock in stocks])
-
-# Get stock data from Polygonio.io API, includes 7 calls to API for additional data and historical data
-@stock_routes.route('/<symb>')
-def get_stocks(symb):
-    symb = symb.upper()
-    today = date.today()
-    yesterday = safeDay(today)
-    try:
-        stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        stock['ticker'] = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        stock['related'] = requests.get(f'https://api.polygon.io/v1/related-companies/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-
-        day2 = safeDay(yesterday)
-        day2_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day2}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        day3 = safeDay(day2)
-        day3_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day3}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        day4 = safeDay(day3)
-        day4_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day4}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        day5 = safeDay(day4)
-        day5_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day5}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-    except: 
-        return jsonify({'message': 'Unable to Connect to Polygon API'}) 
-    # populate chart data with previous week's info
-    if stock['status'] == 'OK':   
-        stock['chartData'] = [day5_data['preMarket'], day5_data['open'], day5_data[higher(day5_data['open'],day5_data['close'])], day5_data[lower(day5_data['open'],day5_data['close'])], day5_data['close'], day5_data['afterHours'],
-                            day4_data['preMarket'], day4_data['open'], day4_data[higher(day4_data['open'],day4_data['close'])], day4_data[lower(day4_data['open'],day4_data['close'])], day4_data['close'], day4_data['afterHours'], 
-                            day3_data['preMarket'], day3_data['open'], day3_data[higher(day3_data['open'],day3_data['close'])], day3_data[lower(day3_data['open'],day3_data['close'])], day3_data['close'], day3_data['afterHours'],
-                            day2_data['preMarket'], day2_data['open'], day2_data[higher(day2_data['open'],day2_data['close'])], day2_data[lower(day2_data['open'],day2_data['close'])], day2_data['close'], day2_data['afterHours'],
-                            stock['preMarket'], stock['open'], stock[higher(stock['open'],stock['close'])], stock[lower(stock['open'],stock['close'])], stock['close'], stock['afterHours']]
-        stock['chartDays'] = [str(day5), str(day4), str(day3), str(day2), str(yesterday)]
-
-    return stock
-
-# Purchase stock (buy stocks route)
-@stock_routes.route('/<symb>', methods=['POST', 'PUT'])
+    return jsonify([{"name": stock.name, 
+                     "amount": stock.amount, 
+                     "value": stock.value, 
+                     "newValue": requests.get(f'https://api.polygon.io/v1/open-close/{stock.name}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()['afterHours']}
+                     for stock in stocks])
 
 # Get stock data from Polygonio.io API, includes 7 calls to API for additional data and historical data
 @stock_routes.route('/<symb>')
@@ -139,7 +108,7 @@ def buy_stocks(symb):
                 stock=symb,
                 action='buy',
                 amount=amt,
-                value=value,
+                price=value,
                 date_created=today
             )
             db.session.add(transaction)
@@ -158,7 +127,7 @@ def buy_stocks(symb):
                 stock=symb,
                 action=action,
                 amount=amt,
-                value=value,
+                price=value,
                 date_created=today
             )
             if action == 'buy':
@@ -188,8 +157,6 @@ def buy_stocks(symb):
         return stock_data
 
 # Sell stock (sell stocks route)
-
-# Sell stock (sell stocks route)
 @stock_routes.route('/<symb>', methods=['DELETE'])
 @login_required
 def sell_stocks(symb):
@@ -213,13 +180,11 @@ def sell_stocks(symb):
             stock=symb,
             action='sell',
             amount=stock.amount,
-            value=stock_data['afterHours'],
+            price=stock_data['afterHours'],
             date_created=date.today()
         )
         db.session.add(transaction)
         db.session.delete(stock)
-        db.session.commit()
-        
         db.session.commit()
         
         if sale_value > stock.value:
@@ -228,7 +193,5 @@ def sell_stocks(symb):
             return jsonify({"message": f"You lost ${Decimal((sale_value * stock.amount)-(stock.value * stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
         elif sale_value == stock.value:
             return ({"message": "Stock sold at even value"})
-    
-#     return jsonify({"message": "Stock not found"}), 404
     
     return jsonify({"message": "Stock not found"}), 404
