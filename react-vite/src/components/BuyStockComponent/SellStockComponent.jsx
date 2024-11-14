@@ -32,11 +32,12 @@ const SellStock = (props) => {
     }
 
   return (
-    <div className={`buy-stock ${color}`}>
-        Sell {stock.symbol}
+    <div className={`sell-stock buy-stock ${color}`}>
+        <h3>Sell {stock.symbol}</h3>
         <form onSubmit={handleSubmit}>
-            <label htmlFor="purchase">Amount </label>
+            <label htmlFor="purchase"></label>
             <input
+            placeholder="shares to sell"
             name='purchase'
             type="number"
             min='0.1'
@@ -44,9 +45,10 @@ const SellStock = (props) => {
             step='0.1'
             value={amt}
             onChange={updateAmt} /> 
-            {' '}shares <button type="submit" className="color">Sell</button>
+            <button type="submit" className="color btn">Sell</button>
+            <button onClick={handleClick} className="color btn">Sell All Shares</button>
         </form>
-        <button onClick={handleClick}>Sell All Shares</button>
+        
     </div>
   )
 };

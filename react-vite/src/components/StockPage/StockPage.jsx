@@ -23,6 +23,8 @@ const StockPage = () => {
     const dispatch = useDispatch();
     const stockOwned = userStocks.find(s => s.name == stock?.symbol)
     const [isLoaded, setIsLoaded] = useState(false);
+    const [aVisibility, setAVisibility] = useState('visible')
+    const [bVisibility, setBVisibility] = useState('invisible')
 
     //load stock and user stocks
     useEffect(() => {
@@ -45,7 +47,7 @@ const StockPage = () => {
     }
 
     return (
-        <>
+        <body id='stock-page'>
           <div id='title'>  
             <h1> {info.name} </h1>
             {info.branding?.icon_url && <img className="stock-company-icon" src={`${info.branding.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
@@ -62,38 +64,40 @@ const StockPage = () => {
             {/* if user logged in option to buy stock available */}
             {user &&
               <>
-               <BuyStock stock={stock} ownedStock={stockOwned}/>
+               <BuyStock stock={stock} ownedStock={stockOwned} className={aVisibility}/>
                {/* if stock owned by user option to sell stock available */}
                {stockOwned &&
-               <SellStock stock={stock} ownedStock={stockOwned}/> 
+               <SellStock stock={stock} ownedStock={stockOwned} className={bVisibility}/> 
                }
               </>
             }
+            <button className='btn'>Add to a watchlist</button>
           </div>
-          <section id="about">  
+            <section id="about">  
               <h2>About</h2>
-              {info.branding?.logo_url && 
+              <h3>{info.branding?.logo_url && 
               <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
               title='Company Logo' />}      
-              <h3>{info.sic_description}</h3>
+              Industry: {info.sic_description? info.sic_description:unavailable}</h3>
               <p>{info.description? info.description:unavailable}</p>
+            
               <div className="key-stats"> 
-                <p>Headquarters: {info.address? [info.address.city +', '+ info.address.state]:unavailable}</p>
-                <p>Employees: {convert(info.total_employees)}</p>
-                <p>First Listed: {info.list_date? info.list_date:unavailable}</p>
-                <p>Website: {info.homepage_url? <Link to={info.homepage_url} target="_blank"> {info.homepage_url}</Link>:unavailable}</p>
+                <p><span>Headquarters</span> {info.address? [info.address.city +', '+ info.address.state]:unavailable}</p>
+                <p><span>Employees</span> {convert(info.total_employees)}</p>
+                <p><span>First Listed</span> {info.list_date? info.list_date:unavailable}</p>
+                <p><span>Website</span> {info.homepage_url? <Link to={info.homepage_url} target="_blank"> {info.homepage_url}</Link>:unavailable}</p>
               </div>
           </section>
           <h2>Key Statistics</h2>
           <section className="key-stats">  
-            <p>Previous High: ${stock.high}</p>
-            <p>Previous Low: ${stock.low}</p>
-            <p>Previous Open: ${stock.open}</p>
-            <p>Previous Close: ${stock.close}</p>
-            <p>Last Week High: ${Math.max(...stock.chartData)}</p>
-            <p>Last Week Low: ${Math.min(...stock.chartData)}</p>
-            <p>Volume: {convert(stock.volume)}</p>
-            <p>Market Cap: {convert(info.market_cap)}</p>
+            <p><span>Previous High</span> ${stock.high}</p>
+            <p><span>Previous Low</span> ${stock.low}</p>
+            <p><span>Previous Open</span> ${stock.open}</p>
+            <p><span>Previous Close</span> ${stock.close}</p>
+            <p><span>Last Week High</span> ${Math.max(...stock.chartData)}</p>
+            <p><span>Last Week Low</span> ${Math.min(...stock.chartData)}</p>
+            <p><span>Volume</span> {convert(stock.volume)}</p>
+            <p><span>Market Cap</span> {convert(info.market_cap)}</p>
           </section>
           <h2>Related Companies</h2>
           <section id="related">
@@ -105,7 +109,7 @@ const StockPage = () => {
               })
               }
           </section> 
-        </>
+        </body>
     )}
     else return (<p>Stock not found. Please try your search again.</p>)
 };

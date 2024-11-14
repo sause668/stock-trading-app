@@ -44,7 +44,7 @@ export const getStock = (stock) => async (dispatch) => {
         {
           label: "Past Week Performance",
           data: stockData.chartData,
-          borderColor: (stockData.chartData[29]-stockData.chartData[0] > 0) ? 'green':'red',
+          borderColor: (stockData.chartData[29]-stockData.chartData[0] > 0) ? 'rgb(0, 186, 0)':'red',
           borderWidth: 2,
           pointStyle: false
         }
