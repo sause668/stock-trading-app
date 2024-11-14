@@ -97,10 +97,10 @@ def buy_stocks(symb):
         data = request.get_json(force=True)
         amt = Decimal(data.get('amount'))
         value = Decimal(stock_data['afterHours']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-        portfolio.money -= (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         
         if request.method == 'POST':
             p_stock = Stock(name=symb, portfolio_id=portfolio.id, amount=amt, value=value)
+            portfolio.money -= (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
             db.session.add(p_stock)
             # Create transaction and add stock to portfolio
             transaction = Transaction(
@@ -132,14 +132,16 @@ def buy_stocks(symb):
             )
             if action == 'buy':
                 u_stock.amount += amt          
-                portfolio.money -= amt * value
+                portfolio.money -= (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
                 # Update the transaction log
                 db.session.add(transaction)
                 db.session.commit()
                 return jsonify(u_stock.to_dict())
-            if action == 'sell':
+            elif action == 'sell':
+                print(portfolio.money)
                 u_stock.amount -= amt          
-                portfolio.money += amt * value
+                portfolio.money += (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+                print(amt, value, portfolio.money)
                 # Update the transaction log
                 if u_stock.amount == 0:
                     db.session.delete(u_stock)
