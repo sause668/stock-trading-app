@@ -1,39 +1,27 @@
+#if I broke something, prior stock_routes code is in the bottom commented out
+#Needed to add portfolio money deducer from stock purchase
+#Also added porfolio add for stock sale
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 import requests
 from datetime import date, timedelta
 from ..models import db
 from ..models.stock import Stock
-from decimal import Decimal
-from ..models.portfolio import Portfolio
 from decimal import Decimal, ROUND_HALF_UP
+from ..models.portfolio import Portfolio
 from app.models.transaction import Transaction
 
 stock_routes = Blueprint('stocks', __name__)
 
-# Function to make sure the day being called is a valid day
-def safeDay (day):
+# Function to ensure valid stock trading day
+def safeDay(day):
     if day.strftime('%A') == 'Sunday':
-        yesterday = day - timedelta(2)
+        return day - timedelta(2)
     elif day.strftime('%A') == 'Monday':
-        yesterday = day - timedelta(3)
-    else:
-        yesterday = day - timedelta(1)
-    return yesterday
+        return day - timedelta(3)
+    return day - timedelta(1)
 
-# Functions to determine the order to display the daily high and low
-def higher (open, close):
-    if open > close:
-        return 'high'
-    else:
-        return 'low'
-def lower (open, close):
-    if open < close:
-        return 'high'
-    else:
-        return 'low'
-
-# Get all stocks for current user 
+# Function to get user stocks
 @stock_routes.route('/current')
 @login_required
 def get_user_stocks():
@@ -80,11 +68,10 @@ def get_stocks(symb):
 @login_required
 def buy_stocks(symb):
     symb = symb.upper()
-    today = date.today()
-    yesterday = safeDay(today)
+    data = request.get_json()
+    amount = Decimal(data['amount'])
+    price = Decimal(data['price']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
-    # Fetch stock data from polygon API
-    stock_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
 
     # Check if portfolio exists and stock data is valid
@@ -156,11 +143,10 @@ def buy_stocks(symb):
 @login_required
 def sell_stocks(symb):
     symb = symb.upper()
-    today = date.today()
-    yesterday = safeDay(today)
+    data = request.get_json()
+    amount = Decimal(data['amount'])
+    sale_price = Decimal(data['salePrice']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
-    # Fetch current stock data from polygon API
-    stock_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
     stock = Stock.query.filter_by(portfolio_id=portfolio.id, name=symb).first()
     
@@ -189,4 +175,4 @@ def sell_stocks(symb):
         elif sale_value == stock.value:
             return ({"message": "Stock sold at even value"})
     
-    return jsonify({"message": "Stock not found"}), 404
+#     return jsonify({"message": "Stock not found"}), 404

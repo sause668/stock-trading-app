@@ -30,7 +30,7 @@ export async function csrfFetch(url, options = {}) {
     } else {
       // In development, have the console indicate the error has occurred here.
       if (import.meta.env.MODE !== "production") 
-        console.error("csrf.js: csrfFetch response error! Halting execution - see below for details");
+        console.error("csrf.js: csrfFetch response error! See below for details");
       throw res;
     }
   };
