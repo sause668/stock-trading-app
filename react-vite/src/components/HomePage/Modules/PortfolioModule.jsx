@@ -15,7 +15,10 @@ export default function PortfolioModule() {
         <h3 className="psl-section-head">Portfolio</h3>
         <Divider />
         {/* Map through the owned stocks array and create a SingleStock tile for each owned stock. */}
-        {stocks?.map((stock) => <SingleStock key={stocks.indexOf(stock)} stock={stock} />)}
+        {stocks.length 
+            ? stocks?.map((stock) => <SingleStock key={stocks.indexOf(stock)} stock={stock} />)
+            : <p style={{marginLeft: "20px"}}>No owned stocks</p>
+        }
         <Divider />
     </div>)
 }
