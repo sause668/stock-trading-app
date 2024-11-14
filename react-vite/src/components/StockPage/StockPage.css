@@ -1,6 +1,14 @@
+#stock-page {
+    display: flex;
+    flex-direction: column;
+    margin-left: 200px;
+    width: 1000px;
+}
+
 img.stock-company-icon {
     display: flex;
     height: 50px;
+    max-width: 400px;
 }
 
 #title {
@@ -14,42 +22,100 @@ img.stock-company-icon {
 }
 
 .green {
-    color: green;
+    color: rgb(0, 186, 0);
 }
 
 .red {
-    color: red;
+    color: rgb(255, 0, 0);
 }
 
 .buy-sell {
     position: fixed;
     top: 300px;
-    left: 850px;
+    left: 1250px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 15px;
+}
+.buy-sell form {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    padding: 2px;
+}
+.buy-sell * {
+    margin: 2px;
+}
+
+.sell-stock h3{
+   align-self: flex-end;
 }
 
 .invisible{
     display: none;
 }
 .visible{
-    display: block;
+    display: flex;
 }
 
 #related {
     display: flex;
-    justify-content: space-evenly;
-}
-#related li {
-    padding-left: 15px;
-    padding-right: 15px;
+    justify-content: space-between;
 }
 
+/* #related li {
+    padding-left: 15px;
+    padding-right: 15px;
+} */
+
 .chart-container {
-    height: 400px;
+    width: 1000px;
 }
 
 .key-stats {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    border-bottom: 1px solid black;
+}
+.key-stats p {
+    display: flex;
+    flex-direction: column;
+}
+.key-stats span {
+    font-weight: bold;
+    padding-bottom: 2px;
+}
+
+.btn {
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    padding: 12px 30px;
+}
+.btn:hover {
+    cursor: pointer;
+}
+
+.red .btn{
+    color: red;
+    border: 2px solid red;
+}
+
+.green .btn{
+    color:rgb(0, 186, 0);
+    border: 2px solid rgb(0, 186, 0);
+}
+
+#about {
+    display: grid;
+    align-content: baseline;
+}
+
+#about h3 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+#about h2 {
+    border-bottom: 1px solid black;
 }
