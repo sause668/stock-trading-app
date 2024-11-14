@@ -73,3 +73,7 @@ export const setVisible = (a, b, setAVisibility, setBVisibility) => {
         setBVisibility('invisible')
     }
 }
+
+export const addToWatchlist = ((stock) => () => {
+ console.log(stock)
+})

@@ -5,7 +5,6 @@ import { RouterProvider } from "react-router-dom";
 import configureStore from "./redux/store";
 import { router } from "./router/App";
 import * as sessionActions from "./redux/session";
-import * as watchlistActions from "./redux/watchlist";
 import "./index.css";
 
 // Create the Redux store.
@@ -15,7 +14,6 @@ const store = configureStore();
 if (import.meta.env.MODE !== "production") {
   window.store = store;
   window.sessionActions = sessionActions;
-  window.watchlistActions = watchlistActions;
 }
 
 // Render the React application.

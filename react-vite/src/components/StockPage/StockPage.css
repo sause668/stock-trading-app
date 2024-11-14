@@ -33,7 +33,7 @@ img.stock-company-icon {
     position: fixed;
     top: 300px;
     left: 1250px;
-    border: 1px solid black;
+    border: 2px solid black;
     border-radius: 10px;
     padding: 15px;
 }
@@ -62,10 +62,9 @@ img.stock-company-icon {
     justify-content: space-between;
 }
 
-/* #related li {
-    padding-left: 15px;
-    padding-right: 15px;
-} */
+#related li {
+    padding-bottom: 50px;
+}
 
 .chart-container {
     width: 1000px;

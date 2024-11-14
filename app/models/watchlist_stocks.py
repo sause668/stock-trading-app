@@ -9,8 +9,7 @@ class WatchlistStock(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     watchlist_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('watchlists.id')), nullable=False)
     name = db.Column(db.String(5), nullable=False)
-    value = db.Column(db.String(20), nullable=False)
-    color = db.Column(db.String(5), nullable=False)
+    value = db.Column(db.String(10), nullable=False)
 
     # Relationships
     watchlist = db.relationship("Watchlist", back_populates="watchlist_stock")
@@ -21,5 +20,4 @@ class WatchlistStock(db.Model):
             'watchlist_id': self.watchlist_id,
             'name': self.name,
             'value': self.value,
-            'color': self.color
         }

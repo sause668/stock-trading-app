@@ -34,7 +34,7 @@ function StockChart({ chartData }) {
               display: false
             },
             y: {
-              display: false
+              display: true
             }
           },
           interaction: {
