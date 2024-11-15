@@ -122,7 +122,7 @@ function stockReducer(state = initialState, action) {
     case DELETE_STOCK:
       return { ...state, stocks: state.stocks.filter(stock => stock.name !== action.payload)};
     case CLEAR_STOCKS:
-      return {...state, stock: null, stocks: []}
+      return {...state, stocks: []}
     default:
       return state;
   }

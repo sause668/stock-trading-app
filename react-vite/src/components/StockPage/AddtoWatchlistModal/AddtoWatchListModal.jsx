@@ -1,5 +1,5 @@
-import { addWatchlistStock } from "../../redux/watchlist";
-import { useModal } from "../../context/Modal";
+import { addWatchlistStock } from "../../../redux/watchlist";
+import { useModal } from "../../../context/Modal";
 import { useDispatch } from "react-redux";
 
 const AddtoWatchlistModal = (props) => {
@@ -11,7 +11,7 @@ const AddtoWatchlistModal = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const watchlistId = document.getElementById('watchlist-add').value
-    //if stock not already on the select list add to list
+    //if stock not already on the selected list add to list
     if (!watchlists.find(wlist => wlist.id == watchlistId).watchlist_stocks.find((wStock => wStock.name == stock.symbol))){
       dispatch(addWatchlistStock(watchlistId, stock.symbol))
     }    
@@ -21,6 +21,7 @@ const AddtoWatchlistModal = (props) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+      <label>Select a watchlist </label>
       <select id='watchlist-add'>
         {watchlists.map((watchlist)=>{
           return (

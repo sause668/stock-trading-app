@@ -2,17 +2,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getUserStocks, getStock } from "../../redux/stock";
-import StockChart from "../StockChart";
-import BuyStock from "../BuyStockComponent";
-import SellStock from "../BuyStockComponent/SellStockComponent";
+import StockChart from "./StockChart";
+import {BuyStock, SellStock} from "./BuyStockComponent"
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { convert, unavailable, addToWatchlist } from "./stockPageUtils";
 import { fetchWatchlists } from "../../redux/watchlist";
 import "./StockPage.css"
-import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import AddtoWatchlistModal from "../AddtoWatchlistModal";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import AddtoWatchlistModal from "./AddtoWatchlistModal";
 
 
 Chart.register(CategoryScale);
@@ -23,12 +22,12 @@ const StockPage = () => {
     const userStocks = useSelector(state => state.stock.stocks)
     const user = useSelector(state => state.session.user)
     const info = stock?.ticker.results
-    const dispatch = useDispatch();
     const stockOwned = userStocks.find(s => s.name == stock?.symbol)
     const watchlists = useSelector(state => state.watchlist.watchlists)
     const [isLoaded, setIsLoaded] = useState(false);
     const [aVisibility, setAVisibility] = useState('visible')
     const [bVisibility, setBVisibility] = useState('invisible')
+    const dispatch = useDispatch();
 
     //load stock and user stocks
     useEffect(() => {
@@ -38,6 +37,12 @@ const StockPage = () => {
           dispatch(fetchWatchlists())
         } 
     }, [dispatch, symb, user])
+
+    if(!isLoaded){
+      return (
+        <h2>Retrieving stock info...</h2>
+      )
+    }
 
     if (isLoaded && stock.status == 'OK') {
     // formula to show stock perfomance
@@ -62,11 +67,11 @@ const StockPage = () => {
             <h2>${stock.afterHours} {stock.symbol}</h2>                                          
             {stock.chartData && 
             <p className={color}>{op}${(Math.abs(stock.chartData[29]-stock.chartData[0])).toFixed(2)} {'(' + ((stock.chartData[29] - stock.chartData[0]) / stock.chartData[29] * 100).toFixed(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>}
-            {/* display stock chart using data pulled from back in and stored in redux store */}
+            {/* display stock chart using data pulled from back end and stored in redux store */}
             <StockChart chartData={stock.chart}/>
             </div>
           
-            {/* if user logged in option to buy stock available */}
+            {/* if user logged in option to buy stock and add stock to watchlist available */}
             {user &&
               <div className="buy-sell">
                <BuyStock stock={stock} ownedStock={stockOwned} className={aVisibility}/>
@@ -74,20 +79,20 @@ const StockPage = () => {
                {stockOwned &&
                <SellStock stock={stock} ownedStock={stockOwned} className={bVisibility}/> 
                }
-               <OpenModalMenuItem
-                itemText="Add to a Watchlist"
+               {watchlists && 
+               <OpenModalButton
+                buttonText="Add to a Watchlist"
                 modalComponent={<AddtoWatchlistModal stock={stock} watchlists={watchlists}
                 className='btn'/>}
-              />
+              />}
               </div>
             }
             <section id="about">  
               <h2>About</h2>
-              <h3>{info.branding?.logo_url && 
-                <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-              title='Company Logo' />}      
-                Industry: {info.sic_description? info.sic_description:unavailable}
-              </h3>
+              <div id='about-heading'>{info.branding?.logo_url && 
+                <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`} title='Company Logo'/>}      
+                <h3>Industry: {info.sic_description? info.sic_description:unavailable}</h3>
+              </div>
               <p>{info.description? info.description:'Company description not available'}</p>
               <div className="key-stats"> 
                 <p><span>Headquarters</span> {info.address? [info.address.city +', '+ info.address.state]:unavailable}</p>
@@ -120,7 +125,7 @@ const StockPage = () => {
           </section> 
         </main>
     )}
-    else return (<p>Stock not found. Please try your search again.</p>)
+    else return (<h2>Stock not found. Please try your search again.</h2>)
 };
 
 export default StockPage;
