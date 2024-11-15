@@ -42,6 +42,8 @@ function StockChart({ chartData }) {
             axis: "xy",
             intersect: false,
           },
+          responsive: true,
+          maintainAspectRatio: true
         }}
         reload='true'
       />
