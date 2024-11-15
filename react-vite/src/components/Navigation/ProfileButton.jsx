@@ -2,9 +2,11 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
+import { clearStocks } from "../../redux/stock";
+import { removeWatchlistState } from "../../redux/watchlist";
 import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import LoginFormModal from "../LoginFormPage/LoginFormModal";
+import SignupFormModal from "../SignupFormPage/SignupFormModal";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -36,6 +38,8 @@ function ProfileButton() {
   const logout = (e) => {
     e.preventDefault();
     dispatch(thunkLogout());
+    dispatch(clearStocks());
+    dispatch(removeWatchlistState());
     closeMenu();
   };
 

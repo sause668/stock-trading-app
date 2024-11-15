@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { buyStock, updateStock, getUserStocks } from "../../redux/stock";
+import { buyStock, updateStock, getUserStocks } from "../../../redux/stock";
 
 
 const BuyStock = (props) => {

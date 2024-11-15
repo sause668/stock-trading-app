@@ -1,7 +1,7 @@
 #stock-page {
     display: flex;
     flex-direction: column;
-    margin-left: 200px;
+    margin-left: 10%;
     width: 60%;
 }
 
@@ -33,9 +33,13 @@ img.stock-company-icon {
     position: fixed;
     top: 300px;
     left: 75%;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 10px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Far shadow */ 
+                5px 5px 10px rgba(0, 0, 0, 0.3); /* Near shadow */
     padding: 15px;
+    width: fit-content;
+    min-width: 200px;
 }
 .buy-sell form {
     display: flex;
@@ -43,7 +47,7 @@ img.stock-company-icon {
     padding: 2px;
 }
 .buy-sell * {
-    margin: 2px;
+    margin: 5px;
 }
 
 .sell-stock h3{
@@ -80,11 +84,14 @@ img.stock-company-icon {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     border-bottom: 1px solid black;
+    justify-content: space-between;
 }
+
 .key-stats p {
     display: flex;
     flex-direction: column;
 }
+
 .key-stats span {
     font-weight: bold;
     padding-bottom: 2px;
@@ -96,6 +103,7 @@ img.stock-company-icon {
     font-size: 16px;
     padding: 12px 30px;
 }
+
 .btn:hover {
     cursor: pointer;
 }
@@ -115,12 +123,21 @@ img.stock-company-icon {
     align-content: baseline;
 }
 
-#about h3 {
+#about h2 {
+    border-bottom: 1px solid black;
+}
+
+#about-heading {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
 }
 
-#about h2 {
-    border-bottom: 1px solid black;
+#about-heading > img{
+    flex-shrink: 1;
+    padding-right: 20px;
+}
+
+#about-heading > h3 {
+    flex-grow: 1;
 }
