@@ -79,8 +79,8 @@ export const deleteWatchlist =  (watchlistId) => async (dispatch) => {
 }
 
 // Add stock to watchlist
-export const addWatchlistStock =  (params) => async (dispatch) => {
-    const { watchlistId, name} = params;
+export const addWatchlistStock =  (watchlistId, name) => async (dispatch) => {
+
     const response = await csrfFetch(`/api/watchlists/${watchlistId}/stocks`, {
         method: 'POST',
         body: JSON.stringify({name})
@@ -92,8 +92,8 @@ export const addWatchlistStock =  (params) => async (dispatch) => {
 }
 
 // Remove stock from watchlist
-export const removeWatchlistStock =  (params) => async (dispatch) => {
-    const { watchlistId, name} = params;
+export const removeWatchlistStock =  (watchlistId, name) => async (dispatch) => {
+    
     const response = await csrfFetch(`/api/watchlists/${watchlistId}/stocks`, {
         method: 'DELETE',
         body: JSON.stringify({name})

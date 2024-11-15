@@ -9,9 +9,10 @@ import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { convert, unavailable, addToWatchlist } from "./stockPageUtils";
+import { fetchWatchlists } from "../../redux/watchlist";
 import "./StockPage.css"
 import OpenModalMenuItem from "../Navigation/OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
+import AddtoWatchlistModal from "../AddtoWatchlistModal";
 
 
 Chart.register(CategoryScale);
@@ -24,6 +25,7 @@ const StockPage = () => {
     const info = stock?.ticker.results
     const dispatch = useDispatch();
     const stockOwned = userStocks.find(s => s.name == stock?.symbol)
+    const watchlists = useSelector(state => state.watchlist.watchlists)
     const [isLoaded, setIsLoaded] = useState(false);
     const [aVisibility, setAVisibility] = useState('visible')
     const [bVisibility, setBVisibility] = useState('invisible')
@@ -33,6 +35,7 @@ const StockPage = () => {
         dispatch(getStock(symb)).then(() => setIsLoaded(true))
         if (user) {
           dispatch(getUserStocks())
+          dispatch(fetchWatchlists())
         } 
     }, [dispatch, symb, user])
 
@@ -62,28 +65,30 @@ const StockPage = () => {
             {/* display stock chart using data pulled from back in and stored in redux store */}
             <StockChart chartData={stock.chart}/>
             </div>
-          <div className="buy-sell">
+          
             {/* if user logged in option to buy stock available */}
             {user &&
-              <>
+              <div className="buy-sell">
                <BuyStock stock={stock} ownedStock={stockOwned} className={aVisibility}/>
                {/* if stock owned by user option to sell stock available */}
                {stockOwned &&
                <SellStock stock={stock} ownedStock={stockOwned} className={bVisibility}/> 
                }
-               <p className='btn' onClick={addToWatchlist(stock)}>Add to a watchlist</p>
-              </>
+               <OpenModalMenuItem
+                itemText="Add to a Watchlist"
+                modalComponent={<AddtoWatchlistModal stock={stock} watchlists={watchlists}
+                className='btn'/>}
+              />
+              </div>
             }
-            
-          </div>
             <section id="about">  
               <h2>About</h2>
               <h3>{info.branding?.logo_url && 
-              <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
+                <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
               title='Company Logo' />}      
-              Industry: {info.sic_description? info.sic_description:unavailable}</h3>
+                Industry: {info.sic_description? info.sic_description:unavailable}
+              </h3>
               <p>{info.description? info.description:'Company description not available'}</p>
-            
               <div className="key-stats"> 
                 <p><span>Headquarters</span> {info.address? [info.address.city +', '+ info.address.state]:unavailable}</p>
                 <p><span>Employees</span> {convert(info.total_employees)}</p>
