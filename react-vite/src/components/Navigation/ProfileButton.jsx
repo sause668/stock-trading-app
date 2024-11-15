@@ -45,7 +45,7 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu}>
+      <button onClick={toggleMenu} className="nav-btn">
         <FaUserCircle />
       </button>
       {showMenu && (
@@ -55,7 +55,7 @@ function ProfileButton() {
               <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
-                <button onClick={logout}>Log Out</button>
+                <button onClick={logout} className="nav-btn">Log Out</button>
               </li>
             </>
           ) : (

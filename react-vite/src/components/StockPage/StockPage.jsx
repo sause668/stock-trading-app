@@ -58,16 +58,18 @@ const StockPage = () => {
 
     return (
         <main id='stock-page'>
-          <div id='title'>  
-            <h1> {info.name} </h1>
-            {info.branding?.icon_url && <img className="stock-company-icon" src={`${info.branding.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-            title='Company Icon'/>}   
-          </div>
-          <div id="stockChart">
-            <h2>${stock.afterHours} {stock.symbol}</h2>                                          
+          <div id='title'>
+            <div id='price'>
+            <h2>${stock.afterHours} {stock.symbol}</h2>                                   
             {stock.chartData && 
             <p className={color}>{op}${(Math.abs(stock.chartData[29]-stock.chartData[0])).toFixed(2)} {'(' + ((stock.chartData[29] - stock.chartData[0]) / stock.chartData[29] * 100).toFixed(2) + '%)'} {op == '+'? <FaCaretUp />:<FaCaretDown />}</p>}
+            </div>   
+            <h1> {info.name}
+            {info.branding?.icon_url && <img className="stock-company-icon" src={`${info.branding.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
+            title='Company Icon'/>} </h1> 
+          </div> 
             {/* display stock chart using data pulled from back end and stored in redux store */}
+            <div id="stockChart">
             <StockChart chartData={stock.chart}/>
             </div>
           
