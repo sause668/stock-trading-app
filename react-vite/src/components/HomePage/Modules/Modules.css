@@ -50,9 +50,7 @@
 #profile-portfolio-form > button:hover { opacity: 0.85; }
 
 /* Right Side: Portfolio Stock List */
-#profile-portfolio-right {
-    grid-area: c;
-}
+#profile-portfolio-right { grid-area: c; }
 
 .profile-portfolio-stock {
     align-items: center;
@@ -70,14 +68,19 @@
 
 
 /* --------------------[Transactions Module]-------------------- */
-#profile-left__transactions {
-    background-color: #181a1b;
-}
 
-.transactions-list {
-    list-style: none;
-    padding: 0;
+#profile-transaction-list {
+    padding: 0 20px 15px 20px;
+    
 }
+.profile-transaction-record {
+    border-bottom: 1px solid #e8e6e3;
+    font-size: larger;
+}
+.profile-transaction-record > p { margin-bottom: 5px; }
+.profile-transaction-record > p > span { margin-right: 28px;}
+.profile-transaction__prc { margin-left: 9px; }
+.profile-transaction__amt { font-size: small; }
 
 .transaction-item {
     display: flex;
