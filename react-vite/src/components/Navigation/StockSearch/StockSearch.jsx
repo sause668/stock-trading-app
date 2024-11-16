@@ -9,6 +9,9 @@ const StockSearch = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
+        // if (!stock){
+        //     return window.alert('Please enter a stock symbol')
+        // }
         navigate(`stocks/${stock}`)
         setStock('')
     }

@@ -44,6 +44,7 @@ export const fetchWatchlist = (watchlistId) => async (dispatch) => {
 
 // Create watchlist
 export const createWatchlist =  (params) => async (dispatch) => {
+    console.log(params)
     const response = await csrfFetch(`/api/watchlists`, {
         method: 'POST',
         body: JSON.stringify(params)
