@@ -45,21 +45,34 @@ function ProfileButton() {
 
   return (
     <>
-      <button onClick={toggleMenu} className="nav-btn">
-        <FaUserCircle />
+      <button onClick={toggleMenu} id='profileMenuButton' className='curser'>
+        {/* <IoMenu id='menuIcon'/> */}
+        <FaUserCircle id='profileIcon'/>
       </button>
-      {showMenu && (
-        <ul className={"profile-dropdown"} ref={ulRef}>
+      {showMenu &&(
+        <div className='conProfileMenu' ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <li>
-                <button onClick={logout} className="nav-btn">Log Out</button>
-              </li>
+              <div className='profileList'>
+                  <p className='profileListItem'>Hello, {user.username}</p>
+                  <p className='profileListItem'>{user.email}</p>
+              </div>
+              <p id='profileListBorder'/>
+              {/* <div className='profileList'>
+                  <p className='profileListItem'>
+                  <NavLink className='profileLink' to={'/spots/current'} onClick={closeMenu}>Manage Spots</NavLink>
+                  </p>
+                  <p className='profileListItem'>
+                      <NavLink className='profileLink' to={'/reviews/current'} onClick={closeMenu}>Manage Reviews</NavLink>
+                  </p>
+              </div> */}
+              <div>
+                <button id='logoutButton' onClick={logout}>Log Out</button>
+              </div>
             </>
           ) : (
             <>
+            {/* <li className='profileListItem'>bah</li> */}
               <OpenModalMenuItem
                 itemText="Log In"
                 onItemClick={closeMenu}
@@ -68,13 +81,45 @@ function ProfileButton() {
               <OpenModalMenuItem
                 itemText="Sign Up"
                 onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />}
+                modalComponent={<SignupFormModal/>}
               />
             </>
           )}
-        </ul>
+        </div>
       )}
+     
     </>
+    // <>
+    //   <button onClick={toggleMenu} className="nav-btn">
+    //     <FaUserCircle />
+    //   </button>
+    //   {showMenu && (
+    //     <ul className={"profile-dropdown"} ref={ulRef}>
+    //       {user ? (
+    //         <>
+    //           <li>{user.username}</li>
+    //           <li>{user.email}</li>
+    //           <li>
+    //             <button onClick={logout} className="nav-btn">Log Out</button>
+    //           </li>
+    //         </>
+    //       ) : (
+    //         <>
+    //           <OpenModalMenuItem
+    //             itemText="Log In"
+    //             onItemClick={closeMenu}
+    //             modalComponent={<LoginFormModal />}
+    //           />
+    //           <OpenModalMenuItem
+    //             itemText="Sign Up"
+    //             onItemClick={closeMenu}
+    //             modalComponent={<SignupFormModal />}
+    //           />
+    //         </>
+    //       )}
+    //     </ul>
+    //   )}
+    // </>
   );
 }
 
