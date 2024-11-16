@@ -35,16 +35,15 @@ ul {
 
 .nav-btn {
   border: none;
-  border-radius: 30px;
+  border-radius: 5px;
   font-size: 16px;
   padding: 5px 15px;
+  color: #CCFF00;
+  background-color: black;
 }
 
-.nav-btn:hover {
-  cursor: pointer;
-}
 form input {
-  border-radius: 10px;
+  border-radius: 5px;
   background-color: lightgrey;
   margin-right: 20px;
   height: 30px;
@@ -56,6 +55,11 @@ form input:hover {
 }
 
 .nav-btn:hover, .btn:hover{
+  cursor: pointer;
   box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), 
                 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn:active, .btn:active {
+  box-shadow: none;
 }
