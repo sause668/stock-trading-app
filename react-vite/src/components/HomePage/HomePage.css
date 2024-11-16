@@ -36,7 +36,6 @@
     grid-area: b;
 }
 #profile-right {
-    border: 1px solid black;
     border-radius: 5px;
     grid-area: c;
     max-height: max-content;
