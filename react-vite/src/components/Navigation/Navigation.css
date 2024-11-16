@@ -83,7 +83,14 @@ form input:hover {
   border-radius: 20px;
   border: 0px solid black;
   color: #CCFF00;
+  padding: .25rem .25rem;
+  cursor: pointer;
   
+}
+
+#profileMenuButton:hover{
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), 
+                5px 5px 10px rgba(0, 0, 0, 0.3);
 }
 
 #menuIcon {
@@ -104,9 +111,9 @@ form input:hover {
   flex-direction: column;
   justify-content:center;
   align-items: center;
-  border: 2px solid #CCFF00;
+  border: 1px solid #CCFF00;
   border-radius: 10px;
-  background-color: black;
+  background-color: #181a1b;
   padding: .5rem .25rem;
   margin-top: .25rem;
 }
@@ -123,13 +130,17 @@ form input:hover {
 
 .profileListItem {
   text-align: left;
-  color: white;
+  color: #e8e6e3;
   margin: .25rem;
   margin-top: 0rem;
+  padding: 0px .5rem;
   
 }
 .listModal:hover {
   cursor:pointer;
+  background-color: #CCFF00;
+  border-radius: 5px;
+  color: black;
 }
 
 .profileLink {
@@ -144,7 +155,7 @@ form input:hover {
   /* padding: ; */
   width: 100%;
   height: 0px;
-  border: 1px solid black;
+  border: 1px solid #181a1b;
   border-radius: 100px;
 }
 
@@ -167,7 +178,7 @@ form input:hover {
 .formCon {
   width: 300px;
   margin: 1rem 1rem;
-  background-color: black;
+  background-color: #181a1b;
 }
 
 @media (max-width:350px) {
@@ -201,7 +212,7 @@ form input:hover {
 .labelTitle {
   margin: .1rem .3rem .1rem 0rem;
   font-size: 14px;
-  color: white;
+  color: #e8e6e3;
 }
 
 
@@ -212,7 +223,7 @@ form input:hover {
 
 .formInput {
   width: 90%;
-  border: 2px solid black;
+  border: 2px solid #181a1b;
   border-radius: 5px;
   background-color: rgb(211, 225, 252);
 }
@@ -220,14 +231,15 @@ form input:hover {
 .submitButton {
   color: white;
   background-color: #CCFF00;
-  border: 2px solid black;
+  border: 2px solid #181a1b;
   border-radius: 20px;
   /* box-shadow: 2px 2px .5px black; */
   font-size: 15px;
   height: 50px;
   width: 95%;
   margin: .4rem 0rem;
-  color: black
+  color: black;
+  cursor: pointer;
 }
 
 .submitButton:disabled {

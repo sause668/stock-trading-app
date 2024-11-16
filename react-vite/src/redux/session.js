@@ -37,42 +37,55 @@ export const thunkAuthenticate = () => async (dispatch) => {
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
-  const response = await csrfFetch("/api/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials)
-  });
+  try {
+    const response = await csrfFetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(credentials)
+    });
+    
+    if(response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data));
+    } else if (response.status < 500) {
+      const errorMessages = await response.json();
+      return errorMessages;
+    } else {
+      return { server: "Something went wrong. Please try again" };
+    }
 
-  if(response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages;
-  } else {
-    return { server: "Something went wrong. Please try again" };
+  } catch (error) {
+    error = await error.json()
+    return error
   }
+  
 };
 
 export const thunkSignup = (user) => async (dispatch) => {
-  const response = await csrfFetch("/api/auth/signup", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(user)
-  });
-
-  if(response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data));
-
-    // Automatically create a portfolio for the new user
-    await dispatch(newPortfolio({ initialBalance: 1000 })); // Default initial balance
-  } else if (response.status < 500) {
-    const errorMessages = await response.json();
-    return errorMessages;
-  } else {
-    return { server: "Something went wrong. Please try again" };
+  try {
+    const response = await csrfFetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user)
+    });
+  
+    if(response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data));
+  
+      // Automatically create a portfolio for the new user
+      await dispatch(newPortfolio({ initialBalance: 1000 })); // Default initial balance
+    } else if (response.status < 500) {
+      const errorMessages = await response.json();
+      return errorMessages;
+    } else {
+      return { server: "Something went wrong. Please try again" };
+    }
+  } catch (error) {
+    error = await error.json()
+    return error
   }
+  
 };
 
 export const thunkLogout = () => async (dispatch) => {
