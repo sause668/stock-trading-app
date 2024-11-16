@@ -54,7 +54,7 @@
 #landing-main__1 {
     align-items: center;
     background-image: linear-gradient(black, white);
-    color: white;
+    color: #e8e6e3;
     display: flex;
     flex-direction: column;
     font-size: 50px;
@@ -84,6 +84,7 @@
 #landing-main__3 {
     align-items: center;
     background-color: white;
+    color: black;
     display: flex;
     justify-content: center;
     height: 800px;
@@ -115,6 +116,7 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    color: black;
     display: flex;
     flex-direction: column;
     height: 795px;
@@ -165,6 +167,7 @@
 
 #landing-main__6 {
     background-color: #CCFF00;
+    color: black;
     display: flex;
     justify-content: center;
     text-align: center;
