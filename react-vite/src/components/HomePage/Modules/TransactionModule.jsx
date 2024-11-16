@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getTransactionsThunk, deleteTransactionThunk } from '../../../redux/transactionThunks';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTransactionsThunk, deleteTransactionThunk } from "../../../redux/transactionThunks";
 
 /**
  * ### Transaction Module
@@ -20,9 +20,9 @@ export default function TransactionModule() {
         dispatch(deleteTransactionThunk(id));
     };
 
-    return (<div id="profile-left__transactions">
+    return (<div id="profile-left__transactions" className="profile-module">
         {/* Code here */}
-        <h1>Transaction History</h1>
+        <h2 className="profile-module__title">Transaction History</h2>
         <ul className="transactions-list">
             {transactions ?
                 transactions.map((transaction) => (

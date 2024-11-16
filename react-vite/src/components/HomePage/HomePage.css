@@ -1,6 +1,23 @@
 /* --------------------[Profile Page (Logged In) Definitions]-------------------- */
 @media screen and (min-width: 1280px) { #profile-main { max-width: 1280px; } }
 @media screen and (min-width: 1620px) { #profile-main { max-width: 80%; } }
+
+.profile-module {
+    border: 1px solid #CCFF00;
+    border-radius: 6px;
+    min-width: 100%;
+}
+.profile-module__title {
+    background-color: #CCFF00;
+    box-sizing: border-box;
+    color: black;
+    font-size: x-large;
+    /* Alongside the 20px left padding, replace the auto margin with padding
+       so that background-color applies to the entire area  */
+    margin: 0;
+    padding: 18.72px 0 18.72px 20px;
+}
+
 #profile-main {
     column-gap: 2%;
     display: grid;
