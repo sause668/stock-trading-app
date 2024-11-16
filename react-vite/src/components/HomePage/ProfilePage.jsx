@@ -1,128 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { OrderModule, PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
-import Transactions from "../Transactions"; 
-
+import { PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
 import { getUserStocks } from "../../redux/stock";
+import { getCurrentPortfolio } from "../../redux/portfolio";
 import { fetchWatchlists } from "../../redux/watchlist";
+import "./Modules/Modules.css";
 import "./StockList.css";
 
 /** 
  * ### Profile Page Component
  * Displays a page containing *user information* whilst in the **logged in** state.
+ * 
+ * The Profile Page is comprised of three modules split into two sides of the page. 
+ * Two modules make up the left side of the page, and the third occupies the right 
+ * side. The end goal is for this page to be the all-in-one information center that
+ * keeps the user up-to-date on all of their activity within the service.
  */
 export default function ProfilePage({ user }) {
     const dispatch = useDispatch();
-    const [portfolio, setPortfolio] = useState(null);
 
     useEffect(() => {
         if (user) {
             dispatch(getUserStocks());
             dispatch(fetchWatchlists());
-            fetchPortfolio(); // Fetch portfolio data
+            dispatch(getCurrentPortfolio());
         } else {
             console.error("Profile page loaded without a logged-in user!");
         }
     }, [dispatch, user]);
-
-    const fetchPortfolio = async () => {
-        const res = await fetch("/api/portfolio");
-        if (res.ok) {
-            const data = await res.json();
-            setPortfolio(data);
-        } else {
-            console.error("Failed to fetch portfolio");
-        }
-    };
-
-    const updatePortfolioBalance = async (addAmount) => {
-        const res = await fetch(`/api/portfolio`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ addAmount }),
-        });
-
-        if (res.ok) {
-            const updatedPortfolio = await res.json();
-            setPortfolio(updatedPortfolio);
-        } else {
-            console.error("Failed to update portfolio balance");
-        }
-    };
 
     return (
         <main id="profile-main">
             <h1>Investing</h1>
 
             <section id="profile-left">
-                <OrderModule user={user} />
-                <TransactionModule user={user} />
-                <Transactions />
+                <PortfolioModule />
+                <TransactionModule />
             </section>
 
             <section id="profile-right">
-                <PortfolioModule portfolio={portfolio} updatePortfolioBalance={updatePortfolioBalance} />
                 <WatchlistModule user={user} />
             </section>
         </main>
     );
 }
-
-
-// import { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { OrderModule, PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
-// import Transactions from "../Transactions"; 
-
-// import { getUserStocks } from "../../redux/stock";
-// import { fetchWatchlists } from "../../redux/watchlist";
-// import "./StockList.css";
-
-// /** 
-//  * ### Profile Page Component
-//  * Displays a page containing *user information* whilst in the **logged in** state.
-//  * 
-//  * The page is split into two halves. The left half manages the user's Orders and Transactions.
-//  * The right half manages the user's Portfolio (owned stock list) and existing Watchlists.
-//  */
-// export default function ProfilePage({ user }) {
-//     const dispatch = useDispatch();
-//     const [portfolio, setPortfolio] = useState(null);
-
-//     useEffect(() => {
-//         if (user) {
-//             dispatch(getUserStocks());
-//             dispatch(fetchWatchlists());
-//             fetchPortfolio(); // Fetch portfolio data
-//         } else {
-//             console.error("Profile page loaded without a logged-in user!");
-//         }
-//     }, [dispatch, user]);
-
-//     const fetchPortfolio = async () => {
-//         const res = await fetch("/api/portfolio");
-//         if (res.ok) {
-//             const data = await res.json();
-//             setPortfolio(data);
-//         } else {
-//             console.error("Failed to fetch portfolio");
-//         }
-//     };
-
-//     return (
-//         <main id="profile-main">
-//             <h1>Investing</h1>
-
-//             <section id="profile-left">
-//                 <OrderModule user={user} />
-//                 <TransactionModule user={user} />
-//                 <Transactions />
-//             </section>
-
-//             <section id="profile-right">
-//                 <PortfolioModule portfolio={portfolio} fetchPortfolio={fetchPortfolio} />
-//                 <WatchlistModule user={user} />
-//             </section>
-//         </main>
-//     );
-// }

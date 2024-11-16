@@ -38,12 +38,6 @@ const updatePortfolio = (portfolio) => ({
 });
 
 
-// //remove portfolio from store
-// export const clearPortfolioDetails = () => {
-//     state.portfolio = null
-// }
-
-
 // delete user portfolio action thunk
 export const deletePortfolio = (portfolioId) => async (dispatch) => {
     const res = await csrfFetch('/api/portfolio', {
@@ -55,16 +49,13 @@ export const deletePortfolio = (portfolioId) => async (dispatch) => {
 }
 
 // get current user portfolio action thunk
-export const userPortfolio = () => async (dispatch) => {
-
-    const res = await csrfFetch(`/api/portfolio`)
+export const getCurrentPortfolio = () => async (dispatch) => {
+    const res = await csrfFetch("/api/portfolio");
     if (!res.ok) {
         const errorData = await res.json()
         if (errorData.message === "Portfolio not found") {
             dispatch(getUserPorfolio({}));
-        } else {
-            throw new Error(errorData.message || "Failed to fetch portfolio");
-        }
+        } else throw new Error(errorData.message || "Failed to fetch portfolio");
     } else {
         const data = await res.json();
         dispatch(getUserPorfolio(data));
@@ -109,7 +100,7 @@ export const newPortfolio = (portfolioData) => async (dispatch) => {
 export const editPortfolio = (portfolioData) => async (dispatch) => {
     console.log(portfolioData, 'from update')
     const { addAmount } = portfolioData
-    let res = await csrfFetch(`/api/portfolio`, {
+    let res = await csrfFetch("/api/portfolio", {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

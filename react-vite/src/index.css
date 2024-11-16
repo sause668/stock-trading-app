@@ -1,4 +1,16 @@
+/* Imports Roboto font for site text */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* Colors:
+   Neutral Dark: #181a1b
+   Neutral Light: #e8e6e3
+   Robinhood Green+ #ccff00
+ */
+
 body {
+    background-color: #181a1b;
+    color: #e8e6e3;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     min-width: 950px;
 }
