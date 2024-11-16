@@ -5,7 +5,7 @@ from sqlalchemy.sql import text
 
 def seed_portfolios():
     # Create sample portfolio entries for users with IDs 1,2, and 3
-    portfolio1 = Portfolio(user_id=1, money=10000.00)
+    portfolio1 = Portfolio(user_id=1, money=7994.73)
     portfolio2 = Portfolio(user_id=2, money=5000.00)
     portfolio3 = Portfolio(user_id=3, money=7500.00)
 

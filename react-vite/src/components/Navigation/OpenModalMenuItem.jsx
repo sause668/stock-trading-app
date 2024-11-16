@@ -1,4 +1,5 @@
 import { useModal } from '../../context/Modal';
+import "./Navigation.css";
 
 function OpenModalMenuItem({
   modalComponent, // component to render inside the modal
@@ -15,7 +16,7 @@ function OpenModalMenuItem({
   };
 
   return (
-    <li onClick={onClick} className='modal-li'>{itemText}</li>
+    <div onClick={onClick} className='profileListItem listModal'>{itemText}</div>
   );
 }
 
