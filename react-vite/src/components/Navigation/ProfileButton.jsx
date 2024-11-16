@@ -7,6 +7,7 @@ import { removeWatchlistState } from "../../redux/watchlist";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormPage/LoginFormModal";
 import SignupFormModal from "../SignupFormPage/SignupFormModal";
+import { MdLogout } from "react-icons/md";
 
 function ProfileButton() {
   const dispatch = useDispatch();

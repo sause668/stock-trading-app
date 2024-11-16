@@ -2,7 +2,7 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 import requests
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 from ..models import db
 from ..models.stock import Stock
 from decimal import Decimal
@@ -109,7 +109,7 @@ def buy_stocks(symb):
                 action='buy',
                 amount=amt,
                 price=value,
-                date_created=today
+                date_created=datetime.now()
             )
             db.session.add(transaction)
             db.session.commit()
@@ -128,7 +128,7 @@ def buy_stocks(symb):
                 action=action,
                 amount=amt,
                 price=value,
-                date_created=today
+                date_created=datetime.now()
             )
             if action == 'buy':
                 u_stock.amount += amt          
@@ -183,7 +183,7 @@ def sell_stocks(symb):
             action='sell',
             amount=stock.amount,
             price=stock_data['afterHours'],
-            date_created=date.today()
+            date_created=datetime.now()
         )
         db.session.add(transaction)
         db.session.delete(stock)

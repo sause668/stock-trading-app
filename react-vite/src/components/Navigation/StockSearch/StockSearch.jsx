@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
 
 const StockSearch = () => {
     const navigate = useNavigate();
@@ -17,15 +18,16 @@ const StockSearch = () => {
     }
   
  return (
-    <form onSubmit={handleSubmit}>
-        <label htmlFor="stock"></label>
+    <form onSubmit={handleSubmit} >
+        <label htmlFor="stock-search"></label>
         <input
+            id="stock-search"
             name='stock'
             type="text"
             placeholder="Enter Stock Symbol"
             value={stock}
             onChange={updateStock} />
-        <button type="submit" className="nav-btn">Search Stock</button>
+        <button type="submit" className="nav-btn"><FaSearch/></button>
     </form>
   )
 };
