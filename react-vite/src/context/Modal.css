@@ -25,4 +25,7 @@
 }
 #modal-content > h1 {
   margin-top: 0;
+  background-color: black;
+  border-radius: 20px;
+  border: 1px solid #CCFF00;
 }
