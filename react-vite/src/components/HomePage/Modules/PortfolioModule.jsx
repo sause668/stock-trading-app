@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentPortfolio, editPortfolio } from "../../../redux/portfolio";
 import { Divider, SingleStock } from "./StockListHelpers";
 
 /**
  * ### Portfolio Module
+ * Intended only for use within the `ProfilePage` component.
+ * 
  * Displays a list of owned stocks and provides the ability to update portfolio balance.
  */
-export default function PortfolioModule({ updatePortfolioBalance }) {
+export default function PortfolioModule() {
+    const dispatch = useDispatch();
     const portfolio = useSelector((state) => state.portfolio);
     const stocks = useSelector((state) => state.stock.stocks);
     const [addAmount, setAddAmount] = useState("");
@@ -14,7 +18,8 @@ export default function PortfolioModule({ updatePortfolioBalance }) {
     const handleAddFunds = async (e) => {
         e.preventDefault();
         if (addAmount) {
-            await updatePortfolioBalance(parseFloat(addAmount));
+            dispatch(editPortfolio({"addAmount": parseFloat(addAmount)}))
+            .then(() => dispatch(getCurrentPortfolio()));
             setAddAmount(""); // Clear input after submission
         }
     };
