@@ -1,12 +1,13 @@
-import { useSelector } from "react-redux";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Divider, SingleStock } from "./StockListHelpers";
 
 /**
  * ### Portfolio Module
  * Displays a list of owned stocks and provides the ability to update portfolio balance.
  */
-export default function PortfolioModule({ portfolio, updatePortfolioBalance }) {
+export default function PortfolioModule({ updatePortfolioBalance }) {
+    const portfolio = useSelector((state) => state.portfolio);
     const stocks = useSelector((state) => state.stock.stocks);
     const [addAmount, setAddAmount] = useState("");
 

@@ -19,21 +19,11 @@ export default function ProfilePage({ user }) {
         if (user) {
             dispatch(getUserStocks());
             dispatch(fetchWatchlists());
-            fetchPortfolio(); // Fetch portfolio data
+            dispatch(getCurrentPortfolio());
         } else {
             console.error("Profile page loaded without a logged-in user!");
         }
     }, [dispatch, user]);
-
-    const fetchPortfolio = async () => {
-        const res = await fetch("/api/portfolio");
-        if (res.ok) {
-            const data = await res.json();
-            setPortfolio(data);
-        } else {
-            console.error("Failed to fetch portfolio");
-        }
-    };
 
     const updatePortfolioBalance = async (addAmount) => {
         const res = await fetch(`/api/portfolio`, {
@@ -57,7 +47,7 @@ export default function ProfilePage({ user }) {
             <section id="profile-left">
                 <TransactionModule user={user} />
                 <Transactions />
-                <PortfolioModule portfolio={portfolio} updatePortfolioBalance={updatePortfolioBalance} />
+                <PortfolioModule updatePortfolioBalance={updatePortfolioBalance} />
             </section>
 
             <section id="profile-right">
