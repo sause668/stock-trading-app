@@ -34,10 +34,14 @@ export default function TransactionModule() {
  * displayed on the page.
  */
 function SingleTransaction({ transaction }) {
+    const formatter = Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD"
+    });
     return (<div className="profile-transaction-record">
         <p>
             {transaction.stock}:
-            <span className="profile-transaction__prc">${transaction.price}</span>
+            <span className="profile-transaction__prc">{formatter.format(transaction.price)}</span>
             <span className="profile-transaction__act">{transaction.action}</span>
             {transaction.amount}<span className="profile-transaction__amt"> shares</span>
             {new Date(transaction.date_created).toLocaleString('en-US', { timeZone: "GMT" })}
