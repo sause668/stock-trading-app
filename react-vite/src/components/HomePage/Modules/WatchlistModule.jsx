@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { BsPlus } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { BiSolidPencil } from "react-icons/bi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { Divider, SingleStock } from "./StockListHelpers";
+import SingleStock from "./SingleStock";
 
 
 import CreateWatchListForm from "./CreateWatchlistForm";
@@ -15,35 +16,41 @@ import OpenModalButton from "../../OpenModalButton";
  * Displays the current user's created watchlists as dropdown menus that can show the stocks within.
  * @param user The user data passed in from the parent.
  */
-
-
 export default function WatchlistModule() {
-
+    const [watchlists, setWatchlists] = useState([]);
     // Grab the current user's watchlist state.
-    // If the state has not yet loaded, show loading text in place of the module.
-    // Once loaded, grab the necessary slice.
-    // TODO loading is a failsafe, usually only lasts a millisecond; maybe find way to force state load before render
-    const watchlistState = useSelector((state) => state.watchlist);
-    if(!watchlistState.watchlists) return <h3 style={{marginLeft: "20px"}}>Loading...</h3>
-    const watchlists = watchlistState.watchlists;
+    const watchlistState = useSelector((state) => state.watchlist.watchlists);
     
+    // This slice of state usually takes a few seconds to load. This useEffect prevents the page
+    // from crashing in the meantime, and grabs the watchlist state once it's ready to go.
+    useEffect(() => {
+        setWatchlists(watchlistState);
+    }, [watchlistState]);
 
-    return (<div className="profile-stock-list" id="profile-right__watchlist">
-        <div className="psl-section-head">
-            <h3>Lists</h3>
-            {/* This is the add button to create a new watchlist. Fill out its functionality as needed. */}
-            <div className="psl-btn" id="psl-btn-add" >
+    return (<div id="profile-right__watchlist" className="profile-module">
+        <div id="profile-watchlist__head" className="profile-module__title">
+            <h3>Watchlists</h3>
+            {/* This is the add button to create a new watchlist. */}
+            <div>
                 <OpenModalButton
-                    buttonText={<BsPlus />}
+                    buttonText={<IoIosAddCircleOutline />}
                     modalComponent={<CreateWatchListForm />}
-                /></div>
+                />
+            </div>
         </div>
-
-        <Divider />
-        {/* Watchlist code goes here. 
-            Note: Use the SingleStock component to represent the stocks on each watchlist. */}
-        {watchlists?.map((list) => <SingleWatchlist key={list.id} list={list} />)}
-
+        <div id="profile-watchlist__body">
+            {/* If the watchlists */}
+            {watchlists
+                ? watchlists.map((list) => <SingleWatchlist key={list.id} list={list} />)
+                : (<>
+                    <h3>Loading...</h3>
+                    <p>
+                        If loading persists, you may not have a watchlist yet. Use the Create
+                        Watchlist button above to make one!
+                    </p>
+                </>)
+            }
+        </div>
     </div>)
 }
 
@@ -51,8 +58,6 @@ export default function WatchlistModule() {
  * ### Single Watchlist
  * The primary reason why a single watchlist has been abstracted into its own component is to allow for
  * each list to control itself whilst maintaining code readability.
- * 
- *! **Known Issue**: There is no way to prevent the appearance of a <Divider> after the last watchlist.
  * 
  * @param list List data passed in from the watchlist state.
  */
@@ -62,18 +67,22 @@ function SingleWatchlist({ list }) {
     const [visible, setVisible] = useState(list.id === 1);
 
     // Create a dynamic className for the visibility of the list.
-    const watchlistClassName = "psl-btn" + (visible ? "" : " psl-list-hidden");
+    const watchlistBtnClassName = "profile-watchlist-visibility-toggle" + (visible ? "" : " profile-watchlist-hidden");
 
-    return (<div className="psl-watchlist">
-        <div className="psl-watchlist__head">
-            <h4>{list.name}</h4>
-            <button className={watchlistClassName} onClick={() => setVisible(!visible)}>
+    return (<div className="profile-watchlist__list">
+        <div className="profile-single-wl-head">
+            <div>
+                <h4>{list.name}</h4>
+                {/* This is the watchlist edit button. The "remove stock from watchlist" button is inside SingleStock. */}
+                <button><BiSolidPencil /></button>
+            </div>
+            
+            <button className={watchlistBtnClassName} onClick={() => setVisible(!visible)}>
                 {visible ? <FaAngleUp /> : <FaAngleDown />}
             </button>
         </div>
-        <div className="psl-watchlist__body">
-            {visible ? list?.watchlist_stocks.map((stock) => <SingleStock key={stock.id} stock={stock} />) : <></>}
+        <div className="profile-watchlist__stock">
+            {visible ? list?.watchlist_stocks.map((stock) => <SingleStock key={stock.id} mode="watchlist" stock={stock} />) : <></>}
         </div>
-        <Divider />
     </div>)
 }

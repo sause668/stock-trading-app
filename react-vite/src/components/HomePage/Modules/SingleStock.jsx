@@ -1,13 +1,7 @@
 /** The below "components" are helpers for code that would otherwise have been repeated a lot in the Stock List
     on the right side of the profile page. Not to be included in the re-exporter for HomePage. */
-import { MdDeleteForever } from "react-icons/md";
+import { FaMinus } from "react-icons/fa";
 import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
-
-/** 
- * ### Divider Helper Component 
- * Acts as a line divider for the parent list. Cleans up a repeated line in the module itself. 
- */
-export const Divider = () => <div className="psl-divider" />
 
 /**
  * ### Single Stock Helper Component
@@ -16,7 +10,7 @@ export const Divider = () => <div className="psl-divider" />
  * @param {object} stock The stock data to pass in.
  * @returns 
  */
-export function SingleStock({ mode, stock }) {
+export default function SingleStock({ mode, stock }) {
     // Set the stock's class based on its mode.
     const className = mode === "portfolio" 
         ? "profile-portfolio-stock"
@@ -29,7 +23,7 @@ export function SingleStock({ mode, stock }) {
         else if(diff < 0) return "red";
         else return "yellow"; // TODO probably just white instead
     })();
-
+    // Using that color value, determine what trend symbol should be displayed next to the stock.
     stock.arrow = (() => {
         switch(stock.color) {
             case "lawngreen":
@@ -40,29 +34,19 @@ export function SingleStock({ mode, stock }) {
                 return <TiArrowSortedDown />;
         }
     })();
+    // Calculate the value trend for the stock.
+    stock.trend = (() => {
+        const trend = (stock.newValue - stock.value) / stock.value;
+        return trend.toFixed(2);
+    })();
 
     return (<div className={className}>
         <p>
             {stock.name}:
             <span className="profile-stock__val" style={{color: stock.color}}>{stock.arrow}${stock.value}</span>
-            {stock.amount}<span className="profile-stock__amt"> shares</span>
+            {mode === "portfolio" ? <>{stock.amount}<span className="profile-stock__amt"> shares</span></> : ""}
         </p>
+        {/* This is the "delete stock from watchlist" button. Obviously, only appears in watchlist mode. */}
+        {mode === "watchlist" ? <button><FaMinus /></button> : <></>}
     </div>)
 }
-
-/**
- *         <div className="psl-stock__info-ctrl">
-            <h5>{stock.name}</h5>
-            {stock.color
-                ? <button className="psl-btn"><MdDeleteForever /></button> 
-                : <></>
-            }
-        </div>
-        <div className="psl-stock__trend">
-            <p className="psl-stock__val">${stockVal}</p>
-            {/* <p className="psl-stock__prc" style={{color: stockCol}}>
-                {stockArrow}
-                {stockPrc}%
-            </p> }
-            </div>
- */
