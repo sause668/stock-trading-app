@@ -43,7 +43,7 @@ export function SingleStock({ mode, stock }) {
 
     return (<div className={className}>
         <p>
-            {stock.name}: {'   '}
+            {stock.name}:
             <span className="profile-stock__val" style={{color: stock.color}}>{stock.arrow}${stock.value}</span>
             {stock.amount}<span className="profile-stock__amt"> shares</span>
         </p>

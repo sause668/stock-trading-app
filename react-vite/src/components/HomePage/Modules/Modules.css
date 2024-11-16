@@ -65,7 +65,7 @@
     padding: 10px 12px;
 }
 .profile-portfolio-stock > p { margin: 0; }
-.profile-stock__val { margin-right: 30px; }
+.profile-stock__val { margin: 0 30px 0 10px; }
 .profile-stock__amt { font-size: medium; }
 
 
