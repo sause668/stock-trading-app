@@ -8,7 +8,10 @@ function Navigation() {
   return (
     <ul className="nav">
       <li id='logo'>
-        <NavLink to="/"><SiRobinhood /></NavLink>
+        <NavLink to="/">
+        <img src="/favicon.ico" alt="Logo" />
+        
+        </NavLink>
       </li>
       <li>
         <StockSearch />
