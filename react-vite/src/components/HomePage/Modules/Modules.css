@@ -97,6 +97,8 @@
     padding-top: 2px; 
 }
 #profile-watchlist__head > div > button { 
+    background: none;
+    color: black;
     font-size: 22px; 
     padding: 9px 0 0 0;
 }
