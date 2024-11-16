@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
 import { getUserStocks } from "../../redux/stock";
 import { getCurrentPortfolio } from "../../redux/portfolio";
+import { getTransactionsThunk } from "../../redux/transactionThunks";
 import { fetchWatchlists } from "../../redux/watchlist";
 import "./Modules/Modules.css";
 import "./StockList.css";
@@ -18,12 +19,13 @@ import "./StockList.css";
  */
 export default function ProfilePage({ user }) {
     const dispatch = useDispatch();
-
+    
     useEffect(() => {
         if (user) {
-            dispatch(getUserStocks());
             dispatch(fetchWatchlists());
             dispatch(getCurrentPortfolio());
+            dispatch(getTransactionsThunk());
+            dispatch(getUserStocks());
         } else {
             console.error("Profile page loaded without a logged-in user!");
         }
