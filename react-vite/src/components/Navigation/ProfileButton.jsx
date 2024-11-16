@@ -55,17 +55,10 @@ function ProfileButton() {
             <>
               <div className='profileList'>
                   <p className='profileListItem'>Hello, {user.username}</p>
+                  <p id='profileListBorder'/>
                   <p className='profileListItem'>{user.email}</p>
               </div>
               <p id='profileListBorder'/>
-              {/* <div className='profileList'>
-                  <p className='profileListItem'>
-                  <NavLink className='profileLink' to={'/spots/current'} onClick={closeMenu}>Manage Spots</NavLink>
-                  </p>
-                  <p className='profileListItem'>
-                      <NavLink className='profileLink' to={'/reviews/current'} onClick={closeMenu}>Manage Reviews</NavLink>
-                  </p>
-              </div> */}
               <div>
                 <button id='logoutButton' onClick={logout}>Log Out</button>
               </div>

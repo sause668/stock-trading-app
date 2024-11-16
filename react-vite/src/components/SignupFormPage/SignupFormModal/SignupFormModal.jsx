@@ -54,7 +54,7 @@ function SignupFormModal() {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          {/* {errors.email && <p className='labelTitle error'>{errors.email}</p>} */}
+          {errors.email && <p className='labelTitle error'>{errors.email}</p>}
         </div>
         {/* Username */}
         <div className='inputCon'>
@@ -70,7 +70,7 @@ function SignupFormModal() {
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-          {/* {errors.username && <p className='labelTitle error'>{errors.username}</p>} */}
+          {errors.username && <p className='labelTitle error'>{errors.username}</p>}
         </div>
         {/* Password */}
         <div className='inputCon'>
@@ -84,7 +84,7 @@ function SignupFormModal() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {/* {errors.password && <p className='labelTitle error'>{errors.password}</p>} */}
+          {errors.password && <p className='labelTitle error'>{errors.password}</p>}
         </div>
         {/* Confirm Password */}
         <div className='inputCon'>
@@ -98,9 +98,9 @@ function SignupFormModal() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-          {/* {errors.confirmPassword && (
+          {errors.confirmPassword && (
             <p className='labelTitle error'>{errors.confirmPassword}</p>
-          )} */}
+          )}
         </div>
         
         <button 
