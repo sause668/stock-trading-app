@@ -2,8 +2,8 @@
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    margin-left: 12.5%;
-    width: 55%;
+    margin-left: 10%;
+    width: 60%;
 }
 
 img.stock-company-icon {
@@ -51,9 +51,9 @@ img.stock-company-icon {
 .buy-sell {
     position: fixed;
     top: 200px;
-    left: 70%;
+    right: 10%;
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Far shadow */ 
                 5px 5px 10px rgba(0, 0, 0, 0.3); /* Near shadow */
     padding: 15px;
@@ -92,10 +92,6 @@ img.stock-company-icon {
 .stock-chart {
     display: flex;
     flex-grow: 1;
-}
-
-.chart-container {
-    min-height: 500px;
 }
 
 .key-stats {

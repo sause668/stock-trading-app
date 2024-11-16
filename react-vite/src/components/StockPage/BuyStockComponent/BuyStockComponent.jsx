@@ -41,11 +41,12 @@ const BuyStock = (props) => {
     }
 
   return (
-    <div className="buy-stock">
+    <div className="buy-stock" >
             <h3>Buy {stock.symbol}</h3>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
             <label htmlFor="purchase"></label>
             <input
+            id="purchase"
             placeholder="shares to purchase"
             name='purchase'
             type="number"
