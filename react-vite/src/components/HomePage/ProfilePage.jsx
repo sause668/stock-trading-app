@@ -57,10 +57,10 @@ export default function ProfilePage({ user }) {
             <section id="profile-left">
                 <TransactionModule user={user} />
                 <Transactions />
+                <PortfolioModule portfolio={portfolio} updatePortfolioBalance={updatePortfolioBalance} />
             </section>
 
             <section id="profile-right">
-                <PortfolioModule portfolio={portfolio} updatePortfolioBalance={updatePortfolioBalance} />
                 <WatchlistModule user={user} />
             </section>
         </main>
