@@ -59,34 +59,43 @@ img.stock-company-icon {
     padding: 15px;
     width: fit-content;
     min-width: 200px;
+    background-color: white;
 }
+
 .buy-sell form {
     display: flex;
     flex-direction: column;
     padding: 2px;
 }
+
 .buy-sell * {
     margin: 5px;
 }
 
-.sell-stock h3{
-   align-self: flex-end;
-}
-
-.invisible{
-    display: none;
-}
-.visible{
-    display: flex;
-}
-
 #related {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+}
+
+#related li:first-child {
+    border-left: none;
 }
 
 #related li {
-    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+    border-left: 1px solid black;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+#related h3 {
+   align-self: center;
+}
+
+#related a{
+    align-self: center;
 }
 
 .stock-chart {
@@ -94,16 +103,22 @@ img.stock-company-icon {
     flex-grow: 1;
 }
 
+.chart-container {
+    min-height: 500px;
+}
+ 
 .key-stats {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     border-bottom: 1px solid black;
+    padding-bottom: 10px;
     justify-content: space-between;
 }
 
 .key-stats p {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .key-stats span {
@@ -116,17 +131,20 @@ img.stock-company-icon {
     border-radius: 5px;
     font-size: 16px;
     padding: 12px 30px;
-    background-color: #CCFF00;
+    color: #CCFF00;
+    background-color: black;
 }
 
 .red .btn{
-    color: red;
-    border: 2px solid red;
+    background-color: red;
+    color: black;
+    /* border: 2px solid red; */
 }
 
 .green .btn{
-    color:rgb(0, 186, 0);
-    border: 2px solid rgb(0, 186, 0);
+    background-color: #CCFF00;
+    color: black;
+    /* border: 2px solid rgb(0, 186, 0); */
 }
 
 #about {
@@ -151,4 +169,37 @@ img.stock-company-icon {
 
 #about-heading > h3 {
     flex-grow: 1;
+}
+
+#related a {
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+}
+
+a:hover {
+    background-color: #CCFF00;
+}
+
+a {
+    text-decoration: none;
+    color: black; 
+}
+   
+#about a {
+    padding: 0px 5px 5px 5px; ;
+}
+
+@media screen and (max-width:1200px){
+    #stock-page {
+        margin-left: 5%;
+    }
+    .buy-sell {
+        right: 5%;
+    }
+    .chart-container {
+        max-height: 350px;
+    }
+
+
 }

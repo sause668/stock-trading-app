@@ -50,6 +50,7 @@ form input {
   border: 0px;
   padding-left: 10px;
 }
+
 form input:hover {
   background-color: white;
 }
@@ -62,4 +63,33 @@ form input:hover {
 
 .nav-btn:active, .btn:active {
   box-shadow: none;
+}
+
+.profile-dropdown {
+  padding-left: 0px;
+  background-color: white;
+  margin-top: 10px;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2)
+}
+
+.modal-li {
+  padding: 15px;
+  background-color: white;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.modal-li:hover {
+  cursor: pointer;
+  background-color:#CCFF00;
+}
+
+.profile-li {
+  padding: 5px
 }

@@ -7,6 +7,7 @@ import { removeWatchlistState } from "../../redux/watchlist";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormPage/LoginFormModal";
 import SignupFormModal from "../SignupFormPage/SignupFormModal";
+import { MdLogout } from "react-icons/md";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -52,11 +53,9 @@ function ProfileButton() {
         <ul className={"profile-dropdown"} ref={ulRef}>
           {user ? (
             <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <li>
-                <button onClick={logout} className="nav-btn">Log Out</button>
-              </li>
+              <li className="profile-li">{user.username}</li>
+              <li className="profile-li">{user.email}</li>
+              <li onClick={logout} className="modal-li"><MdLogout/>  Log Out</li>
             </>
           ) : (
             <>

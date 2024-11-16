@@ -43,7 +43,7 @@ function StockChart({ chartData }) {
             intersect: false,
           },
           responsive: true,
-          maintainAspectRatio: true
+          maintainAspectRatio: false
         }}
         reload='true'
       />
