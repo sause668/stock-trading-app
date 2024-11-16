@@ -4,6 +4,9 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { Divider, SingleStock } from "./StockListHelpers";
 
+import CreateWatchListForm from "./CreateWatchlistForm";
+import OpenModalButton from "../../OpenModalButton";
+
 /**
  * ### Watchlist Module
  * Intended only for use within the `ProfilePage` component.
@@ -11,6 +14,8 @@ import { Divider, SingleStock } from "./StockListHelpers";
  * Displays the current user's created watchlists as dropdown menus that can show the stocks within.
  * @param user The user data passed in from the parent.
  */
+
+
 export default function WatchlistModule() {
 
     // Grab the current user's watchlist state.
@@ -18,15 +23,20 @@ export default function WatchlistModule() {
     // Once loaded, grab the necessary slice.
     // TODO loading is a failsafe, usually only lasts a millisecond; maybe find way to force state load before render
     const watchlistState = useSelector((state) => state.watchlist);
-    if(!watchlistState.watchlists?.Watchlists) return <h3 style={{marginLeft: "20px"}}>Loading...</h3>
+    if (!watchlistState.watchlists?.Watchlists) return <h3 style={{ marginLeft: "20px" }}>Loading...</h3>
     const watchlists = watchlistState.watchlists.Watchlists;
 
     return (<div className="profile-stock-list" id="profile-right__watchlist">
         <div className="psl-section-head">
             <h3>Lists</h3>
             {/* This is the add button to create a new watchlist. Fill out its functionality as needed. */}
-            <button className="psl-btn" id="psl-btn-add"><BsPlus /></button>
+            <div className="psl-btn" id="psl-btn-add" >
+                <OpenModalButton
+                    buttonText={<BsPlus />}
+                    modalComponent={<CreateWatchListForm />}
+                /></div>
         </div>
+
         <Divider />
         {/* Watchlist code goes here. 
             Note: Use the SingleStock component to represent the stocks on each watchlist. */}
