@@ -7,11 +7,11 @@ import {BuyStock, SellStock} from "./BuyStockComponent"
 import { FaCaretUp, FaCaretDown } from "react-icons/fa6";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { convert, unavailable, addToWatchlist } from "./stockPageUtils";
+import { convert, unavailable } from "./stockPageUtils";
 import { fetchWatchlists } from "../../redux/watchlist";
-import "./StockPage.css"
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import AddtoWatchlistModal from "./AddtoWatchlistModal";
+import "./StockPage.css"
 
 
 Chart.register(CategoryScale);
@@ -25,10 +25,8 @@ const StockPage = () => {
     const stockOwned = userStocks.find(s => s.name == stock?.symbol)
     const watchlists = useSelector(state => state.watchlist.watchlists)
     const [isLoaded, setIsLoaded] = useState(false);
-    const [aVisibility, setAVisibility] = useState('visible')
-    const [bVisibility, setBVisibility] = useState('invisible')
     const dispatch = useDispatch();
-
+    console.log(stockOwned)
     //load stock and user stocks
     useEffect(() => {
         dispatch(getStock(symb)).then(() => setIsLoaded(true))
@@ -76,10 +74,10 @@ const StockPage = () => {
             {/* if user logged in option to buy stock and add stock to watchlist available */}
             {user &&
               <div className="buy-sell">
-               <BuyStock stock={stock} ownedStock={stockOwned} className={aVisibility}/>
+               <BuyStock stock={stock} ownedStock={stockOwned} />
                {/* if stock owned by user option to sell stock available */}
                {stockOwned &&
-               <SellStock stock={stock} ownedStock={stockOwned} className={bVisibility}/> 
+               <SellStock stock={stock} ownedStock={stockOwned} /> 
                }
                {watchlists && 
                <OpenModalButton

@@ -17,9 +17,19 @@
   z-index: 99;
 }
 
-#logo {
-  scale: 1.75;
+
+#logo img {
+  width: 50px; 
+  height: 50px; 
+  object-fit: cover; 
+  border-radius: 50%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scale: 1
+
 }
+
 
 li#logo * {
   color: black;
@@ -50,6 +60,7 @@ form input {
   border: 0px;
   padding-left: 10px;
 }
+
 form input:hover {
   background-color: white;
 }

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
 import { createWatchlist } from "../../../redux/watchlist"
+import { useModal } from "../../../context/Modal"
 
 
 const CreateWatchListForm = () => {
@@ -11,6 +12,8 @@ const CreateWatchListForm = () => {
 
     const [name, setListName] = useState('')
     const [errors, setErrors] = useState({})
+    const {closeModal} = useModal();
+
 
 
     const handleClick = async (e) => {
@@ -27,7 +30,8 @@ const CreateWatchListForm = () => {
             })
         }
 
-        dispatch(createWatchlist(watchListname))
+        dispatch(createWatchlist(watchListname));
+        closeModal();
     }
 
     return (
@@ -38,6 +42,7 @@ const CreateWatchListForm = () => {
                     type="text"
                     value={name}
                     onChange={(e) => setListName(e.target.value)}
+                    placeholder="Enter watchlist name"
                 />
                 {errors.error && <p>{errors.error}</p>}
                 <button type="submit">Create List</button>

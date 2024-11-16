@@ -4,6 +4,7 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { Divider, SingleStock } from "./StockListHelpers";
 
+
 import CreateWatchListForm from "./CreateWatchlistForm";
 import OpenModalButton from "../../OpenModalButton";
 
@@ -25,6 +26,7 @@ export default function WatchlistModule() {
     const watchlistState = useSelector((state) => state.watchlist);
     if(!watchlistState.watchlists) return <h3 style={{marginLeft: "20px"}}>Loading...</h3>
     const watchlists = watchlistState.watchlists;
+    
 
     return (<div className="profile-stock-list" id="profile-right__watchlist">
         <div className="psl-section-head">

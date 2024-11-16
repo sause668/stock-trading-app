@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { sellStock, updateStock, getUserStocks } from "../../../redux/stock";
+import ConfirmationModal from "../../ConfirmationModal";
+
 
 
 const SellStock = (props) => {
     //get stock and user owned stocks from props
     const {stock, ownedStock} = props
     const dispatch = useDispatch()
-    const color = ownedStock.price > stock.afterHours? 'red': 'green'
+    const color = ownedStock.value > ownedStock.newValue? 'red': 'green'
     const [amt, setAmt] = useState('');
     const updateAmt = e => setAmt(e.target.value);
     
@@ -35,8 +37,9 @@ const SellStock = (props) => {
     <div className={`sell-stock buy-stock ${color}`}>
         <h3>Sell {stock.symbol}</h3>
         <form onSubmit={handleSubmit}>
-            <label htmlFor="purchase"></label>
+            <label htmlFor="sell"></label>
             <input
+            id="sell"
             placeholder="shares to sell"
             name='purchase'
             type="number"
