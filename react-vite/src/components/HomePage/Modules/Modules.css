@@ -1,5 +1,7 @@
 
-.transactions-container {
+
+/* Transactions Module */
+#profile-left__transactions {
     padding: 20px;
     background-color: #181a1b;
 }

@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
-import Transactions from "../Transactions"; 
-
 import { getUserStocks } from "../../redux/stock";
 import { getCurrentPortfolio } from "../../redux/portfolio";
 import { fetchWatchlists } from "../../redux/watchlist";
+import "./Modules/Modules.css";
 import "./StockList.css";
 
 /** 
@@ -30,9 +29,8 @@ export default function ProfilePage({ user }) {
             <h1>Investing</h1>
 
             <section id="profile-left">
-                <TransactionModule user={user} />
-                <Transactions />
                 <PortfolioModule />
+                <TransactionModule />
             </section>
 
             <section id="profile-right">
