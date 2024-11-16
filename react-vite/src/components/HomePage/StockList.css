@@ -33,7 +33,6 @@ div.psl-divider {
 .psl-stock__trend {
     text-align: end;
 }
-.psl-stock__val { margin: 10px auto 2px auto; }
 .psl-stock__prc { margin: 0 auto 0 auto; }
 
 .psl-watchlist__head { 

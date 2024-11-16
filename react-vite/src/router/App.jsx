@@ -4,8 +4,7 @@ import HomePage from '../components/HomePage';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import StockPage from '../components/StockPage';
-import Layout from './Layout'; 
-import Transactions from '../components/Transactions';
+import Layout from './Layout';
 
 // Create the route tree.
 export const router = createBrowserRouter([
@@ -37,11 +36,7 @@ export const router = createBrowserRouter([
             element: <StockPage />,
           }
         ]
-      },
-      {
-        path: "/transactions",  
-        element: <Transactions />,
       }
-    ],
-  },
+    ]
+  }
 ]);

@@ -13,29 +13,45 @@ export const Divider = () => <div className="psl-divider" />
  * ### Single Stock Helper Component
  * This component takes stock data and creates a pre-filled stock cell that nicely fits onto the list.
  * 
- * @param stock The stock data to pass in.
+ * @param {object} stock The stock data to pass in.
+ * @returns 
  */
-export function SingleStock({ stock }) {
-    const stockVal = (() => {
-        if(stock.value) return stock.value
-        else return stock.name;
+export function SingleStock({ mode, stock }) {
+    // Set the stock's class based on its mode.
+    const className = mode === "portfolio" 
+        ? "profile-portfolio-stock"
+        : "profile-watchlist-stock";
+
+    // Determine the stock value's text color based on whether the value has increased or decreased.
+    stock.color = (() => {
+        const diff = stock.newValue - stock.value;
+        if(diff > 0) return "lawngreen";
+        else if(diff < 0) return "red";
+        else return "yellow"; // TODO probably just white instead
     })();
 
-    // const stockPrc = (() => {
-    //     if(stock.value) return stock.value
-    //         .split("(")[1]
-    //         .split("%")[0];
-    //     else return stock.name;
-    // })();
-
-    // const stockCol = stock.color ? stock.color : "initial"
-    const stockArrow = (() => {
-        if(!stock.value) return <></>;
-        else return stock?.value[0] === "+" ? <TiArrowSortedUp /> : <TiArrowSortedDown />
+    stock.arrow = (() => {
+        switch(stock.color) {
+            case "lawngreen":
+                return <TiArrowSortedUp />;
+            case "yellow":
+                return <sup style={{marginRight: "2px"}}>~</sup>;
+            case "red":
+                return <TiArrowSortedDown />;
+        }
     })();
 
-    return (<div className="psl-stock">
-        <div className="psl-stock__info-ctrl">
+    return (<div className={className}>
+        <p>
+            {stock.name}: {'   '}
+            <span className="profile-stock__val" style={{color: stock.color}}>{stock.arrow}${stock.value}</span>
+            {stock.amount}<span className="profile-stock__amt"> shares</span>
+        </p>
+    </div>)
+}
+
+/**
+ *         <div className="psl-stock__info-ctrl">
             <h5>{stock.name}</h5>
             {stock.color
                 ? <button className="psl-btn"><MdDeleteForever /></button> 
@@ -47,7 +63,6 @@ export function SingleStock({ stock }) {
             {/* <p className="psl-stock__prc" style={{color: stockCol}}>
                 {stockArrow}
                 {stockPrc}%
-            </p> */}
-        </div>
-    </div>)
-}
+            </p> }
+            </div>
+ */
