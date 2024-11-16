@@ -6,7 +6,6 @@ import { getCurrentPortfolio } from "../../redux/portfolio";
 import { getTransactionsThunk } from "../../redux/transactionThunks";
 import { fetchWatchlists } from "../../redux/watchlist";
 import "./Modules/Modules.css";
-import "./StockList.css";
 
 /** 
  * ### Profile Page Component

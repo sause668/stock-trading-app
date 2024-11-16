@@ -1,8 +1,9 @@
-import { useState } from "react";
-import { BsPlus } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { BiSolidPencil } from "react-icons/bi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import { useSelector } from "react-redux";
-import { Divider, SingleStock } from "./StockListHelpers";
+import SingleStock from "./SingleStock";
 
 
 import CreateWatchListForm from "./CreateWatchlistForm";

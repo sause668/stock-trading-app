@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCurrentPortfolio, editPortfolio } from "../../../redux/portfolio";
-import { SingleStock } from "./StockListHelpers";
+import SingleStock from "./SingleStock";
 
 /**
  * ### Portfolio Module
