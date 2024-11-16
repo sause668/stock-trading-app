@@ -3,9 +3,9 @@ from sqlalchemy.sql import text
 
 def seed_stocks():
     # 
-    stock1 = Stock(portfolio_id=1, name="GME", amount=5, price=24.88)
-    stock2 = Stock(portfolio_id=1, name="AAPL", amount=2.5, price=226.96)
-    stock3 = Stock(portfolio_id=1, name="GOOGL", amount=3.75, price=178.35)
+    stock1 = Stock(portfolio_id=1, name="GME", amount=5, value=24.88)
+    stock2 = Stock(portfolio_id=1, name="AAPL", amount=2.5, value=226.96)
+    stock3 = Stock(portfolio_id=1, name="GOOGL", amount=3.75, value=178.35)
 
     # 
     db.session.add(stock1)

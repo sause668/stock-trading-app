@@ -25,7 +25,7 @@ const StockSearch = () => {
             placeholder="Enter Stock Symbol"
             value={stock}
             onChange={updateStock} />
-        <button type="submit">Search Stock</button>
+        <button type="submit" className="nav-btn">Search Stock</button>
     </form>
   )
 };

@@ -34,7 +34,7 @@ function StockChart({ chartData }) {
               display: false
             },
             y: {
-              display: false
+              display: true
             }
           },
           interaction: {
@@ -42,6 +42,8 @@ function StockChart({ chartData }) {
             axis: "xy",
             intersect: false,
           },
+          responsive: true,
+          maintainAspectRatio: true
         }}
         reload='true'
       />

@@ -26,7 +26,7 @@ class Stock(db.Model):
     name = db.Column(db.String(5), nullable=False, primary_key=True)
     portfolio_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("portfolios.id")), nullable=False, primary_key=True)
     amount = db.Column(DecimalAsString, nullable=False)
-    price = db.Column(DecimalAsString, nullable=False)
+    value = db.Column(DecimalAsString, nullable=False)
 
     # Relationship with Portfolio model
     portfolio = db.relationship("Portfolio", back_populates="stock")
@@ -36,5 +36,5 @@ class Stock(db.Model):
             "name": self.name,
             "portfolio_id": self.portfolio_id,
             "amount": self.amount,
-            "price": self.price
+            "value": self.value
         }

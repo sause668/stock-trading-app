@@ -1,3 +1,4 @@
+
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 import requests
@@ -41,7 +42,11 @@ def get_user_stocks():
     yesterday = safeDay(today)
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
     stocks = Stock.query.filter_by(portfolio_id=portfolio.id).all()
-    return jsonify([{"name": stock.name, "amount": stock.amount, "price": stock.price, "previousPrice": requests.get(f'https://api.polygon.io/v1/open-close/{stock.name}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()['afterHours']} for stock in stocks])
+    return jsonify([{"name": stock.name, 
+                     "amount": stock.amount, 
+                     "value": stock.value, 
+                     "newValue": requests.get(f'https://api.polygon.io/v1/open-close/{stock.name}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()['afterHours']}
+                     for stock in stocks])
 
 # Get stock data from Polygonio.io API, includes 7 calls to API for additional data and historical data
 @stock_routes.route('/<symb>')
@@ -49,9 +54,9 @@ def get_stocks(symb):
     symb = symb.upper()
     today = date.today()
     yesterday = safeDay(today)
-    try:
+    try: 
         stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        stock['ticker'] = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        stock['ticker'] = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?date=2024-11-08&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
         stock['related'] = requests.get(f'https://api.polygon.io/v1/related-companies/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
 
         day2 = safeDay(yesterday)
@@ -91,11 +96,11 @@ def buy_stocks(symb):
     if portfolio and stock_data['status'] == 'OK':
         data = request.get_json(force=True)
         amt = Decimal(data.get('amount'))
-        price = Decimal(stock_data['afterHours']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-        portfolio.money -= (amt * price).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        value = Decimal(stock_data['afterHours']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
         
         if request.method == 'POST':
-            p_stock = Stock(name=symb, portfolio_id=portfolio.id, amount=amt, price=price)
+            p_stock = Stock(name=symb, portfolio_id=portfolio.id, amount=amt, value=value)
+            portfolio.money -= (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
             db.session.add(p_stock)
             # Create transaction and add stock to portfolio
             transaction = Transaction(
@@ -103,7 +108,7 @@ def buy_stocks(symb):
                 stock=symb,
                 action='buy',
                 amount=amt,
-                price=price,
+                price=value,
                 date_created=today
             )
             db.session.add(transaction)
@@ -114,7 +119,7 @@ def buy_stocks(symb):
         elif request.method == 'PUT':
             u_stock = Stock.query.filter_by(portfolio_id=portfolio.id, name=symb).first()
             action = data.get('action')
-            u_stock.price = price
+            u_stock.value = value
             
             # Update portfolio stock and money depending on action and create transaction
             transaction = Transaction(
@@ -122,29 +127,31 @@ def buy_stocks(symb):
                 stock=symb,
                 action=action,
                 amount=amt,
-                price=price,
+                price=value,
                 date_created=today
             )
             if action == 'buy':
                 u_stock.amount += amt          
-                portfolio.money -= amt * price
+                portfolio.money -= (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
                 # Update the transaction log
                 db.session.add(transaction)
                 db.session.commit()
                 return jsonify(u_stock.to_dict())
-            if action == 'sell':
+            elif action == 'sell':
+                print(portfolio.money)
                 u_stock.amount -= amt          
-                portfolio.money += amt * price
+                portfolio.money += (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+                print(amt, value, portfolio.money)
                 # Update the transaction log
                 if u_stock.amount == 0:
                     db.session.delete(u_stock)
                 db.session.add(transaction)
                 db.session.commit()
-                if price > u_stock.price:
-                    return jsonify({"message": f"You made ${Decimal((price * u_stock.amount)-(price * u_stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
-                elif u_stock.price > price:
-                    return jsonify({"message": f"You lost ${Decimal((price * u_stock.amount)-(price * u_stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
-                elif price == u_stock.price:
+                if value > u_stock.value:
+                    return jsonify({"message": f"You made ${Decimal((value * u_stock.amount)-(value * u_stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+                elif u_stock.value > value:
+                    return jsonify({"message": f"You lost ${Decimal((value * u_stock.amount)-(value * u_stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+                elif value == u_stock.value:
                     return ({"message": "Stock sold at even value"})
     elif not portfolio:
         return jsonify({'message': 'Must create Portfolio first'}) 
@@ -166,8 +173,8 @@ def sell_stocks(symb):
     
     if stock:
         # Calculate the amount to credit to the portfolio on stock sale
-        sale_price = Decimal(stock_data['afterHours']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-        portfolio.money += (stock.amount * sale_price).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        sale_value = Decimal(stock_data['afterHours']).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+        portfolio.money += (stock.amount * sale_value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
         # Log transaction for selling the stock
         transaction = Transaction(
@@ -182,11 +189,11 @@ def sell_stocks(symb):
         db.session.delete(stock)
         db.session.commit()
         
-        if sale_price > stock.price:
-            return jsonify({"message": f"You made ${Decimal((sale_price * stock.amount)-(stock.price * stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
-        elif stock.price > sale_price:
-            return jsonify({"message": f"You lost ${Decimal((sale_price * stock.amount)-(stock.price * stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
-        elif sale_price == stock.price:
+        if sale_value > stock.value:
+            return jsonify({"message": f"You made ${Decimal((sale_value * stock.amount)-(stock.value * stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+        elif stock.value > sale_value:
+            return jsonify({"message": f"You lost ${Decimal((sale_value * stock.amount)-(stock.value * stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+        elif sale_value == stock.value:
             return ({"message": "Stock sold at even value"})
     
     return jsonify({"message": "Stock not found"}), 404

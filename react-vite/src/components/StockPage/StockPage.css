@@ -1,8 +1,9 @@
 #stock-page {
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    margin-left: 200px;
-    width: 1000px;
+    margin-left: 12.5%;
+    width: 55%;
 }
 
 img.stock-company-icon {
@@ -14,6 +15,24 @@ img.stock-company-icon {
 #title {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+}
+
+#price > h2 {
+    display: flex;
+    margin: 5px;
+    padding-left: 20px;
+}
+
+#price > p {
+    display: flex;
+    margin: 5px;
+    padding-left: 20px;
+}
+
+#title h1 {
+    display: flex;
+    margin: 5px;
 }
 
 #title img {
@@ -31,11 +50,15 @@ img.stock-company-icon {
 
 .buy-sell {
     position: fixed;
-    top: 300px;
-    left: 1250px;
+    top: 200px;
+    left: 70%;
     border: 1px solid black;
     border-radius: 10px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Far shadow */ 
+                5px 5px 10px rgba(0, 0, 0, 0.3); /* Near shadow */
     padding: 15px;
+    width: fit-content;
+    min-width: 200px;
 }
 .buy-sell form {
     display: flex;
@@ -43,7 +66,7 @@ img.stock-company-icon {
     padding: 2px;
 }
 .buy-sell * {
-    margin: 2px;
+    margin: 5px;
 }
 
 .sell-stock h3{
@@ -62,24 +85,31 @@ img.stock-company-icon {
     justify-content: space-between;
 }
 
-/* #related li {
-    padding-left: 15px;
-    padding-right: 15px;
-} */
+#related li {
+    padding-bottom: 50px;
+}
+
+.stock-chart {
+    display: flex;
+    flex-grow: 1;
+}
 
 .chart-container {
-    width: 1000px;
+    min-height: 500px;
 }
 
 .key-stats {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     border-bottom: 1px solid black;
+    justify-content: space-between;
 }
+
 .key-stats p {
     display: flex;
     flex-direction: column;
 }
+
 .key-stats span {
     font-weight: bold;
     padding-bottom: 2px;
@@ -87,12 +117,10 @@ img.stock-company-icon {
 
 .btn {
     border: none;
-    border-radius: 30px;
+    border-radius: 5px;
     font-size: 16px;
     padding: 12px 30px;
-}
-.btn:hover {
-    cursor: pointer;
+    background-color: #CCFF00;
 }
 
 .red .btn{
@@ -110,12 +138,21 @@ img.stock-company-icon {
     align-content: baseline;
 }
 
-#about h3 {
+#about h2 {
+    border-bottom: 1px solid black;
+}
+
+#about-heading {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
 }
 
-#about h2 {
-    border-bottom: 1px solid black;
+#about-heading > img{
+    flex-shrink: 1;
+    padding-right: 20px;
+}
+
+#about-heading > h3 {
+    flex-grow: 1;
 }

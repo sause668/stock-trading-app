@@ -4,8 +4,7 @@ import HomePage from '../components/HomePage';
 import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import StockPage from '../components/StockPage';
-import Layout from './Layout';
-import Watchlist from '../components/Watchlist';
+import Layout from './Layout'; 
 import Transactions from '../components/Transactions';
 
 // Create the route tree.
@@ -30,14 +29,14 @@ export const router = createBrowserRouter([
         element: <Outlet />,
         children: [
           {
+            path: "",
+            element: <h2 style={{"textAlign": "center"}}>Use the search bar above ⬆️ to search for a stock.</h2>
+          },
+          {
             path: ":symb",
             element: <StockPage />,
           }
         ]
-      },
-      {
-        path: "/watchlist",
-        element: <Watchlist />,
       },
       {
         path: "/transactions",  

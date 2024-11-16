@@ -23,8 +23,8 @@ export default function WatchlistModule() {
     // Once loaded, grab the necessary slice.
     // TODO loading is a failsafe, usually only lasts a millisecond; maybe find way to force state load before render
     const watchlistState = useSelector((state) => state.watchlist);
-    if (!watchlistState.watchlists?.Watchlists) return <h3 style={{ marginLeft: "20px" }}>Loading...</h3>
-    const watchlists = watchlistState.watchlists.Watchlists;
+    if(!watchlistState.watchlists) return <h3 style={{marginLeft: "20px"}}>Loading...</h3>
+    const watchlists = watchlistState.watchlists;
 
     return (<div className="profile-stock-list" id="profile-right__watchlist">
         <div className="psl-section-head">
