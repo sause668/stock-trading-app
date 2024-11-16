@@ -19,8 +19,13 @@
 }
 
 #modal-content {
+  background-color:#181a1b;
+  padding: 20px;
   position: absolute;
-  background-color:black;
+}
+#modal-content > h1 {
+  margin-top: 0;
+  background-color: black;
   border-radius: 20px;
   border: 1px solid #CCFF00;
 }

@@ -1,4 +1,5 @@
 import { csrfFetch } from './csrf';
+import { getCurrentPortfolio, newPortfolio } from './portfolio'; // Import portfolio thunks
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
@@ -12,7 +13,6 @@ const removeUser = () => ({
   type: REMOVE_USER
 });
 
-import { userPortfolio, newPortfolio } from './portfolio'; // Import portfolio thunks
 
 export const thunkAuthenticate = () => async (dispatch) => {
   const response = await csrfFetch("/api/auth/");
@@ -31,7 +31,7 @@ export const thunkAuthenticate = () => async (dispatch) => {
       await dispatch(newPortfolio({ initialBalance: 1000 })); // Default initial balance
     } else {
       const portfolioData = await portfolioResponse.json();
-      dispatch(userPortfolio(portfolioData));
+      dispatch(getCurrentPortfolio(portfolioData));
     }
   }
 };
