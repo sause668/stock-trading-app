@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import OpenModalButton from "../OpenModalButton";
 import SignupFormModal from "../SignupFormPage/SignupFormModal";
 
@@ -11,13 +10,6 @@ import SignupFormModal from "../SignupFormPage/SignupFormModal";
  * Please try to avoid modifying any of this unless it is absolutely needed.
  */
 export default function LandingPage() {
-    const ulRef = useRef();
-
-    const closeMenu = (e) => {
-        if (ulRef.current && !ulRef.current.contains(e.target)) {
-          setShowMenu(false);
-        }
-    };
 
     return (<main id="landing-main">
         {/* Container 1 */}
@@ -48,7 +40,6 @@ export default function LandingPage() {
                 </h2>
                 <OpenModalButton
                     buttonText="Sign up"
-                    onButtonClick={closeMenu}
                     modalComponent={<SignupFormModal />}
                 />
             </div>

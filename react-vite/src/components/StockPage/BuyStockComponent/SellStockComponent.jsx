@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { sellStock, updateStock, getUserStocks } from "../../../redux/stock";
-import ConfirmationModal from "../../ConfirmationModal";
 
 
 

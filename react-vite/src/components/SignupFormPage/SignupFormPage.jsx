@@ -48,7 +48,7 @@ function SignupFormPage() {
         <h1>Welcome to HoneyStock!</h1>
         <p> 
         Dive into the world of trading with the sweet confidence
-        of a bee in its hive. Whether you're a seasoned trader 
+        of a bee in its hive. Whether you&apos;re a seasoned trader 
         or just buzzing around the market for the first time, 
         HoneyStock offers everything you need to succeed. 
         Access real-time data, insightful analysis, and join a hive of like-minded traders right here.

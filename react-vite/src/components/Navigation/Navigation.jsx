@@ -1,10 +1,9 @@
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
 import StockSearch from "./StockSearch";
-import { SiRobinhood } from "react-icons/si";
 import "./Navigation.css";
 
-function Navigation() {
+export default function Navigation() {
   return (
     <ul className="nav">
       <li id='logo'>
@@ -22,5 +21,3 @@ function Navigation() {
     </ul>
   );
 }
-
-export default Navigation;
