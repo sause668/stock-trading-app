@@ -74,7 +74,10 @@ export default function PortfolioModule() {
         <div id="profile-portfolio-right">
             {stocks.length 
                 ? stocks.map((stock) => <SingleStock key={stocks.indexOf(stock)} mode="portfolio" stock={stock} />)
-                : <p>No owned stocks. Buy a stock and it&apos;s information will show up here!</p>
+                : (<>
+                    <h3>Loading...</h3>
+                    <p>If loading persists, you may not own a stock yet. Buy a stock and it&apos;s information will show up here!</p>
+                </>)
             }
         </div>
     </div>);
