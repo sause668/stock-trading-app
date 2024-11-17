@@ -95,6 +95,8 @@ form input:hover {
   width: 30px;
 }
 
+/* The Relative Container allows the Profile Menu to be relatively positioned to the
+   Profile Button without destabilizing any elements on the navbar itself. */
 .navRelativeContainer {
   position: relative;
   width: 0;
@@ -117,12 +119,9 @@ form input:hover {
 
 .profileList {
   list-style-type: none;
-  /* display: flex; */
-  /* flex-direction: column; */
   align-items: center;
   color: white;
   margin: 0rem;
-  
 }
 
 .profileListItem {
@@ -147,9 +146,7 @@ form input:hover {
 }
 
 #profileListBorder {
-  /* display: inline-b; */
   margin: .25rem 0px;
-  /* padding: ; */
   width: 100%;
   height: 0px;
   border: 1px solid #181a1b;
@@ -164,7 +161,6 @@ form input:hover {
   font-weight: bold;
   border-radius: 20px;
   border: 0px solid #CCFF00;
-  /* border-color: #CCFF00; */
   padding: .75rem 1.5rem;
   color: black;
   cursor: pointer;
@@ -184,18 +180,10 @@ form input:hover {
   }
 }
 
-/* .loginSignupForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
-
 .inputTitle {
   margin: 0rem;
   text-align: center;
   color: #CCFF00;
-  /* background-color: #CCFF00; */
 }
 
 .inputCon {
@@ -215,7 +203,6 @@ form input:hover {
 
 .error {
   color: red;
-  /* margin-left: 1rem; */
 }
 
 .formInput {
@@ -226,11 +213,9 @@ form input:hover {
 }
 
 .submitButton {
-  color: white;
   background-color: #CCFF00;
   border: 2px solid #181a1b;
   border-radius: 20px;
-  /* box-shadow: 2px 2px .5px black; */
   font-size: 15px;
   height: 50px;
   width: 95%;
@@ -241,6 +226,4 @@ form input:hover {
 
 .submitButton:disabled {
   background-color: rgb(197, 197, 197);
-  /* border-color: rgb(120, 120, 120); */
-  /* box-shadow: 2px 2px .5px rgb(120, 120, 120); */
 }
