@@ -83,37 +83,6 @@ function ProfileButton() {
       )}
      
     </>
-    // <>
-    //   <button onClick={toggleMenu} className="nav-btn">
-    //     <FaUserCircle />
-    //   </button>
-    //   {showMenu && (
-    //     <ul className={"profile-dropdown"} ref={ulRef}>
-    //       {user ? (
-    //         <>
-    //           <li>{user.username}</li>
-    //           <li>{user.email}</li>
-    //           <li>
-    //             <button onClick={logout} className="nav-btn">Log Out</button>
-    //           </li>
-    //         </>
-    //       ) : (
-    //         <>
-    //           <OpenModalMenuItem
-    //             itemText="Log In"
-    //             onItemClick={closeMenu}
-    //             modalComponent={<LoginFormModal />}
-    //           />
-    //           <OpenModalMenuItem
-    //             itemText="Sign Up"
-    //             onItemClick={closeMenu}
-    //             modalComponent={<SignupFormModal />}
-    //           />
-    //         </>
-    //       )}
-    //     </ul>
-    //   )}
-    // </>
   );
 }
 
