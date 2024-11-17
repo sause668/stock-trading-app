@@ -27,7 +27,7 @@ export default function PortfolioModule() {
         if (addAmount) {
             // Add the desired amount to the portfolio balance.
             // The follow-up GET dispatch is a failsafe. May be removed later.
-            dispatch(editPortfolio({ "addAmount": parseFloat(addAmount).toFixed(2) }))
+            dispatch(editPortfolio({ "addAmount": parseFloat(addAmount) }))
             .then(() => dispatch(getCurrentPortfolio()));
 
             // Clear the input field and refresh the balance.

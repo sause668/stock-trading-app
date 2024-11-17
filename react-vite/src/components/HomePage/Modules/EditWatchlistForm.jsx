@@ -1,12 +1,12 @@
-import { useState } from "react"
+ import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-import { createWatchlist } from "../../../redux/watchlist"
+import { editWatchlist } from "../../../redux/watchlist"
 import { useModal } from "../../../context/Modal"
 import './Modules.css'
 
 
-const CreateWatchListForm = () => {
+const EditWatchListForm = (watchlist) => {
     const dispatch = useDispatch()
     const user_id = useSelector(state => state.session.user.id)
 
@@ -31,7 +31,7 @@ const CreateWatchListForm = () => {
             })
         }
 
-        dispatch(createWatchlist(watchListname));
+        dispatch(editWatchlist(watchListname));
         closeModal();
     }
 
@@ -52,4 +52,4 @@ const CreateWatchListForm = () => {
     )
 }
 
-export default CreateWatchListForm
+export default EditWatchListForm

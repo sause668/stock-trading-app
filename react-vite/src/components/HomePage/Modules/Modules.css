@@ -159,3 +159,18 @@
     opacity: 0.85;
     text-decoration: none;
 }
+
+/* Watchlist Submit Button */
+.WatchlistSubmitButton {
+    color: white;
+    background-color: #CCFF00;
+    border: 2px solid #181a1b;
+    border-radius: 20px;
+    padding: .5rem .5rem;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .submitButton:disabled {
+    background-color: rgb(197, 197, 197);
+  }

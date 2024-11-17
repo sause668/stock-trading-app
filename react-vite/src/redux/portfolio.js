@@ -98,7 +98,7 @@ export const newPortfolio = (portfolioData) => async (dispatch) => {
 
 // edit a new portfolio action thunk
 export const editPortfolio = (portfolioData) => async (dispatch) => {
-    console.log(portfolioData, 'from update')
+    // console.log(portfolioData, 'from update')
     const { addAmount } = portfolioData
     let res = await csrfFetch("/api/portfolio", {
         method: 'PUT',
