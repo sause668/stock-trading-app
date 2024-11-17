@@ -1,20 +1,18 @@
  import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
-import { deleteWatchlist, editWatchlist } from "../../../redux/watchlist"
+import { editWatchlist } from "../../../redux/watchlist"
 import { useModal } from "../../../context/Modal"
 import './Modules.css'
 
 
 const EditWatchListForm = ({watchlistId, watchlistName}) => {
     const dispatch = useDispatch()
-    // const user_id = useSelector(state => state.session.user.id)
 
 
     const [name, setListName] = useState(watchlistName)
     const [errors, setErrors] = useState({})
     const {closeModal} = useModal();
-    // const watchlistID = watchlistId
 
 
     const handleClick = async (e) => {
