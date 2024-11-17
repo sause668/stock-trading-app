@@ -21,8 +21,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('watchlist_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=5), nullable=False),
-    sa.Column('value', sa.String(length=20), nullable=False),
-    sa.Column('color', sa.String(length=5), nullable=False),
+    sa.Column('value', sa.String(length=10), nullable=False),
     sa.ForeignKeyConstraint(['watchlist_id'], ['watchlists.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

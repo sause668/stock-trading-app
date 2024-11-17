@@ -37,6 +37,7 @@ import {
     }
   };
   
+  // Unused & considered not in scope.
   export const deleteTransactionThunk = (transactionId) => async (dispatch) => {
     try {
       const response = await csrfFetch(`/api/transactions/${transactionId}`, {

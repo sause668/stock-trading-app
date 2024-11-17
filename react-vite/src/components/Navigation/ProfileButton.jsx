@@ -2,9 +2,12 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogout } from "../../redux/session";
+import { clearStocks } from "../../redux/stock";
+import { removeWatchlistState } from "../../redux/watchlist";
 import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+import LoginFormModal from "../LoginFormPage/LoginFormModal";
+import SignupFormModal from "../SignupFormPage/SignupFormModal";
+import { MdLogout } from "react-icons/md";
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -36,40 +39,51 @@ function ProfileButton() {
   const logout = (e) => {
     e.preventDefault();
     dispatch(thunkLogout());
+    dispatch(clearStocks());
+    dispatch(removeWatchlistState());
     closeMenu();
   };
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <FaUserCircle />
+      <button onClick={toggleMenu} id='profileMenuButton' className='curser'>
+        {/* <IoMenu id='menuIcon'/> */}
+        <FaUserCircle id='profileIcon'/>
       </button>
-      {showMenu && (
-        <ul className={"profile-dropdown"} ref={ulRef}>
-          {user ? (
-            <>
-              <li>{user.username}</li>
-              <li>{user.email}</li>
-              <li>
-                <button onClick={logout}>Log Out</button>
-              </li>
-            </>
-          ) : (
-            <>
-              <OpenModalMenuItem
-                itemText="Log In"
-                onItemClick={closeMenu}
-                modalComponent={<LoginFormModal />}
-              />
-              <OpenModalMenuItem
-                itemText="Sign Up"
-                onItemClick={closeMenu}
-                modalComponent={<SignupFormModal />}
-              />
-            </>
-          )}
-        </ul>
+      {showMenu &&(
+        <div className="navRelativeContainer">
+          <div className='conProfileMenu' ref={ulRef}>
+            {user ? (
+              <>
+                <div className='profileList'>
+                    <p className='profileListItem'>Hello, {user.username}</p>
+                    <p id='profileListBorder'/>
+                    <p className='profileListItem'>{user.email}</p>
+                </div>
+                <p id='profileListBorder'/>
+                <div>
+                  <button id='logoutButton' onClick={logout}>Log Out</button>
+                </div>
+              </>
+            ) : (
+              <>
+              {/* <li className='profileListItem'>bah</li> */}
+                <OpenModalMenuItem
+                  itemText="Log In"
+                  onItemClick={closeMenu}
+                  modalComponent={<LoginFormModal />}
+                />
+                <OpenModalMenuItem
+                  itemText="Sign Up"
+                  onItemClick={closeMenu}
+                  modalComponent={<SignupFormModal/>}
+                />
+              </>
+            )}
+          </div>
+        </div>
       )}
+     
     </>
   );
 }

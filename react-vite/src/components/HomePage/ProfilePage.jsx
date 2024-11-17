@@ -1,48 +1,45 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { OrderModule, PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
-import Transactions from "../Transactions"; 
+import { PortfolioModule, TransactionModule, WatchlistModule } from "./Modules";
 import { getUserStocks } from "../../redux/stock";
+import { getCurrentPortfolio } from "../../redux/portfolio";
+import { getTransactionsThunk } from "../../redux/transactionThunks";
 import { fetchWatchlists } from "../../redux/watchlist";
-import "./StockList.css";
+import "./Modules/Modules.css";
 
 /** 
  * ### Profile Page Component
  * Displays a page containing *user information* whilst in the **logged in** state.
  * 
- * Also largely an abstraction layer; consists mostly of four modules and orders them appropriately on the page itself.
- * The page is split into two halves. The left half manages the user's Orders and Transactions. The right half manages
- * the user's Portfolio (owned stock list) and existing Watchlists.
- * @param user Carries session user data. Ultimately passed to all submodules for later use.
+ * The Profile Page is comprised of three modules split into two sides of the page. 
+ * Two modules make up the left side of the page, and the third occupies the right 
+ * side. The end goal is for this page to be the all-in-one information center that
+ * keeps the user up-to-date on all of their activity within the service.
  */
 export default function ProfilePage({ user }) {
     const dispatch = useDispatch();
-
-    // If a user exists, get the user's stock state data.
-    // The page assumes a user is logged in, but this check will remain in place as an error handler.
+    
     useEffect(() => {
-        if(user) {
-            dispatch(getUserStocks());
+        if (user) {
             dispatch(fetchWatchlists());
-        } else console.error("Something went wrong: The Profile page was somehow loaded when a user was not logged in!");
-    });
+            dispatch(getCurrentPortfolio());
+            dispatch(getTransactionsThunk());
+            dispatch(getUserStocks());
+        } else {
+            console.error("Profile page loaded without a logged-in user!");
+        }
+    }, [dispatch, user]);
 
     return (
         <main id="profile-main">
-            {/* Page Title */}
             <h1>Investing</h1>
 
-            {/* The left side of the profile page holds the user's orders and previous transactions. */}
             <section id="profile-left">
-                <OrderModule user={user} />
-                <TransactionModule user={user} />
-                {/* Added Transactions component */}
-                <Transactions />
+                <PortfolioModule />
+                <TransactionModule />
             </section>
 
-            {/* The right side of the profile page holds the user's portfolio at the top, and watchlists at the bottom. */}
             <section id="profile-right">
-                <PortfolioModule />
                 <WatchlistModule user={user} />
             </section>
         </main>

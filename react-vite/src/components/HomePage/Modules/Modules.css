@@ -1,0 +1,161 @@
+/* --------------------[Portfolio Module]-------------------- */
+/* TODO media query: at lower screen widths, transition to a column display */
+#profile-left__portfolio {
+    display: grid;
+    grid-template-areas: 
+        "a a"
+        "b c";
+    grid-template-columns: 2fr 3fr;
+    margin-bottom: 30px;
+}
+#profile-left__portfolio > .profile-module__title { grid-area: a; }
+
+/* Left Side: Current Balance & Add Funds */
+/* TODO polish: dynamic width via media query */
+#profile-portfolio-left {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    grid-area: b;
+}
+#profile-portfolio-left > p { 
+    font-size: 36pt;
+    margin-bottom: 32px; 
+}
+#profile-portfolio-form { 
+    display: flex;
+    margin-bottom: 50px; 
+}
+#profile-portfolio-form > input {
+    background-color: #181a1b;
+    border: 1px solid #ccff00;
+    border-radius: 30px;
+    color: #e8e6e3;
+    padding-right: 5px;
+}
+#profile-portfolio-form > button {
+    background-color: #ccff00;
+    border: none;
+    border-radius: 30px;
+    color: #181a1b;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13pt;
+    height: 100%;
+    max-height: 34px;
+    padding: 5px 30px;
+    text-transform: uppercase;
+    text-wrap: nowrap;
+}
+#profile-portfolio-form > button:hover { opacity: 0.85; }
+
+/* Right Side: Portfolio Stock List */
+#profile-portfolio-right { grid-area: c; }
+
+.profile-portfolio-stock {
+    align-items: center;
+    border: 1px solid #ccff00;
+    border-radius: 5px;
+    display: flex;
+    font-size: x-large;
+    justify-content: space-between;
+    margin: 20px 15px;
+    padding: 10px 12px;
+}
+.profile-portfolio-stock > p { margin: 0; }
+.profile-portfolio-stock > p > a:hover { 
+    background-color: #181a1b; 
+    opacity: 0.85;
+    text-decoration: none;
+}
+.profile-stock__val { margin: 0 30px 0 10px; }
+.profile-stock__amt { font-size: medium; }
+
+
+/* --------------------[Transactions Module]-------------------- */
+#profile-transaction-list {
+    padding: 0 20px 15px 20px;
+    
+}
+.profile-transaction-record {
+    border-bottom: 1px solid #e8e6e3;
+    font-size: larger;
+}
+.profile-transaction-record > p { margin-bottom: 5px; }
+.profile-transaction-record > p > span { margin-right: 28px;}
+.profile-transaction-record > p > a:hover { 
+    background-color: #181a1b; 
+    opacity: 0.85;
+    text-decoration: none;
+}
+.profile-transaction__prc { margin-left: 9px; }
+.profile-transaction__amt { font-size: small; }
+
+/* --------------------[Watchlist Module]-------------------- */
+#profile-right__watchlist {
+    max-width: 320px;
+    min-width: 300px;
+    padding-bottom: 20px;
+}
+#profile-watchlist__head {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 20px;
+}
+#profile-watchlist__head > h2 { 
+    font-size: x-large;
+    margin: 0; 
+    padding-top: 2px; 
+}
+#profile-watchlist__head > div > button { 
+    background: none;
+    color: black;
+    font-size: 22px; 
+    padding: 9px 0 0 0;
+}
+#profile-watchlist__head > div > button:hover { 
+    box-shadow: none;
+    opacity: 85%;
+}
+
+#profile-watchlist__body {
+    color: #e8e6e3;
+    padding: 0 20px;
+}
+
+.profile-single-wl-head {
+    border-bottom: 1px solid #ccff00;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.profile-single-wl-head > div { 
+    align-items: center; 
+    display: flex; 
+}
+.profile-single-wl-head > div > h4 { margin: 20px 5px 15px 0; }
+.profile-single-wl-head > div > button { 
+    background: none;
+    border: none;
+    color: #ccff00;
+    cursor: pointer;
+    font-size: 20px;
+    height: max-content;
+}
+.profile-single-wl-head > button, .profile-watchlist-stock > button { 
+    background: none;
+    border: none;
+    color: #ccff00;
+    cursor: pointer; 
+}
+
+.profile-watchlist-stock {
+    display: flex;
+    justify-content: space-between;
+}
+.profile-watchlist-stock > p { margin: 10px 0; }
+.profile-watchlist-stock > p > a:hover { 
+    background-color: #181a1b; 
+    opacity: 0.85;
+    text-decoration: none;
+}

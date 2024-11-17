@@ -21,7 +21,19 @@ export async function csrfFetch(url, options = {}) {
   
   // if the response status code is 400 or above, then throw an error with the
   // error being the response
-  if (res.status >= 400) throw res;
+  if (res.status >= 400) {
+    // Bypass any 401 Forbidden errors from the `/api/auth/` endpoint. 
+    if (res.url.endsWith("/api/auth/") && res.status == 401) {
+      // In development, send a warning noting that this bypass has occurred.
+      if (import.meta.env.MODE !== "production") 
+        console.warn("csrf.js: Bypassed 401 Forbidden response from csrfFetch");
+    } else {
+      // In development, have the console indicate the error has occurred here.
+      if (import.meta.env.MODE !== "production") 
+        console.error("csrf.js: csrfFetch response error! See below for details");
+      throw res;
+    }
+  };
 
   // if the response status code is under 400, then return the response to the
   // next promise chain

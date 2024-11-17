@@ -28,7 +28,7 @@ export const clearStocks = () => ({
 
 // thunk that fetches stock
 export const getStock = (stock) => async (dispatch) => {
-	const response = await fetch(`/api/stocks/${stock}`);
+	const response = await csrfFetch(`/api/stocks/${stock}`);
 	if (response.ok) {
 		const stockData = await response.json();
     if (stockData.status == "NOT_FOUND") {
@@ -46,7 +46,7 @@ export const getStock = (stock) => async (dispatch) => {
         {
           label: "Past Week Performance",
           data: stockData.chartData,
-          borderColor: (stockData.chartData[29]-stockData.chartData[0] > 0) ? 'green':'red',
+          borderColor: (stockData.chartData[29]-stockData.chartData[0] > 0) ? 'lawngreen':'red',
           borderWidth: 2,
           pointStyle: false
         }
@@ -122,7 +122,7 @@ function stockReducer(state = initialState, action) {
     case DELETE_STOCK:
       return { ...state, stocks: state.stocks.filter(stock => stock.name !== action.payload)};
     case CLEAR_STOCKS:
-      return {...state, stock: null, stocks: []}
+      return {...state, stocks: []}
     default:
       return state;
   }

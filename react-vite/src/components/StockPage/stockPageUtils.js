@@ -62,14 +62,3 @@ export const convert = num => {
 }
 
 export const unavailable = "Information not available"
-
-export const setVisible = (a, b, setAVisibility, setBVisibility) => {
-    if(a == 'visible'){
-        setAVisibility('invisible')
-        setBVisibility('visible')
-    }
-    if(b == 'visible'){
-        setAVisibility('visible')
-        setBVisibility('invisible')
-    }
-}

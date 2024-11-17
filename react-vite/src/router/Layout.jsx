@@ -5,6 +5,11 @@ import { ModalProvider, Modal } from "../context/Modal";
 import { thunkAuthenticate } from "../redux/session";
 import Navigation from "../components/Navigation/Navigation";
 
+
+/** 
+ * ### Layout Component
+ * Authenticates the current session user before loading the rest of the app.
+ */
 export default function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -15,7 +20,10 @@ export default function Layout() {
   return (
     <ModalProvider>
       <Navigation />
-      {isLoaded && <Outlet />}
+        {isLoaded && <Outlet />}
+        <footer>
+        <img src='../../../public/images/HoneyStock.png'></img>
+        </footer>
       <Modal />
     </ModalProvider>
   );

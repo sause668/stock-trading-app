@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
+import "./SignupForm.css"
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -41,10 +42,26 @@ function SignupFormPage() {
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
+    <> 
+    <div className="signup-container">
+      <section className="signup">
+        <h1>Welcome to HoneyStock!</h1>
+        <p> 
+        Dive into the world of trading with the sweet confidence
+        of a bee in its hive. Whether you're a seasoned trader 
+        or just buzzing around the market for the first time, 
+        HoneyStock offers everything you need to succeed. 
+        Access real-time data, insightful analysis, and join a hive of like-minded traders right here.
+        </p>
+        <p>
+        Get ready to stick to your financial goals and watch your investments grow with HoneyStock. 
+        Happy trading, and may your profits be as sweet as honey!
+        </p>
+        <img src='../../../public/images/HoneyStock.png'></img>
+      </section>
       {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
+      <h2 style={{"textAlign": "center"}}>Signup for HoneyStock</h2>
         <label>
           Email
           <input
@@ -85,8 +102,10 @@ function SignupFormPage() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        <button type="submit" className="submitButton">Sign Up</button>
       </form>
+      </div>
+      <img src="https://www.smartbrief.com/wp-content/uploads/2020/05/AdobeStock_295042621-scaled-1320x674.jpeg"></img>
     </>
   );
 }
