@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
+import "./SignupForm.css"
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -42,9 +43,9 @@ function SignupFormPage() {
 
   return (
     <>
-      <h1>Sign Up</h1>
+      <h1  className="signup">The Future Starts Now! Create an account to start trading today.</h1>
       {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <label>
           Email
           <input
@@ -85,8 +86,9 @@ function SignupFormPage() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
+        <button type="submit" className="submitButton">Sign Up</button>
       </form>
+      <img src="https://www.smartbrief.com/wp-content/uploads/2020/05/AdobeStock_295042621-scaled-1320x674.jpeg"></img>
     </>
   );
 }

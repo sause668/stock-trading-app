@@ -33,10 +33,10 @@ function LoginFormPage() {
 
   return (
     <>
-      <h1>Log In</h1>
+      <h1 className="signup">Welcome Back!</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <label>
           Email
           <input
@@ -57,7 +57,7 @@ function LoginFormPage() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit" className="submitButton">Log In</button>
       </form>
     </>
   );

@@ -31,7 +31,7 @@ const AddtoWatchlistModal = (props) => {
         )
         })}
       </select>    
-            <button type="submit" className="btn"><RiPlayListAddLine /></button>
+            <button type="submit" className='nav-btn'><RiPlayListAddLine /></button>
       </form>
     </div>
   )
