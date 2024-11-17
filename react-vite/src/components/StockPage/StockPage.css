@@ -151,13 +151,11 @@ img.stock-company-icon {
 .red .btn{
     background-color: red;
     color: black;
-    /* border: 2px solid red; */
 }
 
 .green .btn{
     background-color: lawngreen;
     color: black;
-    /* border: 2px solid rgb(0, 186, 0); */
 }
 
 #about {
