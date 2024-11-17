@@ -25,7 +25,8 @@ function StockChart({ chartData }) {
             legend: {
               display: true,
               labels: {
-                usePointStyle: true
+                usePointStyle: true,
+                color: '#e8e6e3'
               }
             }
           },
@@ -34,7 +35,10 @@ function StockChart({ chartData }) {
               display: false
             },
             y: {
-              display: true
+              display: true,
+              ticks: {
+                color: '#e8e6e3'
+              }
             }
           },
           interaction: {

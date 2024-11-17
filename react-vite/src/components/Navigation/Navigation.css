@@ -30,15 +30,6 @@
 
 }
 
-
-li#logo * {
-  color: black;
-}
-
-li#logo:active *{
-  color: white;
-}
-
 ul {
   padding-left: none;
 }

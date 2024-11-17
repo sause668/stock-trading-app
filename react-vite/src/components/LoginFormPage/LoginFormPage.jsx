@@ -33,10 +33,11 @@ function LoginFormPage() {
 
   return (
     <>
-      <h1>Log In</h1>
+      <h1 style={{"textAlign": "center"}}>Welcome Back!</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
+        <h2 style={{"textAlign": "center"}}>Login to HoneyStock</h2>
         <label>
           Email
           <input
@@ -57,7 +58,7 @@ function LoginFormPage() {
           />
         </label>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit" className="submitButton">Log In</button>
       </form>
     </>
   );

@@ -49,8 +49,8 @@ const SellStock = (props) => {
             value={amt}
             onChange={updateAmt} /> 
             <button type="submit" className="color btn">Sell</button>
-            <button onClick={handleClick} className="color btn">Sell All Shares</button>
         </form>
+        <button onClick={handleClick} className="color btn">Sell All Shares</button>
         
     </div>
   )

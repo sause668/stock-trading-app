@@ -21,6 +21,9 @@ export default function Layout() {
     <ModalProvider>
       <Navigation />
         {isLoaded && <Outlet />}
+        <footer>
+        <img src='../../../public/images/HoneyStock.png'></img>
+        </footer>
       <Modal />
     </ModalProvider>
   );
