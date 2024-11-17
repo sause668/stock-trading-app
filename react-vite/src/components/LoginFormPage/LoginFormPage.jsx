@@ -33,10 +33,11 @@ function LoginFormPage() {
 
   return (
     <>
-      <h1 className="signup">Welcome Back!</h1>
+      <h1 style={{"textAlign": "center"}}>Welcome Back!</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit} className="form">
+        <h2 style={{"textAlign": "center"}}>Login to HoneyStock</h2>
         <label>
           Email
           <input
