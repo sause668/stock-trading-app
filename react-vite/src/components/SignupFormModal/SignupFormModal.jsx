@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../../context/Modal";
-import { thunkSignup } from "../../../redux/session";
-import "../../Navigation/Navigation.css";
+import { useModal } from "../../context/Modal";
+import { thunkSignup } from "../../redux/session";
+import "../Navigation/Navigation.css";
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ function SignupFormModal() {
       <form onSubmit={handleSubmit}>
         {/* Email */}
         <div className='inputCon'>
-          <label>
+          <label htmlFor='email'>
             <p className='labelTitle'>Email</p>
           </label>
           <input
@@ -58,7 +58,7 @@ function SignupFormModal() {
         </div>
         {/* Username */}
         <div className='inputCon'>
-          <label>
+          <label htmlFor='username'>
             <p className='labelTitle'>
               Username
             </p>
@@ -74,7 +74,7 @@ function SignupFormModal() {
         </div>
         {/* Password */}
         <div className='inputCon'>
-          <label>
+          <label htmlFor='password'>
             <p className='labelTitle'>Password</p>
           </label>
           <input
@@ -88,7 +88,7 @@ function SignupFormModal() {
         </div>
         {/* Confirm Password */}
         <div className='inputCon'>
-          <label>
+          <label htmlFor='confirmPassword'>
             <p className='labelTitle'>Confirm Password</p>
           </label>
           <input
@@ -115,53 +115,6 @@ function SignupFormModal() {
           >Sign Up</button>
       </form>
     </div>
-    // <>
-    //   <h1>Sign Up</h1>
-    //   {errors.server && <p>{errors.server}</p>}
-    //   <form onSubmit={handleSubmit}>
-    //     <label>
-    //       Email
-    //       <input
-    //         type="text"
-    //         value={email}
-    //         onChange={(e) => setEmail(e.target.value)}
-    //         required
-    //       />
-    //     </label>
-    //     {errors.email && <p>{errors.email}</p>}
-    //     <label>
-    //       Username
-    //       <input
-    //         type="text"
-    //         value={username}
-    //         onChange={(e) => setUsername(e.target.value)}
-    //         required
-    //       />
-    //     </label>
-    //     {errors.username && <p>{errors.username}</p>}
-    //     <label>
-    //       Password
-    //       <input
-    //         type="password"
-    //         value={password}
-    //         onChange={(e) => setPassword(e.target.value)}
-    //         required
-    //       />
-    //     </label>
-    //     {errors.password && <p>{errors.password}</p>}
-    //     <label>
-    //       Confirm Password
-    //       <input
-    //         type="password"
-    //         value={confirmPassword}
-    //         onChange={(e) => setConfirmPassword(e.target.value)}
-    //         required
-    //       />
-    //     </label>
-    //     {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-    //     <button type="submit">Sign Up</button>
-    //   </form>
-    // </>
   );
 }
 
