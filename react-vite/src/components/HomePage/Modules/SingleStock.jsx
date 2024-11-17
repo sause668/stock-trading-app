@@ -5,6 +5,7 @@ import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
 
 import WatchlistStockDelete from "./WatchlistStockDelete";
 import WatchlistModalButton from "./WatchlistModalButton";
+import { useNavigate } from "react-router";
 
 /**
  * ### Single Stock Helper Component
@@ -14,6 +15,9 @@ import WatchlistModalButton from "./WatchlistModalButton";
  * @returns 
  */
 export default function SingleStock({ mode, stock }) {
+
+    const navigate = useNavigate()
+
     // Set the stock's class based on its mode.
     const className = mode === "portfolio" 
         ? "profile-portfolio-stock"
@@ -43,8 +47,9 @@ export default function SingleStock({ mode, stock }) {
         return trend.toFixed(2);
     })();
 
-    return (<div className={className}>
-        <p>
+
+    return (<div className={className} >
+        <p className="stockInfo" onClick={()=>navigate(`stocks/${stock.name}`)}>
             {stock.name}:
             <span className="profile-stock__val" style={{color: stock.color}}>{stock.arrow}
                 ${stock.value}
@@ -52,6 +57,7 @@ export default function SingleStock({ mode, stock }) {
             </span>
             {mode === "portfolio" ? <>{stock.amount}<span className="profile-stock__amt"> shares</span></> : ""}
         </p>
+        
         {/* This is the "delete stock from watchlist" button. Obviously, only appears in watchlist mode. */}
         {mode === "watchlist" ? 
         <WatchlistModalButton

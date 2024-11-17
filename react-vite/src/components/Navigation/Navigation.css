@@ -17,12 +17,35 @@
   z-index: 99;
 }
 
+#logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-#logo img {
+}
+
+#logoContainer:hover {
+  background-color: #CCFF00;
+
+}
+
+#logo {
   width: 50px; 
   height: 50px; 
   object-fit: cover; 
   border-radius: 50%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  scale: 1
+
+}
+
+#logoName {
+  width: 100px; 
+  height: 50px; 
+  object-fit: cover; 
+  /* border-radius: 50%;  */
   display: flex;
   justify-content: center;
   align-items: center;

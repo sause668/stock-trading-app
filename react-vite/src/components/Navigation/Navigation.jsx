@@ -6,9 +6,10 @@ import "./Navigation.css";
 export default function Navigation() {
   return (
     <ul className="nav">
-      <li id='logo'>
-        <NavLink to="/">
-        <img src="/favicon.ico" alt="Logo" />
+      <li >
+        <NavLink to="/" id='logoContainer'>
+        <img src="/images/HoneyStock.png" alt="Honey Stock" id='logoName'/>
+        <img src="/favicon.ico" alt="Logo" id='logo'/>
         
         </NavLink>
       </li>
