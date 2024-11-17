@@ -29,7 +29,7 @@ export default function WatchlistModule() {
 
     return (<div id="profile-right__watchlist" className="profile-module">
         <div id="profile-watchlist__head" className="profile-module__title">
-            <h3>Watchlists</h3>
+            <h2>Watchlists</h2>
             {/* This is the add button to create a new watchlist. */}
             <div>
                 <OpenModalButton
