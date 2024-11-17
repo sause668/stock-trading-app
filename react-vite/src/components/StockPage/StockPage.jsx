@@ -26,7 +26,6 @@ const StockPage = () => {
     const watchlists = useSelector(state => state.watchlist.watchlists)
     const [isLoaded, setIsLoaded] = useState(false);
     const dispatch = useDispatch();
-    console.log(stockOwned)
     //load stock and user stocks
     useEffect(() => {
         dispatch(getStock(symb)).then(() => setIsLoaded(true))

@@ -29,7 +29,7 @@ def get_watchlists():
     today = date.today()
     yesterday = safeDay(today)
     watchlists = Watchlist.query.filter_by(user_id=current_user.id).all()
-
+    print(watchlists)
     if not watchlists: 
         return jsonify({"message": "No watchlists found"}), 404
     
@@ -37,7 +37,8 @@ def get_watchlists():
     watchlist_stocks = [watchlist['watchlist_stocks'] for watchlist in watchlists]
     watchlist_stocks = [[{"id": stock['id'], "watchlist_id": stock['watchlist_id'],"name": stock['name'], "value": stock['value'], "newValue": requests.get(f'https://api.polygon.io/v1/open-close/{stock["name"]}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()['afterHours']} for stock in watchlist] for watchlist in watchlist_stocks]
     for watchlist in watchlists:
-        watchlist['watchlist_stocks'] = watchlist_stocks[watchlist['id']-1]
+        if watchlist['watchlist_stocks']:
+            watchlist['watchlist_stocks'] = watchlist_stocks[watchlist['id']-1]
     return jsonify(watchlists)
     
 

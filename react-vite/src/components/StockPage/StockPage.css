@@ -41,7 +41,7 @@ img.stock-company-icon {
 }
 
 .green {
-    color: rgb(0, 186, 0);
+    color: #CCFF00;
 }
 
 .red {
@@ -52,14 +52,14 @@ img.stock-company-icon {
     position: fixed;
     top: 200px;
     right: 10%;
-    border: 1px solid black;
-    border-radius: 5px;
+    border: 2px solid #CCFF00;
+    border-radius: 8px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Far shadow */ 
                 5px 5px 10px rgba(0, 0, 0, 0.3); /* Near shadow */
     padding: 15px;
     width: fit-content;
     min-width: 200px;
-    background-color: white;
+    background-color: #181a1b;
 }
 
 .buy-sell form {
@@ -70,12 +70,19 @@ img.stock-company-icon {
 
 .buy-sell * {
     margin: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sell-stock >  *{
+    justify-self: center;
 }
 
 #related {
     display: flex;
     justify-content: space-evenly;
 }
+
 
 #related li:first-child {
     border-left: none;
@@ -85,7 +92,7 @@ img.stock-company-icon {
     display: flex;
     flex-direction: column;
     margin-bottom: 50px;
-    border-left: 1px solid black;
+    border-left: 1px solid #646463;
     justify-content: center;
     flex-grow: 1;
 }
@@ -110,7 +117,7 @@ img.stock-company-icon {
 .key-stats {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #646463;
     padding-bottom: 10px;
     justify-content: space-between;
 }
@@ -133,6 +140,12 @@ img.stock-company-icon {
     padding: 12px 30px;
     color: #CCFF00;
     background-color: black;
+    align-items: center;
+}
+
+.btn:hover {
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), /* Far shadow */ 
+                5px 5px 10px rgba(0, 0, 0, 0.3); /* Near shadow */
 }
 
 .red .btn{
@@ -153,7 +166,7 @@ img.stock-company-icon {
 }
 
 #about h2 {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid #646463;
 }
 
 #about-heading {
@@ -164,30 +177,40 @@ img.stock-company-icon {
 
 #about-heading > img{
     flex-shrink: 1;
-    padding-right: 20px;
+    background-color: #e8e6e3;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 #about-heading > h3 {
     flex-grow: 1;
+    padding-left: 20px;
 }
 
 #related a {
-    text-decoration: none;
-    color: black;
     padding: 10px;
 }
 
 a:hover {
-    background-color: #CCFF00;
+    background-color: black;
 }
 
 a {
     text-decoration: none;
-    color: black; 
+    color: #CCFF00; 
 }
-   
+
+/* #watchlist-modal form {
+    display: flex;
+    flex-direction: column;
+} */
+
+#watchlist-modal form *{
+   /* margin: 20px; */
+}
+
 #about a {
-    padding: 0px ;
+    padding: 0px 5px 5px 5px;
 }
 
 @media screen and (max-width:1200px){

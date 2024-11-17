@@ -1,6 +1,8 @@
 import { addWatchlistStock } from "../../../redux/watchlist";
 import { useModal } from "../../../context/Modal";
 import { useDispatch } from "react-redux";
+import { RiPlayListAddLine } from "react-icons/ri";
+
 
 const AddtoWatchlistModal = (props) => {
   
@@ -19,7 +21,7 @@ const AddtoWatchlistModal = (props) => {
   }
 
   return (
-    <div>
+    <div id='watchlist-modal'>
       <form onSubmit={handleSubmit}>
       <label>Select a watchlist </label>
       <select id='watchlist-add'>
@@ -29,7 +31,7 @@ const AddtoWatchlistModal = (props) => {
         )
         })}
       </select>    
-            <button type="submit" className="btn">Add to Watchlist</button>
+            <button type="submit" className="btn"><RiPlayListAddLine /></button>
       </form>
     </div>
   )
