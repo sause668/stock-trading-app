@@ -36,7 +36,6 @@ const SellStock = (props) => {
     <div className={`sell-stock buy-stock ${color}`}>
         <h3>Sell {stock.symbol}</h3>
         <form onSubmit={handleSubmit}>
-            <label htmlFor="sell"></label>
             <input
             id="sell"
             placeholder="shares to sell"
