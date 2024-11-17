@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { thunkLogin } from "../../../redux/session";
+import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
-import { useModal } from "../../../context/Modal";
-import "../../Navigation/Navigation.css";
+import { useModal } from "../../context/Modal";
+import "../Navigation/Navigation.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ function LoginFormModal() {
       <h1 className='inputTitle'>Log In</h1>
       <form onSubmit={handleSubmit} className="loginSignupForm">
       <div className='inputCon'>
-        <label><p className='labelTitle'>Username or Email</p></label>
+        <label htmlFor='username_email'><p className='labelTitle'>Username or Email</p></label>
         <input
           className='formInput'
           type="text"
@@ -62,7 +62,7 @@ function LoginFormModal() {
         )}
       </div>
       <div className='inputCon'>
-        <label className='labelTitle'>Password</label>
+        <label htmlFor='password' className='labelTitle'>Password</label>
         <input
           className='formInput'
           type="password"
@@ -91,32 +91,6 @@ function LoginFormModal() {
       </button>
       </form>
     </div>
-    // <>
-    //   <h1>Log In</h1>
-    //   <form onSubmit={handleSubmit}>
-    //     <label>
-    //       Email
-    //       <input
-    //         type="text"
-    //         value={email}
-    //         onChange={(e) => setEmail(e.target.value)}
-    //         required
-    //       />
-    //     </label>
-    //     {errors.email && <p>{errors.email}</p>}
-    //     <label>
-    //       Password
-    //       <input
-    //         type="password"
-    //         value={password}
-    //         onChange={(e) => setPassword(e.target.value)}
-    //         required
-    //       />
-    //     </label>
-    //     {errors.password && <p>{errors.password}</p>}
-    //     <button type="submit">Log In</button>
-    //   </form>
-    // </>
   );
 }
 

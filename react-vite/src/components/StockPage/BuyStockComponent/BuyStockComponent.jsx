@@ -9,12 +9,12 @@ const BuyStock = (props) => {
     const dispatch = useDispatch()
     
     const [amt, setAmt] = useState('');
-    const [pAmount, setPamount] = useState(0)
+    const [pAmount, setPAmount] = useState(0)
     const [value, setValue] = useState(0)
     
     const updateAmt = e => {
         setAmt(e.target.value)
-        setPamount(amt)
+        setPAmount(amt)
         //displays $ value of potential sale, currently does not display correctly on first down press, not sure how to fix without using store
         if(amt == 0 && (pAmount == 0 || pAmount == 0.1)){
             setValue((0.1 * stock.afterHours).toFixed(2))
@@ -44,7 +44,6 @@ const BuyStock = (props) => {
     <div className="buy-stock" >
             <h3>Buy {stock.symbol}</h3>
         <form onSubmit={handleSubmit} >
-            <label htmlFor="purchase"></label>
             <input
             id="purchase"
             placeholder="shares to purchase"

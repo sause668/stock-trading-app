@@ -1,5 +1,5 @@
 import OpenModalButton from "../OpenModalButton";
-import SignupFormModal from "../SignupFormPage/SignupFormModal";
+import SignupFormModal from "../SignupFormModal";
 
 /** 
  * ### Landing Page Component

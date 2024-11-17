@@ -23,7 +23,7 @@ const AddtoWatchlistModal = (props) => {
   return (
     <div id='watchlist-modal'>
       <form onSubmit={handleSubmit}>
-      <label>Select a watchlist </label>
+      <label htmlFor='watchlist'>Select a watchlist </label>
       <select id='watchlist-add'>
         {watchlists.map((watchlist)=>{
           return (

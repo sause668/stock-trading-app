@@ -19,7 +19,6 @@ const StockSearch = () => {
   
  return (
     <form onSubmit={handleSubmit} >
-        <label htmlFor="stock-search"></label>
         <input
             id="stock-search"
             name='stock'
