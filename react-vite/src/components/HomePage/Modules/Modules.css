@@ -63,6 +63,11 @@
     padding: 10px 12px;
 }
 .profile-portfolio-stock > p { margin: 0; }
+.profile-portfolio-stock > p > a:hover { 
+    background-color: #181a1b; 
+    opacity: 0.85;
+    text-decoration: none;
+}
 .profile-stock__val { margin: 0 30px 0 10px; }
 .profile-stock__amt { font-size: medium; }
 
@@ -78,6 +83,11 @@
 }
 .profile-transaction-record > p { margin-bottom: 5px; }
 .profile-transaction-record > p > span { margin-right: 28px;}
+.profile-transaction-record > p > a:hover { 
+    background-color: #181a1b; 
+    opacity: 0.85;
+    text-decoration: none;
+}
 .profile-transaction__prc { margin-left: 9px; }
 .profile-transaction__amt { font-size: small; }
 
@@ -92,7 +102,8 @@
     justify-content: space-between;
     padding-right: 20px;
 }
-#profile-watchlist__head > h3 { 
+#profile-watchlist__head > h2 { 
+    font-size: x-large;
     margin: 0; 
     padding-top: 2px; 
 }
@@ -143,3 +154,8 @@
     justify-content: space-between;
 }
 .profile-watchlist-stock > p { margin: 10px 0; }
+.profile-watchlist-stock > p > a:hover { 
+    background-color: #181a1b; 
+    opacity: 0.85;
+    text-decoration: none;
+}
