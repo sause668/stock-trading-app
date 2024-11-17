@@ -41,7 +41,7 @@ img.stock-company-icon {
 }
 
 .green {
-    color: #CCFF00;
+    color: lawngreen;
 }
 
 .red {
@@ -155,7 +155,7 @@ img.stock-company-icon {
 }
 
 .green .btn{
-    background-color: #CCFF00;
+    background-color: lawngreen;
     color: black;
     /* border: 2px solid rgb(0, 186, 0); */
 }
@@ -200,14 +200,10 @@ a {
     color: #CCFF00; 
 }
 
-/* #watchlist-modal form {
-    display: flex;
-    flex-direction: column;
-} */
-
 #watchlist-modal form *{
-   /* margin: 20px; */
+    margin: 10px;
 }
+
 
 #about a {
     padding: 0px 5px 5px 5px;

@@ -1,0 +1,21 @@
+.signup  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    display: grid;
+    justify-content: center;
+    padding: 20px;
+    width: 300px; margin: 0 auto;
+}
+
+.form * {
+    margin:20px;
+    justify-content: center;
+}
+
+.form input {
+    width: 200px;
+}

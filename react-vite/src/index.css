@@ -26,4 +26,12 @@ li {
     list-style: none;
 }
 
+footer {
+    display: flex;
+    justify-content: center;
+}
 
+footer img {
+    border-radius: 20px;
+    scale: .5;
+}

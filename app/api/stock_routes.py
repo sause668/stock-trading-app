@@ -119,8 +119,12 @@ def buy_stocks(symb):
         elif request.method == 'PUT':
             u_stock = Stock.query.filter_by(portfolio_id=portfolio.id, name=symb).first()
             action = data.get('action')
-            u_stock.value = value
-            
+            if value > u_stock.value:
+                message = jsonify({"message": f"You made ${Decimal((value * amt)-(u_stock.value * amt)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+            elif u_stock.value > value:
+                message = jsonify({"message": f"You lost ${Decimal((u_stock.value * amt)-(value * amt)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
+            elif value == u_stock.value:
+                message = ({"message": "Stock sold at even value"})           
             # Update portfolio stock and money depending on action and create transaction
             transaction = Transaction(
                 portfolio_id=portfolio.id,
@@ -131,28 +135,22 @@ def buy_stocks(symb):
                 date_created=datetime.now()
             )
             if action == 'buy':
-                u_stock.amount += amt          
+                u_stock.amount += amt
+                u_stock.value = value          
                 portfolio.money -= (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
                 # Update the transaction log
                 db.session.add(transaction)
                 db.session.commit()
                 return jsonify(u_stock.to_dict())
             elif action == 'sell':
-                print(portfolio.money)
                 u_stock.amount -= amt          
                 portfolio.money += (amt * value).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
-                print(amt, value, portfolio.money)
                 # Update the transaction log
                 if u_stock.amount == 0:
                     db.session.delete(u_stock)
                 db.session.add(transaction)
                 db.session.commit()
-                if value > u_stock.value:
-                    return jsonify({"message": f"You made ${Decimal((value * u_stock.amount)-(value * u_stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
-                elif u_stock.value > value:
-                    return jsonify({"message": f"You lost ${Decimal((value * u_stock.amount)-(value * u_stock.amount)).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)}"})
-                elif value == u_stock.value:
-                    return ({"message": "Stock sold at even value"})
+                return message
     elif not portfolio:
         return jsonify({'message': 'Must create Portfolio first'}) 
     else:
