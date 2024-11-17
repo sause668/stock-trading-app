@@ -1,7 +1,7 @@
  import { useState } from "react"
 import { useDispatch } from "react-redux"
 
-import { editWatchlist } from "../../../redux/watchlist"
+import { deleteWatchlist, editWatchlist } from "../../../redux/watchlist"
 import { useModal } from "../../../context/Modal"
 import './Modules.css'
 
@@ -35,7 +35,7 @@ const EditWatchListForm = ({watchlistId, watchlistName}) => {
 
     const handleDelete = async () => {
         if (window.confirm(`Are you sure you want to delete ${watchlistName}?`)) {
-            dispatch(remove(watchlistId));
+            dispatch(deleteWatchlist(watchlistId));
             closeModal();
         }
     }
