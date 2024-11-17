@@ -1,5 +1,6 @@
 import { csrfFetch } from './csrf';
 import { getCurrentPortfolio, newPortfolio } from './portfolio'; // Import portfolio thunks
+import { removeWatchlistsState } from './watchlist';
 
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
@@ -91,6 +92,8 @@ export const thunkSignup = (user) => async (dispatch) => {
 export const thunkLogout = () => async (dispatch) => {
   await csrfFetch("/api/auth/logout");
   dispatch(removeUser());
+  dispatch(removeWatchlistsState())
+  // dispatch(removeWatchlists());
 };
 
 const initialState = { user: null };

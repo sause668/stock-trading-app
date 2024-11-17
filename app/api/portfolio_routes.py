@@ -33,7 +33,7 @@ def create_portfolio():
 @login_required
 def update_portfolio():
     data = request.get_json()
-    add_amount = Decimal(data.get("addAmount", 0.0))  # Convert to Decimal
+    add_amount = Decimal(str(data.get("addAmount", 0.0)))  # Convert to Decimal
     portfolio = Portfolio.query.filter_by(user_id=current_user.id).first()
     if portfolio:
         portfolio.money += add_amount
