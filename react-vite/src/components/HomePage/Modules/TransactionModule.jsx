@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { getTransactionsThunk } from "../../../redux/transactionThunks";
 
 /**
@@ -40,7 +41,7 @@ function SingleTransaction({ transaction }) {
     });
     return (<div className="profile-transaction-record">
         <p>
-            {transaction.stock}:
+            <Link to={`/stock/${transaction.stock}`}>{transaction.stock}</Link>:
             <span className="profile-transaction__prc">{formatter.format(transaction.price)}</span>
             <span className="profile-transaction__act">{transaction.action}</span>
             {transaction.amount}<span className="profile-transaction__amt"> shares</span>

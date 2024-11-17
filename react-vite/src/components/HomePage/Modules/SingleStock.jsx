@@ -2,13 +2,13 @@
     on the right side of the profile page. Not to be included in the re-exporter for HomePage. */
 import { FaMinus } from "react-icons/fa";
 import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
+import { Link } from "react-router-dom";
 
 /**
  * ### Single Stock Helper Component
  * This component takes stock data and creates a pre-filled stock cell that nicely fits onto the list.
  * 
  * @param {object} stock The stock data to pass in.
- * @returns 
  */
 export default function SingleStock({ mode, stock }) {
     // Set the stock's class based on its mode.
@@ -21,7 +21,7 @@ export default function SingleStock({ mode, stock }) {
         const diff = stock.newValue - stock.value;
         if(diff > 0) return "lawngreen";
         else if(diff < 0) return "red";
-        else return "yellow"; // TODO probably just white instead
+        else return "yellow";
     })();
     // Using that color value, determine what trend symbol should be displayed next to the stock.
     stock.arrow = (() => {
@@ -42,7 +42,7 @@ export default function SingleStock({ mode, stock }) {
 
     return (<div className={className}>
         <p>
-            {stock.name}:
+            <Link to={`/stocks/${stock.name}`}>{stock.name}</Link>:
             <span className="profile-stock__val" style={{color: stock.color}}>{stock.arrow}
                 ${stock.value}
                 {mode === "watchlist" ? ` (${stock.trend}%)` : ""}
