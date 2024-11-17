@@ -143,3 +143,18 @@
     justify-content: space-between;
 }
 .profile-watchlist-stock > p { margin: 10px 0; }
+
+/* Watchlist Submit Button */
+.WatchlistSubmitButton {
+    color: white;
+    background-color: #CCFF00;
+    border: 2px solid #181a1b;
+    border-radius: 20px;
+    padding: .5rem .5rem;
+    color: black;
+    cursor: pointer;
+  }
+  
+  .submitButton:disabled {
+    background-color: rgb(197, 197, 197);
+  }

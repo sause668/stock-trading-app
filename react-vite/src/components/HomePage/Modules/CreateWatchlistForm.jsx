@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 import { createWatchlist } from "../../../redux/watchlist"
 import { useModal } from "../../../context/Modal"
+import './Modules.css'
 
 
 const CreateWatchListForm = () => {
@@ -45,7 +46,7 @@ const CreateWatchListForm = () => {
                     placeholder="Enter watchlist name"
                 />
                 {errors.error && <p>{errors.error}</p>}
-                <button type="submit">Create List</button>
+                <button type="submit" className="WatchlistSubmitButton">Create List</button>
             </form>
         </>
     )
