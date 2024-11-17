@@ -4,11 +4,12 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import SingleStock from "./SingleStock";
-import { useModal } from '../../../context/Modal';
 
 import CreateWatchListForm from "./CreateWatchlistForm";
 import OpenModalButton from "../../OpenModalButton";
 import { fetchWatchlist } from "../../../redux/watchlist";
+import WatchlistModalButton from "./WatchlistModalButton";
+import EditWatchListForm from "./EditWatchlistForm";
 
 /**
  * ### Watchlist Module
@@ -80,7 +81,7 @@ function SingleWatchlist({ list }) {
                 {/* <button><BiSolidPencil /></button> */}
                 <WatchlistModalButton
                     buttonText={<BiSolidPencil />}
-                    modalComponent={<CreateWatchListForm />}
+                    modalComponent={<EditWatchListForm watchlistId={list.id} watchlistName={list.name} />}
                 />
             </div>
             
@@ -97,19 +98,36 @@ function SingleWatchlist({ list }) {
 
 
 
-function WatchlistModalButton({
-  modalComponent, // component to render inside the modal
-  buttonText, // text of the button that opens the modal
-  onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
-  onModalClose // optional: callback function that will be called once the modal is closed
-}) {
-  const { setModalContent, setOnModalClose } = useModal();
+// function WatchlistModalButton({
+//   modalComponent, // component to render inside the modal
+//   buttonText, // text of the button that opens the modal
+//   onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
+//   onModalClose // optional: callback function that will be called once the modal is closed
+// }) {
+//   const { setModalContent, setOnModalClose } = useModal();
 
-  const onClick = () => {
-    if (onModalClose) setOnModalClose(onModalClose);
-    setModalContent(modalComponent);
-    if (typeof onButtonClick === "function") onButtonClick();
-  };
+//   const onClick = () => {
+//     if (onModalClose) setOnModalClose(onModalClose);
+//     setModalContent(modalComponent);
+//     if (typeof onButtonClick === "function") onButtonClick();
+//   };
 
-  return <button onClick={onClick} className='watchlistModalButton'>{buttonText}</button>;
-}
+//   return <button onClick={onClick} className='watchlistModalButton'>{buttonText}</button>;
+// }
+
+// function WatchlistStockModalButton({
+//     modalComponent, // component to render inside the modal
+//     buttonText, // text of the button that opens the modal
+//     onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
+//     onModalClose // optional: callback function that will be called once the modal is closed
+//   }) {
+//     const { setModalContent, setOnModalClose } = useModal();
+  
+//     const onClick = () => {
+//       if (onModalClose) setOnModalClose(onModalClose);
+//       setModalContent(modalComponent);
+//       if (typeof onButtonClick === "function") onButtonClick();
+//     };
+  
+//     return <button onClick={onClick} className='watchlistModalButton'>{buttonText}</button>;
+//   }
