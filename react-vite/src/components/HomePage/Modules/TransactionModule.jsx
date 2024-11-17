@@ -23,7 +23,7 @@ export default function TransactionModule() {
         <div id="profile-transaction-list">
             {transactions
                 ? transactions.map((transaction) => <SingleTransaction key={transaction.id} transaction={transaction} />)
-                : <p>No Transaction History available. Purchase a stock and it'll show up here!</p>
+                : <p>No Transaction History available. Purchase a stock and it&apos;ll show up here!</p>
             }
         </div>
     </div>)

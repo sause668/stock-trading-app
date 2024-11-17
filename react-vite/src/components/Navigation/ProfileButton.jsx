@@ -7,9 +7,8 @@ import { removeWatchlistState } from "../../redux/watchlist";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormPage/LoginFormModal";
 import SignupFormModal from "../SignupFormPage/SignupFormModal";
-import { MdLogout } from "react-icons/md";
 
-function ProfileButton() {
+export default function ProfileButton() {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
@@ -87,5 +86,3 @@ function ProfileButton() {
     </>
   );
 }
-
-export default ProfileButton;
