@@ -2,6 +2,8 @@
     on the right side of the profile page. Not to be included in the re-exporter for HomePage. */
 import { FaMinus } from "react-icons/fa";
 import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
+import { useModal } from '../../../context/Modal';
+import EditWatchListForm from "./EditWatchlistForm";
 
 /**
  * ### Single Stock Helper Component
@@ -50,6 +52,26 @@ export default function SingleStock({ mode, stock }) {
             {mode === "portfolio" ? <>{stock.amount}<span className="profile-stock__amt"> shares</span></> : ""}
         </p>
         {/* This is the "delete stock from watchlist" button. Obviously, only appears in watchlist mode. */}
-        {mode === "watchlist" ? <button><FaMinus /></button> : <></>}
+        {mode === "watchlist" ? <WatchlistStockModalButton
+                    buttonText={<FaMinus />}
+                    modalComponent={<EditWatchListForm ></EditWatchListForm>}
+                /> : <></>}
     </div>)
 }
+
+function WatchlistStockModalButton({
+    modalComponent, // component to render inside the modal
+    buttonText, // text of the button that opens the modal
+    onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
+    onModalClose // optional: callback function that will be called once the modal is closed
+  }) {
+    const { setModalContent, setOnModalClose } = useModal();
+  
+    const onClick = () => {
+      if (onModalClose) setOnModalClose(onModalClose);
+      setModalContent(modalComponent);
+      if (typeof onButtonClick === "function") onButtonClick();
+    };
+  
+    return <button onClick={onClick} className='watchlistModalButton'>{buttonText}</button>;
+  }

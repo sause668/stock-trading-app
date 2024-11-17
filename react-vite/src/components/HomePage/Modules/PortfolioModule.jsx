@@ -27,6 +27,7 @@ export default function PortfolioModule() {
         if (addAmount) {
             // Add the desired amount to the portfolio balance.
             // The follow-up GET dispatch is a failsafe. May be removed later.
+            console.log(parseFloat(addAmount))
             dispatch(editPortfolio({ "addAmount": parseFloat(addAmount) }))
             .then(() => dispatch(getCurrentPortfolio()));
 

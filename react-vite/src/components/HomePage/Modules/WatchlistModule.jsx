@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { BiSolidPencil } from "react-icons/bi";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SingleStock from "./SingleStock";
-
+import { useModal } from '../../../context/Modal';
 
 import CreateWatchListForm from "./CreateWatchlistForm";
 import OpenModalButton from "../../OpenModalButton";
+import { fetchWatchlist } from "../../../redux/watchlist";
 
 /**
  * ### Watchlist Module
@@ -17,15 +18,17 @@ import OpenModalButton from "../../OpenModalButton";
  * @param user The user data passed in from the parent.
  */
 export default function WatchlistModule() {
-    const [watchlists, setWatchlists] = useState([]);
+    const dispatch = useDispatch();
+    // const [watchlists, setWatchlists] = useState([]);
     // Grab the current user's watchlist state.
-    const watchlistState = useSelector((state) => state.watchlist.watchlists);
+    const watchlists = useSelector((state) => state.watchlist.watchlists);
     
     // This slice of state usually takes a few seconds to load. This useEffect prevents the page
     // from crashing in the meantime, and grabs the watchlist state once it's ready to go.
     useEffect(() => {
-        setWatchlists(watchlistState);
-    }, [watchlistState]);
+        dispatch(fetchWatchlist());
+        // setWatchlists(watchlistState);
+    }, [dispatch]);
 
     return (<div id="profile-right__watchlist" className="profile-module">
         <div id="profile-watchlist__head" className="profile-module__title">
@@ -43,11 +46,11 @@ export default function WatchlistModule() {
             {watchlists
                 ? watchlists.map((list) => <SingleWatchlist key={list.id} list={list} />)
                 : (<>
-                    <h3>Loading...</h3>
+                    {/* <h3>Loading...</h3>
                     <p>
                         If loading persists, you may not have a watchlist yet. Use the Create
                         Watchlist button above to make one!
-                    </p>
+                    </p> */}
                 </>)
             }
         </div>
@@ -74,7 +77,11 @@ function SingleWatchlist({ list }) {
             <div>
                 <h4>{list.name}</h4>
                 {/* This is the watchlist edit button. The "remove stock from watchlist" button is inside SingleStock. */}
-                <button><BiSolidPencil /></button>
+                {/* <button><BiSolidPencil /></button> */}
+                <WatchlistModalButton
+                    buttonText={<BiSolidPencil />}
+                    modalComponent={<CreateWatchListForm />}
+                />
             </div>
             
             <button className={watchlistBtnClassName} onClick={() => setVisible(!visible)}>
@@ -85,4 +92,24 @@ function SingleWatchlist({ list }) {
             {visible ? list?.watchlist_stocks.map((stock) => <SingleStock key={stock.id} mode="watchlist" stock={stock} />) : <></>}
         </div>
     </div>)
+}
+
+
+
+
+function WatchlistModalButton({
+  modalComponent, // component to render inside the modal
+  buttonText, // text of the button that opens the modal
+  onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
+  onModalClose // optional: callback function that will be called once the modal is closed
+}) {
+  const { setModalContent, setOnModalClose } = useModal();
+
+  const onClick = () => {
+    if (onModalClose) setOnModalClose(onModalClose);
+    setModalContent(modalComponent);
+    if (typeof onButtonClick === "function") onButtonClick();
+  };
+
+  return <button onClick={onClick} className='watchlistModalButton'>{buttonText}</button>;
 }
