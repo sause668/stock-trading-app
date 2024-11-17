@@ -103,6 +103,7 @@ img.stock-company-icon {
 
 #related a{
     align-self: center;
+    padding: 10px;
 }
 
 .stock-chart {
@@ -183,10 +184,6 @@ img.stock-company-icon {
 #about-heading > h3 {
     flex-grow: 1;
     padding-left: 20px;
-}
-
-#related a {
-    padding: 10px;
 }
 
 a:hover {
