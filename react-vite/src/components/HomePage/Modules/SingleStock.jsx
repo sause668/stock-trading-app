@@ -2,17 +2,22 @@
     on the right side of the profile page. Not to be included in the re-exporter for HomePage. */
 import { FaMinus } from "react-icons/fa";
 import { TiArrowSortedUp, TiArrowSortedDown } from "react-icons/ti";
-import { useModal } from '../../../context/Modal';
-import EditWatchListForm from "./EditWatchlistForm";
-import { Link } from "react-router-dom";
+
+import WatchlistStockDelete from "./WatchlistStockDelete";
+import WatchlistModalButton from "./WatchlistModalButton";
+import { useNavigate } from "react-router";
 
 /**
  * ### Single Stock Helper Component
  * This component takes stock data and creates a pre-filled stock cell that nicely fits onto the list.
  * 
  * @param {object} stock The stock data to pass in.
+ * @returns 
  */
 export default function SingleStock({ mode, stock }) {
+
+    const navigate = useNavigate()
+
     // Set the stock's class based on its mode.
     const className = mode === "portfolio" 
         ? "profile-portfolio-stock"
@@ -23,7 +28,7 @@ export default function SingleStock({ mode, stock }) {
         const diff = stock.newValue - stock.value;
         if(diff > 0) return "lawngreen";
         else if(diff < 0) return "red";
-        else return "yellow";
+        else return "yellow"; // TODO probably just white instead
     })();
     // Using that color value, determine what trend symbol should be displayed next to the stock.
     stock.arrow = (() => {
@@ -42,36 +47,24 @@ export default function SingleStock({ mode, stock }) {
         return trend.toFixed(2);
     })();
 
-    return (<div className={className}>
-        <p>
-            <Link to={`/stocks/${stock.name}`}>{stock.name}</Link>:
+
+    return (<div className={className} >
+        <p className="stockInfo" onClick={()=>navigate(`stocks/${stock.name}`)}>
+            {stock.name}:
             <span className="profile-stock__val" style={{color: stock.color}}>{stock.arrow}
                 ${stock.value}
                 {mode === "watchlist" ? ` (${stock.trend}%)` : ""}
             </span>
             {mode === "portfolio" ? <>{stock.amount}<span className="profile-stock__amt"> shares</span></> : ""}
         </p>
+        
         {/* This is the "delete stock from watchlist" button. Obviously, only appears in watchlist mode. */}
-        {mode === "watchlist" ? <WatchlistStockModalButton
-                    buttonText={<FaMinus />}
-                    modalComponent={<EditWatchListForm ></EditWatchListForm>}
-                /> : <></>}
+        {mode === "watchlist" ? 
+        <WatchlistModalButton
+            buttonText={<FaMinus />}
+            modalComponent={<WatchlistStockDelete stock={stock} />}
+        /> 
+        : <></>}
     </div>)
 }
 
-function WatchlistStockModalButton({
-    modalComponent, // component to render inside the modal
-    buttonText, // text of the button that opens the modal
-    onButtonClick, // optional: callback function that will be called once the button that opens the modal is clicked
-    onModalClose // optional: callback function that will be called once the modal is closed
-  }) {
-    const { setModalContent, setOnModalClose } = useModal();
-  
-    const onClick = () => {
-      if (onModalClose) setOnModalClose(onModalClose);
-      setModalContent(modalComponent);
-      if (typeof onButtonClick === "function") onButtonClick();
-    };
-  
-    return <button onClick={onClick} className='watchlistModalButton'>{buttonText}</button>;
-  }

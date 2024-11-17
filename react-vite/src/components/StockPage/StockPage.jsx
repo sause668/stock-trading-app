@@ -63,7 +63,7 @@ const StockPage = () => {
             </div>   
             <h1> {info.name}
             {info.branding?.icon_url && <img className="stock-company-icon" src={`${info.branding.icon_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`}
-            title='Company Icon'/>} </h1> 
+            title='Company Icon' alt='Company Icon'/>} </h1> 
           </div> 
             {/* display stock chart using data pulled from back end and stored in redux store */}
             <div id="stockChart">
@@ -89,7 +89,7 @@ const StockPage = () => {
             <section id="about">  
               <h2>About</h2>
               <div id='about-heading'>{info.branding?.logo_url && 
-                <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`} title='Company Logo'/>}      
+                <img className="stock-company-icon" src={`${info.branding.logo_url}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl`} title='Company Logo' alt='Company Logo'/>}      
                 <h3>Industry: {info.sic_description? info.sic_description:unavailable}</h3>
               </div>
               <p>{info.description? info.description:'Company description not available'}</p>

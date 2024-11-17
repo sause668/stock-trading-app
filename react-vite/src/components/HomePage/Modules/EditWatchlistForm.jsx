@@ -1,27 +1,25 @@
  import { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 
 import { editWatchlist } from "../../../redux/watchlist"
 import { useModal } from "../../../context/Modal"
 import './Modules.css'
 
 
-const EditWatchListForm = (watchlist) => {
+const EditWatchListForm = ({watchlistId, watchlistName}) => {
     const dispatch = useDispatch()
-    const user_id = useSelector(state => state.session.user.id)
 
 
-    const [name, setListName] = useState('')
+    const [name, setListName] = useState(watchlistName)
     const [errors, setErrors] = useState({})
     const {closeModal} = useModal();
-
 
 
     const handleClick = async (e) => {
         e.preventDefault()
 
         const watchListname = {
-            user_id,
+            watchlistId,
             name
         }
 
@@ -35,9 +33,18 @@ const EditWatchListForm = (watchlist) => {
         closeModal();
     }
 
+    const handleDelete = async () => {
+        if (window.confirm(`Are you sure you want to delete ${watchlistName}?`)) {
+            dispatch(remove(watchlistId));
+            closeModal();
+        }
+    }
+
+
+
     return (
         <>
-            <h2>Create List </h2>
+            <h2>Edit List </h2>
             <form onSubmit={handleClick}>
                 <input
                     type="text"
@@ -46,8 +53,10 @@ const EditWatchListForm = (watchlist) => {
                     placeholder="Enter watchlist name"
                 />
                 {errors.error && <p>{errors.error}</p>}
-                <button type="submit" className="WatchlistSubmitButton">Create List</button>
+                <button type="submit" className="WatchlistSubmitButton">Edit List</button>
             </form>
+            <br/>
+            <button onClick={handleDelete} className="WatchlistSubmitButton">Delete List</button>
         </>
     )
 }

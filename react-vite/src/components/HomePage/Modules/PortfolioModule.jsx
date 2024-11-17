@@ -22,13 +22,15 @@ export default function PortfolioModule() {
     const [balance, setBalance] = useState("Loading...");
 
     // Submission event to add funds to the portfolio.
-    const handleAddFunds = (e) => {
+    const handleAddFunds = async (e) => {
         e.preventDefault();
         if (addAmount) {
             // Add the desired amount to the portfolio balance.
             // The follow-up GET dispatch is a failsafe. May be removed later.
-            dispatch(editPortfolio({ "addAmount": parseFloat(addAmount) }))
-            .then(() => dispatch(getCurrentPortfolio()));
+            await Promise.all([
+                dispatch(editPortfolio({ "addAmount": parseFloat(addAmount) })),
+                dispatch(getCurrentPortfolio())
+            ]);
 
             // Clear the input field and refresh the balance.
             setAddAmount(""); 
@@ -74,7 +76,10 @@ export default function PortfolioModule() {
         <div id="profile-portfolio-right">
             {stocks.length 
                 ? stocks.map((stock) => <SingleStock key={stocks.indexOf(stock)} mode="portfolio" stock={stock} />)
-                : <p>No owned stocks. Buy a stock and it&apos;s information will show up here!</p>
+                : (<>
+                    <h3>Loading...</h3>
+                    <p>If loading persists, you may not own a stock yet. Buy a stock and it&apos;s information will show up here!</p>
+                </>)
             }
         </div>
     </div>);

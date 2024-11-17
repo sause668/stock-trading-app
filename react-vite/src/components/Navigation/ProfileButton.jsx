@@ -5,8 +5,8 @@ import { thunkLogout } from "../../redux/session";
 import { clearStocks } from "../../redux/stock";
 import { removeWatchlistState } from "../../redux/watchlist";
 import OpenModalMenuItem from "./OpenModalMenuItem";
-import LoginFormModal from "../LoginFormPage/LoginFormModal";
-import SignupFormModal from "../SignupFormPage/SignupFormModal";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 
 export default function ProfileButton() {
   const dispatch = useDispatch();

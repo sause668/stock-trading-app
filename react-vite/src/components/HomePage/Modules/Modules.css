@@ -71,6 +71,12 @@
 .profile-stock__val { margin: 0 30px 0 10px; }
 .profile-stock__amt { font-size: medium; }
 
+.stockInfo {
+    margin: 0rem;
+    padding: 0rem;
+    height: 0%;
+    cursor: pointer;
+}
 
 /* --------------------[Transactions Module]-------------------- */
 #profile-transaction-list {
@@ -162,7 +168,6 @@
 
 /* Watchlist Submit Button */
 .WatchlistSubmitButton {
-    color: white;
     background-color: #CCFF00;
     border: 2px solid #181a1b;
     border-radius: 20px;
