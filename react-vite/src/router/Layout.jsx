@@ -22,7 +22,7 @@ export default function Layout() {
       <Navigation />
         {isLoaded && <Outlet />}
         <footer>
-        <img src='../../../public/images/HoneyStock.png'></img>
+        <img src='../../../images/HoneyStock.png'></img>
         </footer>
       <Modal />
     </ModalProvider>

@@ -56,8 +56,8 @@ export const thunkLogin = (credentials) => async dispatch => {
     }
 
   } catch (error) {
-    error = await error.json()
-    return error
+    let res = await error.json()
+    return res
   }
   
 };
@@ -83,8 +83,8 @@ export const thunkSignup = (user) => async (dispatch) => {
       return { server: "Something went wrong. Please try again" };
     }
   } catch (error) {
-    error = await error.json()
-    return error
+    let res = await error.json()
+    return res
   }
   
 };

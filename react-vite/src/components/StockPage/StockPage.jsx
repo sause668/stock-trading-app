@@ -37,7 +37,7 @@ const StockPage = () => {
 
     if(!isLoaded){
       return (
-        <h2>Retrieving stock info...</h2>
+        <h2 style={{"textAlign": "center"}}>Retrieving stock info...</h2>
       )
     }
 
