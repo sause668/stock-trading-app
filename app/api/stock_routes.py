@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 import requests
 from datetime import date, timedelta, datetime
+from pytz import timezone
 from ..models import db
 from ..models.stock import Stock
 from decimal import Decimal
@@ -108,7 +109,8 @@ def buy_stocks(symb):
                 stock=symb,
                 action='buy',
                 amount=amt,
-                price=value
+                price=value,
+                date_created=datetime.now().astimezone(timezone('US/Eastern'))
             )
             db.session.add(transaction)
             db.session.commit()
