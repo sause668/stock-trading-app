@@ -7,7 +7,7 @@ import SingleStock from "./SingleStock";
 
 import CreateWatchListForm from "./CreateWatchlistForm";
 import OpenModalButton from "../../OpenModalButton";
-import { fetchWatchlist } from "../../../redux/watchlist";
+import { fetchWatchlists } from "../../../redux/watchlist";
 import WatchlistModalButton from "./WatchlistModalButton";
 import EditWatchListForm from "./EditWatchlistForm";
 
@@ -27,7 +27,7 @@ export default function WatchlistModule() {
     // This slice of state usually takes a few seconds to load. This useEffect prevents the page
     // from crashing in the meantime, and grabs the watchlist state once it's ready to go.
     useEffect(() => {
-        dispatch(fetchWatchlist());
+        dispatch(fetchWatchlists());
         // setWatchlists(watchlistState);
     }, [dispatch]);
 
