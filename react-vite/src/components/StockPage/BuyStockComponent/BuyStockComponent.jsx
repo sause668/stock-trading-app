@@ -26,13 +26,13 @@ const BuyStock = (props) => {
         }
     }
     //on submit if stock owned update amount, if not owned add to user stocks
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if(window.confirm(`Are you sure you would like to purchase ${amt} shares of ${stock.symbol} for $${value}`)){
             if (ownedStock) {
-                dispatch(updateStock(stock, amt, 'buy'))
+                await dispatch(updateStock(stock, amt, 'buy'))
             } else {
-                dispatch(buyStock(stock, amt))
+                await dispatch(buyStock(stock, amt))
             }
             dispatch(getUserStocks())
             setAmt('')
