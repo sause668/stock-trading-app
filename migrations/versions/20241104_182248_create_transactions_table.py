@@ -8,6 +8,7 @@ Create Date: 2024-11-04 18:22:48.379740
 from alembic import op
 import sqlalchemy as sa
 from datetime import datetime
+from pytz import timezone
 
 
 
@@ -26,7 +27,7 @@ def upgrade():
     sa.Column('action', sa.String(length=4), nullable=False),
     sa.Column('amount', sa.Numeric(precision=10, scale=5), nullable=False),
     sa.Column('price', sa.Numeric(precision=10, scale=5), nullable=False),
-    sa.Column('date_created', sa.DateTime(), default=datetime.now()),
+    sa.Column('date_created', sa.DateTime(), default=datetime.now().astimezone(timezone('US/Eastern'))),
     sa.ForeignKeyConstraint(['portfolio_id'], ['portfolios.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
+from pytz import timezone
 
 class Transaction(db.Model):
     __tablename__ = 'transactions'
@@ -13,7 +14,7 @@ class Transaction(db.Model):
     action = db.Column(db.String(4), nullable=False)  # e.g., "buy" or "sell"
     amount = db.Column(db.Numeric(10, 5), nullable=False)
     price = db.Column(db.Numeric(10, 5), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.now())
+    date_created = db.Column(db.DateTime, default=datetime.now().astimezone(timezone('US/Eastern')))
 
     # Relationships
     portfolio = db.relationship("Portfolio", back_populates="transactions")
