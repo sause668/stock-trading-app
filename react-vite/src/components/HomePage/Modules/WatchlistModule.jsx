@@ -47,11 +47,11 @@ export default function WatchlistModule() {
             {watchlists
                 ? watchlists.map((list) => <SingleWatchlist key={list.id} list={list} />)
                 : (<>
-                    {/* <h3>Loading...</h3>
+                    <h3>Loading...</h3>
                     <p>
                         If loading persists, you may not have a watchlist yet. Use the Create
                         Watchlist button above to make one!
-                    </p> */}
+                    </p>
                 </>)
             }
         </div>
