@@ -29,7 +29,6 @@ def get_watchlists():
     today = date.today()
     yesterday = safeDay(today)
     watchlists = Watchlist.query.filter_by(user_id=current_user.id).all()
-    print(watchlists)
     if not watchlists: 
         # return jsonify({"message": "No watchlists found"}), 404
         return jsonify(None)

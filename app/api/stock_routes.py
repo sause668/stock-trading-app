@@ -108,8 +108,7 @@ def buy_stocks(symb):
                 stock=symb,
                 action='buy',
                 amount=amt,
-                price=value,
-                date_created=datetime.now()
+                price=value
             )
             db.session.add(transaction)
             db.session.commit()
