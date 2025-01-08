@@ -33,7 +33,8 @@ The site was deployed using render.com
 ## User Page
 ![Screenshot 2024-11-18 215354](https://github.com/user-attachments/assets/5e161be4-0f60-42e5-bdf5-ba5e74682af1)
 ## Stock Page
-If a Stock is owned by a user they are able to sell that stock, the color of the sell button is determined by whether the price has increased or decreased since the user purchased the stock.
+* If a Stock is owned by a user they are able to sell that stock, the color of the sell button is determined by whether the price has increased or decreased since the user purchased the stock.
+* The chart data is displayed using the perfomance of the stock over the previous week with chart.js
 ![Screenshot 2024-11-18 215748](https://github.com/user-attachments/assets/cbbf0a55-6ad0-4663-a699-7eede0dc03e1)
 ![Screenshot 2024-11-18 215816](https://github.com/user-attachments/assets/a0076941-66a3-4b44-80e7-9f9795bdebe5)
 
