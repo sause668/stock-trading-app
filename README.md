@@ -23,6 +23,8 @@
 * WTForms
 
 The stock data is retrieved from the https://polygon.io API
+<br> 
+If a Stock is owned by a user they are able to sell that stock, the color of the sell button is determined by whether the price has increased or decreased since the user purchased the stock.
 <br>
 The site was deployed using render.com
 
