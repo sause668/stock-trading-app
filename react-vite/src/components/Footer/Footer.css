@@ -1,0 +1,56 @@
+#footerCon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #CCFF00;
+    margin-top: 1rem;
+} 
+
+#infoConF {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: .5rem;
+    color: black;
+}
+
+#footerImg {
+    border-radius: 20px;
+    height: 8rem;
+}
+
+#footerImg2 {
+    border-radius: 20px;
+    /* height: 5rem; */
+    scale: .5;
+}
+
+#infoTitleF {
+    margin: 0;
+}
+
+.personConF {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .3rem;
+}
+
+.personNameF {
+    margin: 0;
+}
+
+.linkButtonF {
+    background-color: #CCFF00;
+    border: none;
+    border-radius: 5px;
+    transition: background-color .2s;
+    cursor: pointer;
+}
+
+.linkButtonF:hover {
+    background-color: #86a800;
+    transition: background-color .2s;
+}

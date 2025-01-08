@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { ModalProvider, Modal } from "../context/Modal";
 import { thunkAuthenticate } from "../redux/session";
 import Navigation from "../components/Navigation/Navigation";
+import Footer from "../components/Footer/Footer";
 
 
 /** 
@@ -21,9 +22,10 @@ export default function Layout() {
     <ModalProvider>
       <Navigation />
         {isLoaded && <Outlet />}
-        <footer>
+        {/* <footer>
         <img src='../../../images/HoneyStock.png' alt='footer-img'></img>
-        </footer>
+        </footer> */}
+        <Footer/>
       <Modal />
     </ModalProvider>
   );
