@@ -18,8 +18,8 @@ Live Link https://stock-trading-app-qlg7.onrender.com/
 * Alembic
 * WTForms
 
-The stock data is retrieved from the polygon.io API
-The site was deployed using render.com
+* The stock data is retrieved from the https://polygon.io API
+* The site was deployed using render.com
 
 ## Future Features
 * Orders - allowing users to purchase stocks at a set future time.
