@@ -14,13 +14,23 @@ from app.models.transaction import Transaction
 stock_routes = Blueprint('stocks', __name__)
 
 # Function to make sure the day being called is a valid day
-def safeDay (day):
-    if day.strftime('%A') == 'Sunday':
-        yesterday = day - timedelta(2)
-    elif day.strftime('%A') == 'Monday':
-        yesterday = day - timedelta(3)
-    else:
+def safeDay (day, symb=None):
+    if not symb:
+        if day.strftime('%A') == 'Sunday':
+            yesterday = day - timedelta(2)
+        elif day.strftime('%A') == 'Monday':
+            yesterday = day - timedelta(3)
+        else:
+            yesterday = day - timedelta(1)
+    
+    if symb:
         yesterday = day - timedelta(1)
+        stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        count = 0
+        while stock['status'] == 'NOT_FOUND' and count < 5:
+            yesterday = yesterday - timedelta(1)
+            stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+            count += 1
     return yesterday
 
 # Functions to determine the order to display the daily high and low
@@ -54,22 +64,19 @@ def get_user_stocks():
 def get_stocks(symb):
     symb = symb.upper()
     today = date.today()
-    yesterday = safeDay(today)
+    yesterday = safeDay(today, symb)
     try: 
         stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        while stock['status'] == 'NOT_FOUND':
-            yesterday = safeDay(yesterday)
-            stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
         stock['ticker'] = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?date=2024-11-08&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
         stock['related'] = requests.get(f'https://api.polygon.io/v1/related-companies/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
 
-        day2 = safeDay(yesterday)
+        day2 = safeDay(yesterday, symb)
         day2_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day2}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        day3 = safeDay(day2)
+        day3 = safeDay(day2, symb)
         day3_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day3}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        day4 = safeDay(day3)
+        day4 = safeDay(day3, symb)
         day4_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day4}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
-        day5 = safeDay(day4)
+        day5 = safeDay(day4, symb)
         day5_data = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{day5}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
     except: 
         return jsonify({'message': 'Unable to Connect to Polygon API'}) 
