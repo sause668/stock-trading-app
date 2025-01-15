@@ -124,7 +124,6 @@ def create_watchlist_stock(watchlist_id):
         symb = req_body['name'].upper()
         today = date.today()
         yesterday = safeDay(today) 
-        print('bah1')
         stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
     
         watchlist_stock_new = WatchlistStock(
@@ -135,7 +134,7 @@ def create_watchlist_stock(watchlist_id):
 
         db.session.add(watchlist_stock_new)
         db.session.commit()
-        print('bah2')
+
         watchlist_edit = Watchlist.query.filter_by(id=watchlist_id, user_id=current_user.id).first()
 
         if not watchlist_edit:
