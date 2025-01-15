@@ -57,6 +57,9 @@ def get_stocks(symb):
     yesterday = safeDay(today)
     try: 
         stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
+        while stock['status'] == 'NOT_FOUND':
+            yesterday = safeDay(yesterday)
+            stock = requests.get(f'https://api.polygon.io/v1/open-close/{symb}/{yesterday}?adjusted=true&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
         stock['ticker'] = requests.get(f'https://api.polygon.io/v3/reference/tickers/{symb}?date=2024-11-08&apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
         stock['related'] = requests.get(f'https://api.polygon.io/v1/related-companies/{symb}?apiKey=KKWdGrz9qmi_aPiUD5p6EnWm3ki2i5pl').json()
 
